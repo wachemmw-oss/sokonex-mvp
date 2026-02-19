@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sokonex-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.10.0
+      - key: PORT
+        value: 5000
+    autoDeploy: true

@@ -1,0 +1,42 @@
+import mongoose, { Document, Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+export interface IUser extends Document {
+    email: string;
+    passwordHash: string;
+    role: 'user' | 'admin';
+    phone: string;
+    whatsapp?: string;
+    showPhone: boolean;
+    isPhoneVerified: boolean;
+    status: 'active' | 'suspended';
+    matchPassword: (enteredPassword: string) => Promise<boolean>;
+}
+
+const UserSchema: Schema = new Schema(
+    {
+        email: { type: String, required: true, unique: true },
+        passwordHash: { type: String, required: true },
+        role: { type: String, enum: ['user', 'admin'], default: 'user' },
+        phone: { type: String, default: '' },
+        whatsapp: { type: String },
+        showPhone: { type: Boolean, default: true },
+        isPhoneVerified: { type: Boolean, default: false },
+        status: { type: String, enum: ['active', 'suspended'], default: 'active' },
+    },
+    { timestamps: true }
+);
+
+UserSchema.methods.matchPassword = async function (enteredPassword: string) {
+    return await bcrypt.compare(enteredPassword, this.passwordHash);
+};
+
+UserSchema.pre<IUser>('save', async function (this: IUser) {
+    if (!this.isModified('passwordHash')) {
+        return;
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
+});
+
+export default mongoose.model<IUser>('User', UserSchema);
