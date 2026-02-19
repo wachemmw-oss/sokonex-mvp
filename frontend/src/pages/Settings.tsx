@@ -1,29 +1,29 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { updateProfile } from '../services/auth'; // Ensure this exists in services/auth.ts
-import { useNavigate } from 'react-router-dom';
+import { updateProfile as updateProfileService } from '../services/auth';
 
 const Settings = () => {
-    const { user, login } = useAuth(); // login is used to update context if needed, or we might need a setUser method
+    const { user, updateProfile: updateAuthProfile } = useAuth();
     const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        whatsapp: '',
-        showPhone: true
+        name: user?.name || '',
+        phone: user?.phone || '',
+        whatsapp: user?.whatsapp || '',
+        showPhone: user?.settings?.showPhone ?? true,
+        showWhatsApp: user?.settings?.showWhatsApp ?? true
     });
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
-    const navigate = useNavigate();
 
     // Populate form with user data
     useEffect(() => {
         if (user) {
             setFormData({
-                name: (user as any).name || '', // Type casting if name missing in interface
+                name: user.name || '',
                 phone: user.phone || '',
-                whatsapp: (user as any).whatsapp || '',
-                showPhone: (user as any).showPhone !== false
+                whatsapp: user.whatsapp || '',
+                showPhone: user.settings?.showPhone ?? true,
+                showWhatsApp: user.settings?.showWhatsApp ?? true
             });
         }
     }, [user]);
@@ -42,13 +42,10 @@ const Settings = () => {
         setMessage({ type: '', text: '' });
 
         try {
-            const res = await updateProfile(formData);
+            const res = await updateAuthProfile(formData);
             if (res.success) {
                 setMessage({ type: 'success', text: 'Profil mis à jour avec succès !' });
-                // We should ideally update the auth context user here. 
-                // For MVP, reloading page or using a context method is fine.
-                // Assuming updateProfile returns updated user data.
-                window.location.reload(); // Simple reload to refresh context
+                window.location.reload();
             }
         } catch (error: any) {
             setMessage({

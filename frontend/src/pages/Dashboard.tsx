@@ -1,8 +1,10 @@
+
 import { useAuth } from '../context/AuthContext';
 import { verifyPhone } from '../services/auth';
 import { useState } from 'react';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import Settings from './Settings';
+
 // Placeholder for MyAds
 const MyAds = () => <div className="p-4 bg-white shadow rounded">Mes Annonces (À venir)</div>;
 
