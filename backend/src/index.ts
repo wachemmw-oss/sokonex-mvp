@@ -23,9 +23,16 @@ app.use(cors({
         if (origin.startsWith('http://localhost')) {
             return callback(null, true);
         }
+        // Allow specific FRONTEND_URL
         if (origin === process.env.FRONTEND_URL) {
             return callback(null, true);
         }
+        // Allow Vercel deployments (previews and production)
+        if (origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        console.log('Blocked by CORS:', origin); // Log blocked origins for debugging
         callback(new Error('Not allowed by CORS'));
     },
     credentials: true
