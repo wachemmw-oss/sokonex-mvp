@@ -58,7 +58,10 @@ const PostAd = () => {
                 price: formData.price ? Number(formData.price) : undefined
             });
         } catch (err: any) {
-            setError("Erreur lors de l'upload des images");
+            console.error("Upload error details:", err);
+            // Check for specific axios error response
+            const details = err.response?.data?.error?.message || err.message || 'Inconnu';
+            setError(`Erreur lors de l'upload des images: ${details}`);
             setUploading(false);
         }
     };
