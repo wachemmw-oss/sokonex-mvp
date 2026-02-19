@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { login as loginService, register as registerService, getMe } from '../services/auth';
+import { login as loginService, register as registerService, getMe, updateProfile as updateProfileService } from '../services/auth';
 
 interface User {
     _id: string;
@@ -7,6 +7,12 @@ interface User {
     role: 'user' | 'admin';
     phone?: string;
     isPhoneVerified: boolean;
+    name?: string;
+    whatsapp?: string;
+    settings?: {
+        showPhone: boolean;
+        showWhatsApp: boolean;
+    };
 }
 
 interface AuthContextType {
@@ -15,6 +21,7 @@ interface AuthContextType {
     login: (data: any) => Promise<void>;
     register: (data: any) => Promise<void>;
     logout: () => void;
+    updateProfile: (data: any) => Promise<any>;
     isAuthenticated: boolean;
 }
 
@@ -71,8 +78,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
     };
 
+    const updateProfile = async (data: any) => {
+        const res = await updateProfileService(data);
+        if (res.success) {
+            // Update local user state with new data
+            setUser(res.data);
+            return res;
+        } else {
+            throw new Error(res.error?.message || 'Update failed');
+        }
+    };
+
+    // Wait, I should better use multi_replace to fix imports AND the implementation in one go.
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, isAuthenticated: !!user }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, updateProfile, isAuthenticated: !!user }}>
             {children}
         </AuthContext.Provider>
     );
