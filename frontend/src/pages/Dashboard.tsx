@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
+import { Link, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getMyAds, deleteAd } from '../services/ads';
 import {
@@ -10,7 +10,8 @@ import {
     CurrencyDollarIcon,
     QuestionMarkCircleIcon,
     PencilSquareIcon,
-    TrashIcon
+    TrashIcon,
+    ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import Settings from './Settings';
 
@@ -133,8 +134,14 @@ const SidebarLink = ({ to, icon: Icon, text, active }: { to: string, icon: any, 
 );
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     const isActive = (path: string) => {
         if (path === '/account' && location.pathname === '/account') return true;
@@ -176,6 +183,15 @@ const Dashboard = () => {
                             <SidebarLink to="/account/earn" icon={CurrencyDollarIcon} text="Comment faire de l'argent" active={isActive('/account/earn')} />
                             <SidebarLink to="/account/settings" icon={Cog8ToothIcon} text="Paramètres" active={isActive('/account/settings')} />
                             <SidebarLink to="/account/faq" icon={QuestionMarkCircleIcon} text="Foire aux questions" active={isActive('/account/faq')} />
+
+                            {/* Mobile Logout Button */}
+                            <button
+                                onClick={handleLogout}
+                                className="flex md:hidden items-center gap-3 px-4 py-4 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100 mt-2"
+                            >
+                                <ArrowRightOnRectangleIcon className="w-5 h-5 shrink-0" />
+                                Se déconnecter
+                            </button>
                         </div>
                     </div>
                 </div>

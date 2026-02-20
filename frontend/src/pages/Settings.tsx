@@ -74,6 +74,11 @@ const Settings = () => {
         setVerifying(true);
         setMessage({ type: '', text: '' });
         try {
+            // Auto-save the phone number to backend if it's new/unsaved
+            if (formData.phone && formData.phone !== user?.phone) {
+                await updateAuthProfile({ phone: formData.phone });
+            }
+
             const res = await verifyPhoneService();
             if (res.success) {
                 setMessage({ type: 'success', text: res.data.message || 'Téléphone vérifié avec succès !' });

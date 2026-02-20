@@ -1,13 +1,27 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getAdById } from '../services/ads';
-import { Heart, Share2, ChevronLeft, ChevronRight, MessageCircle, Phone } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getAdById, getSimilarAds, reportAd } from '../services/ads';
+import { Heart, Share2, ChevronLeft, ChevronRight, MessageCircle, Phone, Flag, ShieldCheck } from 'lucide-react';
+import AdCard from '../components/AdCard';
+
+const REPORT_REASONS = [
+    { value: 'scam', label: '🚨 Arnaque ou fraude' },
+    { value: 'prohibited', label: '🚫 Contenu interdit' },
+    { value: 'duplicate', label: '♻️ Annonce en double' },
+    { value: 'wrong_category', label: '📂 Mauvaise catégorie' },
+    { value: 'other', label: '💬 Autre raison' },
+];
 
 const AdDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [currentImage, setCurrentImage] = useState(0);
+    const [showReportModal, setShowReportModal] = useState(false);
+    const [reportReason, setReportReason] = useState('');
+    const [reportNote, setReportNote] = useState('');
+    const [reportSent, setReportSent] = useState(false);
+    const galleryRef = useRef<HTMLDivElement>(null);
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['ad', id],
@@ -15,11 +29,41 @@ const AdDetails = () => {
         enabled: !!id
     });
 
+    const { data: similarData } = useQuery({
+        queryKey: ['similar', id],
+        queryFn: () => getSimilarAds(id as string),
+        enabled: !!id
+    });
+
+    const reportMutation = useMutation({
+        mutationFn: reportAd,
+        onSuccess: () => {
+            setReportSent(true);
+        }
+    });
+
+    const handleReport = () => {
+        if (!reportReason) return;
+        reportMutation.mutate({ adId: id as string, reason: reportReason, note: reportNote });
+    };
+
+    // Touch swipe handling for mobile gallery
+    const touchStartX = useRef(0);
+    const handleTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+    const handleTouchEnd = (e: React.TouchEvent, maxImages: number) => {
+        const diff = touchStartX.current - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+            if (diff > 0) setCurrentImage(prev => Math.min(prev + 1, maxImages - 1));
+            else setCurrentImage(prev => Math.max(prev - 1, 0));
+        }
+    };
+
     if (isLoading) return <div className="min-h-screen bg-white flex items-center justify-center">Chargement...</div>;
     if (error || !data?.success) return <div className="min-h-screen bg-white flex items-center justify-center text-red-500">Erreur lors du chargement</div>;
 
     const ad = data.data;
     const images = ad.images?.length > 0 ? ad.images : [{ url: 'https://via.placeholder.com/600x800?text=Aucune+Image' }];
+    const similarAds = similarData?.data?.items || [];
 
     return (
         <div className="bg-white min-h-screen pb-24 font-sans">
@@ -40,31 +84,42 @@ const AdDetails = () => {
 
             <div className="max-w-5xl mx-auto md:pt-6 md:px-4 md:grid md:grid-cols-2 md:gap-8">
 
-                {/* Image Gallery */}
-                <div className="relative aspect-[3/4] md:aspect-auto md:h-[600px] bg-gray-100 md:rounded-lg overflow-hidden snap-x snap-mandatory flex">
-                    {images.map((img: any, idx: number) => (
-                        <img
-                            key={idx}
-                            src={img.url}
-                            alt={`Image ${idx + 1}`}
-                            loading={idx === 0 ? "eager" : "lazy"}
-                            className="w-full h-full object-cover snap-center shrink-0"
-                            style={{ transform: `translateX(-${currentImage * 100}%)`, transition: 'transform 0.3s ease-in-out' }}
-                        />
-                    ))}
+                {/* Image Gallery — touch-swipeable on mobile */}
+                <div
+                    ref={galleryRef}
+                    className="relative aspect-[3/4] md:aspect-auto md:h-[600px] bg-gray-100 md:rounded-lg overflow-hidden"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={(e) => handleTouchEnd(e, images.length)}
+                >
+                    <div
+                        className="flex h-full transition-transform duration-300 ease-in-out"
+                        style={{ transform: `translateX(-${currentImage * 100}%)`, width: `${images.length * 100}%` }}
+                    >
+                        {images.map((img: any, idx: number) => (
+                            <img
+                                key={idx}
+                                src={img.url}
+                                alt={`Image ${idx + 1}`}
+                                loading={idx === 0 ? "eager" : "lazy"}
+                                className="h-full object-cover"
+                                style={{ width: `${100 / images.length}%` }}
+                            />
+                        ))}
+                    </div>
 
-                    {/* Image Controls */}
+                    {/* Dot indicators */}
                     {images.length > 1 && (
                         <>
-                            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
                                 {images.map((_: any, idx: number) => (
-                                    <div
+                                    <button
                                         key={idx}
-                                        className={`h-1.5 rounded-full transition-all ${idx === currentImage ? 'w-4 bg-black' : 'w-1.5 bg-black/30'}`}
+                                        onClick={() => setCurrentImage(idx)}
+                                        className={`h-1.5 rounded-full transition-all ${idx === currentImage ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`}
                                     />
                                 ))}
                             </div>
-                            {/* Slide Buttons Desktop */}
+                            {/* Desktop arrow buttons */}
                             <button
                                 onClick={() => setCurrentImage(prev => Math.max(0, prev - 1))}
                                 className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full items-center justify-center hover:bg-white"
@@ -122,12 +177,25 @@ const AdDetails = () => {
                     {/* Description */}
                     <div className="mb-8">
                         <h3 className="font-bold text-sm mb-3 text-black uppercase tracking-wider">Description</h3>
-                        <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                            {ad.description}
-                        </p>
+                        <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{ad.description}</p>
                     </div>
 
-                    {/* Seller Summary (Desktop version, mobile uses sticky bar) */}
+                    {/* 🛡️ Security Warning Card */}
+                    <div className="mb-6 bg-amber-50 border border-amber-200 rounded-sm p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0" />
+                            <h3 className="font-bold text-sm text-amber-800 uppercase tracking-wide">Conseils de sécurité</h3>
+                        </div>
+                        <ul className="text-xs text-amber-700 space-y-1.5 list-disc list-inside">
+                            <li>Ne payez jamais à l'avance sans avoir vu l'article.</li>
+                            <li>Rencontrez le vendeur dans un endroit public et sûr.</li>
+                            <li>Vérifiez l'article avant de payer.</li>
+                            <li>Méfiez-vous des prix anormalement bas.</li>
+                            <li>Ne partagez pas vos informations bancaires.</li>
+                        </ul>
+                    </div>
+
+                    {/* Seller Summary (Desktop only) */}
                     <div className="hidden md:block p-6 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-4 mb-4">
                             <div className="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center font-bold text-xl">
@@ -151,8 +219,28 @@ const AdDetails = () => {
                             )}
                         </div>
                     </div>
+
+                    {/* 🚩 Report Button */}
+                    <button
+                        onClick={() => setShowReportModal(true)}
+                        className="flex items-center gap-2 text-xs text-gray-400 hover:text-red-500 transition mt-4"
+                    >
+                        <Flag className="w-3.5 h-3.5" /> Signaler cette annonce
+                    </button>
                 </div>
             </div>
+
+            {/* ✨ Suggested Ads Section */}
+            {similarAds.length > 0 && (
+                <div className="max-w-5xl mx-auto mt-10 px-4">
+                    <h2 className="text-base font-extrabold uppercase tracking-wide text-black mb-4">Suggéré pour vous</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {similarAds.slice(0, 8).map((a: any) => (
+                            <AdCard key={a._id} ad={a} />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Mobile Sticky Bottom Action Bar */}
             <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
@@ -171,6 +259,54 @@ const AdDetails = () => {
                     </button>
                 )}
             </div>
+
+            {/* 🚩 Report Modal */}
+            {showReportModal && (
+                <div className="fixed inset-0 bg-black/60 z-[100] flex items-end md:items-center justify-center p-4" onClick={() => setShowReportModal(false)}>
+                    <div className="bg-white w-full max-w-md rounded-t-2xl md:rounded-xl p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        {reportSent ? (
+                            <div className="text-center py-6">
+                                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <ShieldCheck className="w-8 h-8 text-green-600" />
+                                </div>
+                                <h3 className="font-bold text-lg mb-2">Signalement envoyé</h3>
+                                <p className="text-sm text-gray-500 mb-4">Merci. Notre équipe va examiner cette annonce dans les plus brefs délais.</p>
+                                <button onClick={() => { setShowReportModal(false); setReportSent(false); setReportReason(''); setReportNote(''); }} className="bg-black text-white px-6 py-2 rounded-sm text-sm font-bold">Fermer</button>
+                            </div>
+                        ) : (
+                            <>
+                                <h3 className="font-bold text-lg mb-1">Signaler cette annonce</h3>
+                                <p className="text-xs text-gray-500 mb-4">Choisissez la raison qui correspond le mieux à votre signalement.</p>
+                                <div className="space-y-2 mb-4">
+                                    {REPORT_REASONS.map(r => (
+                                        <label key={r.value} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition ${reportReason === r.value ? 'border-black bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                                            <input type="radio" name="reason" value={r.value} checked={reportReason === r.value} onChange={e => setReportReason(e.target.value)} className="accent-black" />
+                                            <span className="text-sm font-medium">{r.label}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                                <textarea
+                                    placeholder="Détails supplémentaires (optionnel)..."
+                                    value={reportNote}
+                                    onChange={e => setReportNote(e.target.value)}
+                                    className="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:border-black resize-none mb-4"
+                                    rows={2}
+                                />
+                                <div className="flex gap-3">
+                                    <button onClick={() => setShowReportModal(false)} className="flex-1 border border-gray-200 py-3 rounded-sm text-sm font-bold text-gray-600 hover:border-gray-400 transition">Annuler</button>
+                                    <button
+                                        onClick={handleReport}
+                                        disabled={!reportReason || reportMutation.isPending}
+                                        className="flex-1 bg-red-600 text-white py-3 rounded-sm text-sm font-bold hover:bg-red-700 transition disabled:opacity-50"
+                                    >
+                                        {reportMutation.isPending ? 'Envoi...' : 'Signaler'}
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

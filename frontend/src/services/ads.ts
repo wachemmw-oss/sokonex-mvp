@@ -34,3 +34,8 @@ export const deleteAd = async (id: string) => {
     const response = await client.delete(`/ads/${id}`);
     return response.data;
 };
+
+export const reportAd = async (data: { adId: string; reason: string; note?: string }) => {
+    const response = await client.post('/reports', data);
+    return response.data;
+};
