@@ -51,7 +51,7 @@ const Settings = () => {
         try {
             let finalData = { ...formData };
             if (avatarFile) {
-                const uploaded = await uploadImage(avatarFile);
+                const uploaded = await uploadImage(avatarFile, true); // true = isAvatar for stronger compression
                 finalData.avatar = uploaded.url; // assuming uploadImage returns { url, publicId }
             }
 

@@ -2,13 +2,13 @@ import client from '../api/client';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 
-export const uploadImage = async (originalFile: File) => {
+export const uploadImage = async (originalFile: File, isAvatar: boolean = false) => {
     // 0. Compress the image before uploading
     let file = originalFile;
     try {
         const options = {
-            maxSizeMB: 0.5,           // Compress to max 500KB
-            maxWidthOrHeight: 1024,   // Max width/height to 1024px for great performance but sharp details
+            maxSizeMB: isAvatar ? 0.1 : 0.5,           // Compress to max 100KB for avatars, 500KB for normal
+            maxWidthOrHeight: isAvatar ? 400 : 1024,   // 400px for avatars, 1024px for normal
             useWebWorker: true,
             fileType: 'image/webp'    // Force modern light format if possible, otherwise falls back
         };
