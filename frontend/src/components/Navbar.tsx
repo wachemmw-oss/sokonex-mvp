@@ -29,13 +29,12 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                 <div className="flex justify-between items-center h-full gap-4">
                     {/* Logo */}
-                    <Link to="/" className="flex-shrink-0 flex items-center gap-1 group">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/30 transform group-hover:rotate-6 transition-transform">
-                            S
-                        </div>
-                        <span className="text-2xl font-extrabold text-slate-800 tracking-tighter group-hover:text-blue-700 transition-colors">
-                            OKONEX
-                        </span>
+                    <Link to="/" className="flex-shrink-0 flex items-center h-full group">
+                        <img
+                            src="/src/assets/sokonex-logo-png.png"
+                            alt="SOKONEX Logo"
+                            className="h-8 md:h-10 w-auto object-contain transform group-hover:scale-105 transition-transform"
+                        />
                     </Link>
 
                     {/* Integrated Search Bar (Desktop) */}

@@ -26,7 +26,7 @@ const AdDetails = () => {
                 <div className="p-6">
                     <div className="flex justify-between items-start">
                         <h1 className="text-3xl font-bold mb-2 text-gray-900">{ad.title}</h1>
-                        <span className="text-xl font-bold text-green-600">
+                        <span className="text-xl font-extrabold text-[#6A1B9A]">
                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` :
                                 ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                         </span>

@@ -5,6 +5,7 @@ import { getAds } from '../services/ads';
 import { CATEGORIES } from '../data/categories';
 import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search, Bell, Navigation } from 'lucide-react';
 import AdCard from '../components/AdCard';
+import logo from '../assets/sokonex-logo-png.png';
 
 // Icon mapping
 const iconMap: Record<string, any> = {
@@ -59,14 +60,14 @@ const Home = () => {
                 <div className="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
 
                 {/* Header Top Row with Logo, Bell */}
-                <div className="flex justify-between items-center relative z-10 mb-8 mt-2">
-                    {/* Logo Placeholder */}
-                    <div className="flex items-center gap-2 flex-1 relative">
-                        {/* Logo goes here */}
-                        <div className="w-9 h-9 bg-[#F7D116] rounded-xl flex items-center justify-center text-[#4D148C] font-black text-xl shadow-md rotate-[-5deg] pb-0.5 pr-0.5 z-10 relative">
-                            S
-                        </div>
-                        <span className="text-white text-3xl font-extrabold tracking-tight relative z-10">Sokonex</span>
+                <div className="flex justify-between items-center relative z-10 mb-8 mt-2 h-10">
+                    {/* Logo */}
+                    <div className="flex items-center flex-1 h-full">
+                        <img
+                            src={logo}
+                            alt="SOKONEX"
+                            className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
+                        />
                     </div>
 
                     {/* Bell Icon */}

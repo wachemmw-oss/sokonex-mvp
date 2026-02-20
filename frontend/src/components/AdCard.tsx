@@ -32,7 +32,7 @@ const AdCard = ({ ad, promoted = false }: AdCardProps) => {
                 </h3>
                 <div className="mt-auto">
                     <div className="flex items-baseline gap-1">
-                        <p className="text-blue-600 font-extrabold text-lg">
+                        <p className="text-[#6A1B9A] font-extrabold text-lg">
                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
                                 ? `$${ad.price?.toLocaleString()}`
                                 : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
