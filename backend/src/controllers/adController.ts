@@ -57,7 +57,7 @@ export const createAd = async (req: Request, res: Response) => {
 export const getAds = async (req: Request, res: Response) => {
     try {
         const {
-            q, category, sub, province, city,
+            q, category, subCategory, province, city,
             priceType, min, max, delivery, condition, sellerType,
             sort, page = 1, limit = 24,
             ...others
@@ -74,7 +74,7 @@ export const getAds = async (req: Request, res: Response) => {
 
         // Filters
         if (category) query.category = category;
-        if (sub) query.subCategory = sub;
+        if (subCategory) query.subCategory = subCategory;
         if (province) query.province = province;
         if (city) query.city = city;
         if (priceType) query.priceType = priceType;

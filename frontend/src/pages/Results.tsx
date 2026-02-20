@@ -4,7 +4,7 @@ import { getAds } from '../services/ads';
 import FilterSidebar from '../components/FilterSidebar';
 
 const Results = () => {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const params = Object.fromEntries([...searchParams]);
 
     const { data, isLoading, error } = useQuery({
@@ -22,6 +22,26 @@ const Results = () => {
                 {params.q ? `Résultats pour "${params.q}"` : 'Toutes les annonces'}
                 <span className="text-gray-500 text-lg font-normal ml-2">({data?.data?.total || 0})</span>
             </h1>
+
+            {/* Sort Dropdown */}
+            <div className="flex justify-end mb-4">
+                <select
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={params.sort || ''}
+                    onChange={(e) => {
+                        const newParams = new URLSearchParams(searchParams);
+                        if (e.target.value) newParams.set('sort', e.target.value);
+                        else newParams.delete('sort');
+                        // Reset page on sort change
+                        newParams.set('page', '1');
+                        setSearchParams(newParams);
+                    }}
+                >
+                    <option value="">Trier par : Plus récents</option>
+                    <option value="price_asc">Prix : Croissant</option>
+                    <option value="price_desc">Prix : Décroissant</option>
+                </select>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 {/* Sidebar */}
