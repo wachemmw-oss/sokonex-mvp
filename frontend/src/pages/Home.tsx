@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { CATEGORIES } from '../data/categories';
-import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search } from 'lucide-react';
+import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search, Bell, Navigation } from 'lucide-react';
 import AdCard from '../components/AdCard';
 
 // Icon mapping
@@ -52,64 +52,75 @@ const Home = () => {
 
     return (
         <div className="font-sans bg-gray-50 min-h-screen pb-24">
-            {/* Hero Carousel Section */}
-            <div className="relative h-64 md:h-80 w-full overflow-hidden bg-gray-200">
-                {BANNERS.map((banner, index) => (
-                    <div
-                        key={index}
-                        className={`absolute inset-0 transition-opacity duration-1000 ${index === currentBanner ? 'opacity-100' : 'opacity-0'} `}
-                    >
-                        <img src={banner} alt="Banner" className="w-full h-full object-cover" />
-                    </div>
-                ))}
-                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center px-4">
-                    <div className="text-center text-white mb-6 w-full mt-4">
-                        <h1 className="text-3xl md:text-5xl font-extrabold mb-2 drop-shadow-lg tracking-tight">SOKONEX</h1>
-                        <p className="text-base md:text-xl font-medium opacity-95 drop-shadow-md">Le marché de confiance en RDC</p>
+            {/* Custom Mobile-first Hero Section */}
+            <div className="bg-[#4D148C] bg-gradient-to-br from-[#4D148C] via-[#6A1B9A] to-[#8E24AA] relative rounded-b-[2.5rem] md:rounded-b-[4rem] px-5 pt-12 pb-20 shadow-xl overflow-hidden">
+                {/* Background decoration elements */}
+                <div className="absolute top-0 right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl mix-blend-overlay pointer-events-none"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+
+                {/* Header Top Row with Flag, Logo, Bell */}
+                <div className="flex justify-between items-center relative z-10 mb-8 mt-2">
+                    {/* Flag placeholder */}
+                    <div className="w-8 h-6 rounded overflow-hidden shadow-sm shadow-black/20 shrink-0">
+                        <div className="w-full h-full relative" style={{ backgroundColor: '#007FFF' }}>
+                            <div className="absolute top-0 right-0 w-0 h-0 border-t-[24px] border-t-[#CE1126] border-l-[32px] border-l-transparent"></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#F7D116] rounded-full shadow-md"></div>
+                        </div>
                     </div>
 
-                    {/* Main Home Search Bar */}
-                    <div className="w-full max-w-2xl px-2">
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                const query = new FormData(e.currentTarget).get('q');
-                                if (query && query.toString().trim()) {
-                                    navigate(`/results?q=${encodeURIComponent(query.toString())}`);
-                                }
-                            }}
-                            className="w-full flex bg-white/95 backdrop-blur-sm rounded-full p-1.5 shadow-2xl ring-4 ring-black/10 focus-within:ring-blue-500/30 transition-all border border-transparent hover:border-white"
-                        >
-                            <div className="pl-4 pr-2 flex items-center justify-center">
-                                <Search className="w-5 h-5 text-gray-400" />
-                            </div>
-                            <input
-                                type="text"
-                                name="q"
-                                placeholder="Que cherchez-vous ?"
-                                className="flex-1 bg-transparent py-2.5 md:py-3 text-sm md:text-base text-gray-900 placeholder-gray-500 focus:outline-none w-full"
-                            />
-                            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold text-sm md:text-base transition-colors shadow-md">
-                                Chercher
-                            </button>
-                        </form>
+                    {/* Logo Placeholder */}
+                    <div className="flex items-center justify-center gap-2 flex-1">
+                        <div className="w-9 h-9 bg-[#F7D116] rounded-xl flex items-center justify-center text-[#4D148C] font-black text-xl shadow-md rotate-[-5deg] pb-0.5 pr-0.5">
+                            S
+                        </div>
+                        <span className="text-white text-3xl font-extrabold tracking-tight">Sokonex</span>
                     </div>
+
+                    {/* Bell Icon */}
+                    <div className="relative shrink-0">
+                        <Bell className="w-7 h-7 text-white" />
+                        <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-[#F7D116] border-2 border-[#4D148C] rounded-full"></div>
+                    </div>
+                </div>
+
+                {/* Main Home Search Bar */}
+                <div className="relative z-10 w-full max-w-2xl mx-auto">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            const query = new FormData(e.currentTarget).get('q');
+                            if (query && query.toString().trim()) {
+                                navigate(`/results?q=${encodeURIComponent(query.toString())}`);
+                            }
+                        }}
+                        className="bg-white rounded-xl shadow-xl flex items-center px-4 py-2 h-14 w-full"
+                    >
+                        <Search className="w-6 h-6 text-gray-500 shrink-0" strokeWidth={2} />
+                        <input
+                            type="text"
+                            name="q"
+                            placeholder="Que recherchez-vous ?"
+                            className="flex-1 bg-transparent border-none focus:ring-0 outline-none text-gray-800 text-base ml-3 placeholder:text-gray-400 font-medium"
+                        />
+                        <button type="submit" className="text-gray-400 hover:text-[#6A1B9A] transition-colors p-2 -mr-2 flex items-center justify-center">
+                            <Navigation className="w-5 h-5 transform rotate-45 text-gray-400" strokeWidth={2.5} />
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 mt-6">
+            <div className="max-w-7xl mx-auto px-4 mt-8">
                 {/* Horizontal Scroll Categories with Icons */}
-                <div className="bg-white rounded-xl shadow-sm p-4 mb-6 relative z-10 -mt-12 md:mt-0 md:bg-transparent md:shadow-none">
-                    <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 md:hidden">Catégories</h2>
-                    <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide md:grid md:grid-cols-5 lg:grid-cols-10 md:overflow-visible">
+                <div className="relative z-20 -mt-20 mb-8">
+                    <div className="flex gap-4 overflow-x-auto pb-4 pt-2 px-2 -mx-2 scrollbar-hide snap-x">
                         {CATEGORIES.map(cat => {
                             const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
                             return (
-                                <Link key={cat.id} to={`/results?category=${cat.id}`} className="flex flex-col items-center min-w-[70px] group">
-                                    <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-blue-600 mb-2 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200 shadow-sm border border-gray-100">
-                                        <IconComponent className="w-6 h-6" />
+                                <Link key={cat.id} to={`/results?category=${cat.id}`} className="flex flex-col items-center min-w-[100px] w-[100px] bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all group snap-center border border-gray-50 shrink-0 transform hover:-translate-y-1">
+                                    <div className="w-12 h-12 flex items-center justify-center text-[#6A1B9A] mb-3 group-hover:scale-110 transition-transform bg-purple-50 rounded-xl">
+                                        <IconComponent className="w-7 h-7" strokeWidth={1.5} />
                                     </div>
-                                    <span className="text-[10px] text-center text-gray-600 font-medium group-hover:text-blue-600 truncate w-full leading-tight">{cat.label}</span>
+                                    <span className="text-[11px] sm:text-xs text-gray-700 font-medium text-center truncate w-full group-hover:text-[#6A1B9A] transition-colors">{cat.label}</span>
                                 </Link>
                             );
                         })}
@@ -133,11 +144,11 @@ const Home = () => {
                 )}
 
                 {/* Recent Ads */}
-                <div>
-                    <div className="flex justify-between items-center mb-3">
-                        <h2 className="text-lg font-bold text-gray-900">Récents</h2>
-                        <Link to="/results" className="text-xs text-blue-600 font-medium hover:underline flex items-center">
-                            Tout voir <ChevronRight className="w-3 h-3" />
+                <div className="mb-6">
+                    <div className="flex justify-between items-center mb-4 px-1">
+                        <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Annonces récentes</h2>
+                        <Link to="/results" className="text-gray-400 hover:text-[#6A1B9A] transition-colors">
+                            <ChevronRight className="w-6 h-6" strokeWidth={2.5} />
                         </Link>
                     </div>
                     {/* Mobile: 2 Columns, Desktop: 4 Columns */}

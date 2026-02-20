@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User as UserIcon, LogOut, LayoutDashboard, Settings, ShieldAlert, Search } from 'lucide-react';
 
@@ -21,8 +21,11 @@ const Navbar = () => {
         }
     };
 
+    const location = useLocation();
+    const isHome = location.pathname === '/';
+
     return (
-        <nav className="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100 font-sans h-16 transition-all duration-300">
+        <nav className={`bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100 font-sans h-16 transition-all duration-300 ${isHome ? 'hidden md:block' : 'block'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                 <div className="flex justify-between items-center h-full gap-4">
                     {/* Logo */}
