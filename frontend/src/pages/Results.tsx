@@ -4,12 +4,13 @@ import { getAds } from '../services/ads';
 import FilterSidebar from '../components/FilterSidebar';
 import AdCard from '../components/AdCard';
 import { useState } from 'react';
-import { LayoutGrid, List } from 'lucide-react';
+import { LayoutGrid, List, Filter, X } from 'lucide-react';
 
 const Results = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const params = Object.fromEntries([...searchParams]);
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['ads', params],
@@ -21,14 +22,51 @@ const Results = () => {
     if (error) return <div className="p-8 text-center text-red-500">Erreur de chargement des annonces. Veuillez réessayer.</div>;
 
     return (
-        <div className="max-w-7xl mx-auto p-4 lg:p-6">
+        <div className="max-w-7xl mx-auto p-4 lg:p-6 pb-24">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">
                 {params.q ? `Résultats pour "${params.q}"` : 'Toutes les annonces'}
                 <span className="text-gray-500 text-lg font-normal ml-2">({data?.data?.total || 0})</span>
             </h1>
 
-            {/* Sort Dropdown & View Toggles */}
-            <div className="flex justify-between items-center mb-4">
+            {/* Mobile Filter Button */}
+            <div className="lg:hidden mb-4">
+                <button
+                    onClick={() => setIsFilterOpen(true)}
+                    className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 py-2.5 rounded-lg font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition"
+                >
+                    <Filter className="w-4 h-4" />
+                    Filtrer & Trier
+                </button>
+            </div>
+
+            {/* Mobile Filter Modal/Drawer */}
+            {isFilterOpen && (
+                <div className="fixed inset-0 z-50 lg:hidden font-sans">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onClick={() => setIsFilterOpen(false)} />
+                    <div className="absolute inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform transition-transform overflow-y-auto">
+                        <div className="flex items-center justify-between p-4 border-b">
+                            <h2 className="text-lg font-bold text-gray-900">Filtres</h2>
+                            <button onClick={() => setIsFilterOpen(false)} className="p-2 text-gray-500 hover:bg-gray-100 rounded-full">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="p-4">
+                            <FilterSidebar />
+                        </div>
+                        <div className="p-4 border-t sticky bottom-0 bg-white">
+                            <button
+                                onClick={() => setIsFilterOpen(false)}
+                                className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition"
+                            >
+                                Afficher les résultats
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Sort Dropdown & View Toggles (Desktop only for sort, incorporated in filter drawer for mobile ideally but kept here for now) */}
+            <div className="hidden lg:flex justify-between items-center mb-4">
                 <div className="flex items-center space-x-2 bg-gray-100 p-1 rounded-lg">
                     <button
                         onClick={() => setViewMode('grid')}
@@ -63,8 +101,41 @@ const Results = () => {
                 </div>
             </div>
 
+            {/* View Toggle Mobile (Only list/grid, sort is in drawer/above) */}
+            <div className="flex lg:hidden justify-end mb-4 gap-2">
+                <select
+                    className="flex-1 border border-gray-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    value={params.sort || ''}
+                    onChange={(e) => {
+                        const newParams = new URLSearchParams(searchParams);
+                        if (e.target.value) newParams.set('sort', e.target.value);
+                        else newParams.delete('sort');
+                        newParams.set('page', '1');
+                        setSearchParams(newParams);
+                    }}
+                >
+                    <option value="">Récents</option>
+                    <option value="price_asc">Prix Croissant</option>
+                    <option value="price_desc">Prix Décroissant</option>
+                </select>
+                <div className="flex items-center space-x-1 bg-gray-100 p-1 rounded-lg">
+                    <button
+                        onClick={() => setViewMode('grid')}
+                        className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                        <LayoutGrid className="w-4 h-4" />
+                    </button>
+                    <button
+                        onClick={() => setViewMode('list')}
+                        className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                        <List className="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                {/* Sidebar */}
+                {/* Sidebar - Desktop */}
                 <div className="hidden lg:block lg:col-span-1">
                     <FilterSidebar />
                 </div>
@@ -85,7 +156,6 @@ const Results = () => {
                                         viewMode === 'grid' ? (
                                             <AdCard key={ad._id} ad={ad} />
                                         ) : (
-                                            // List View Card (Inline for now or extract later)
                                             <Link key={ad._id} to={`/ad/${ad._id}`} className="flex bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition h-32 md:h-40">
                                                 <div className="w-1/3 md:w-48 bg-gray-200 relative flex-shrink-0">
                                                     {ad.images?.[0] ? (

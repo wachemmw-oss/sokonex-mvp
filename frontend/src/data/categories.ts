@@ -2,6 +2,7 @@ export const CATEGORIES = [
     {
         id: 'immobilier',
         label: 'Immobilier',
+        icon: 'Home',
         subCategories: [
             { id: 'maisons-a-vendre', label: 'Maisons à vendre' },
             { id: 'maisons-a-louer', label: 'Maisons à louer' },
@@ -24,6 +25,7 @@ export const CATEGORIES = [
     {
         id: 'vehicules',
         label: 'Véhicules & Transport',
+        icon: 'Car',
         subCategories: [
             { id: 'voitures', label: 'Voitures' },
             { id: 'motos', label: 'Motos' },
@@ -44,6 +46,7 @@ export const CATEGORIES = [
     {
         id: 'electronique',
         label: 'Téléphones & Électronique',
+        icon: 'Smartphone',
         subCategories: [
             { id: 'smartphones', label: 'Smartphones' },
             { id: 'telephones-simples', label: 'Téléphones simples' },
@@ -62,6 +65,7 @@ export const CATEGORIES = [
     {
         id: 'commerce',
         label: 'Commerce & Business',
+        icon: 'Building2',
         subCategories: [
             { id: 'fonds-commerce', label: 'Fonds de commerce' },
             { id: 'materiel-boutique', label: 'Matériel de boutique' },
@@ -73,6 +77,7 @@ export const CATEGORIES = [
     {
         id: 'mode',
         label: 'Mode & Beauté',
+        icon: 'Shirt',
         subCategories: [
             { id: 'vetements-femme', label: 'Vêtements femme' },
             { id: 'vetements-homme', label: 'Vêtements homme' },
@@ -96,6 +101,7 @@ export const CATEGORIES = [
     {
         id: 'maison',
         label: 'Maison & Construction',
+        icon: 'Sofa',
         subCategories: [
             { id: 'meubles', label: 'Meubles' },
             { id: 'materiaux', label: 'Matériaux de construction' },
@@ -108,6 +114,7 @@ export const CATEGORIES = [
     {
         id: 'enfants',
         label: 'Enfants & Famille',
+        icon: 'Baby',
         subCategories: [
             { id: 'vetements-enfants', label: 'Vêtements enfants' },
             { id: 'fournitures-scolaires', label: 'Fournitures scolaires' },
@@ -118,6 +125,7 @@ export const CATEGORIES = [
     {
         id: 'emploi',
         label: 'Emploi & Services',
+        icon: 'Briefcase',
         subCategories: [
             { id: 'offres-emploi', label: 'Offres d\'emploi' },
             { id: 'recherche-emploi', label: 'Recherche d\'emploi' },
@@ -134,6 +142,7 @@ export const CATEGORIES = [
     {
         id: 'agriculture',
         label: 'Agriculture & Élevage',
+        icon: 'MoreHorizontal',
         subCategories: [
             { id: 'animaux', label: 'Animaux' },
             { id: 'produits-agricoles', label: 'Produits agricoles' },
@@ -144,6 +153,7 @@ export const CATEGORIES = [
     {
         id: 'loisirs',
         label: 'Loisirs',
+        icon: 'Bike',
         subCategories: [
             { id: 'jeux-video', label: 'Jeux vidéo' },
             { id: 'sport', label: 'Sport' },
