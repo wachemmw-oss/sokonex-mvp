@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Search, PlusCircle, User, Heart } from 'lucide-react';
+import { Home, Search, User, PlusSquare } from 'lucide-react';
 
 const BottomTab = () => {
     const location = useLocation();
@@ -9,32 +9,25 @@ const BottomTab = () => {
     };
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden font-sans">
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 h-16 flex items-center justify-around px-2">
-                <Link to="/" className={`flex flex-col items-center justify-center w-12 h-full ${isActive('/')}`}>
-                    <Home className="w-6 h-6 mb-0.5" />
+        <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden font-sans bg-white border-t border-gray-100 pb-safe">
+            <div className="h-16 flex items-center justify-around px-2">
+                <Link to="/" className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/') || location.pathname === '' ? 'text-[#6A1B9A]' : 'text-gray-400 hover:text-gray-600'}`}>
+                    <Home className="w-6 h-6 mb-1" strokeWidth={isActive('/') ? 2.5 : 2} />
                     <span className="text-[10px] font-medium">Accueil</span>
                 </Link>
 
-                <Link to="/results" className={`flex flex-col items-center justify-center w-12 h-full ${isActive('/results')}`}>
-                    <Search className="w-6 h-6 mb-0.5" />
+                <Link to="/results" className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/results') ? 'text-[#6A1B9A]' : 'text-gray-400 hover:text-gray-600'}`}>
+                    <Search className="w-6 h-6 mb-1" strokeWidth={isActive('/results') ? 2.5 : 2} />
                     <span className="text-[10px] font-medium">Explorer</span>
                 </Link>
 
-                <Link to="/post" className="flex flex-col items-center justify-center -mt-8">
-                    <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg border-4 border-gray-50 text-white">
-                        <PlusCircle className="w-8 h-8" />
-                    </div>
+                <Link to="/post" className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/post') ? 'text-[#6A1B9A]' : 'text-gray-400 hover:text-gray-600'}`}>
+                    <PlusSquare className="w-6 h-6 mb-1" strokeWidth={isActive('/post') ? 2.5 : 2} />
+                    <span className="text-[10px] font-medium">Publier</span>
                 </Link>
 
-                {/* Placeholder for Saved/Favorites */}
-                <button className="flex flex-col items-center justify-center w-12 h-full text-gray-400 hover:text-blue-600 transition">
-                    <Heart className="w-6 h-6 mb-0.5" />
-                    <span className="text-[10px] font-medium">Favoris</span>
-                </button>
-
-                <Link to="/account" className={`flex flex-col items-center justify-center w-12 h-full ${isActive('/account')}`}>
-                    <User className="w-6 h-6 mb-0.5" />
+                <Link to="/account" className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/account') ? 'text-[#6A1B9A]' : 'text-gray-400 hover:text-gray-600'}`}>
+                    <User className="w-6 h-6 mb-1" strokeWidth={isActive('/account') ? 2.5 : 2} />
                     <span className="text-[10px] font-medium">Profil</span>
                 </Link>
             </div>

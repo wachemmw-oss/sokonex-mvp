@@ -58,22 +58,15 @@ const Home = () => {
                 <div className="absolute top-0 right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl mix-blend-overlay pointer-events-none"></div>
                 <div className="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
 
-                {/* Header Top Row with Flag, Logo, Bell */}
+                {/* Header Top Row with Logo, Bell */}
                 <div className="flex justify-between items-center relative z-10 mb-8 mt-2">
-                    {/* Flag placeholder */}
-                    <div className="w-8 h-6 rounded overflow-hidden shadow-sm shadow-black/20 shrink-0">
-                        <div className="w-full h-full relative" style={{ backgroundColor: '#007FFF' }}>
-                            <div className="absolute top-0 right-0 w-0 h-0 border-t-[24px] border-t-[#CE1126] border-l-[32px] border-l-transparent"></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#F7D116] rounded-full shadow-md"></div>
-                        </div>
-                    </div>
-
                     {/* Logo Placeholder */}
-                    <div className="flex items-center justify-center gap-2 flex-1">
-                        <div className="w-9 h-9 bg-[#F7D116] rounded-xl flex items-center justify-center text-[#4D148C] font-black text-xl shadow-md rotate-[-5deg] pb-0.5 pr-0.5">
+                    <div className="flex items-center gap-2 flex-1 relative">
+                        {/* Logo goes here */}
+                        <div className="w-9 h-9 bg-[#F7D116] rounded-xl flex items-center justify-center text-[#4D148C] font-black text-xl shadow-md rotate-[-5deg] pb-0.5 pr-0.5 z-10 relative">
                             S
                         </div>
-                        <span className="text-white text-3xl font-extrabold tracking-tight">Sokonex</span>
+                        <span className="text-white text-3xl font-extrabold tracking-tight relative z-10">Sokonex</span>
                     </div>
 
                     {/* Bell Icon */}
