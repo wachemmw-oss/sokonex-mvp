@@ -43,7 +43,7 @@ const MyAds = () => {
 
     if (isLoading) return <div className="p-8 text-center text-gray-500">Chargement de vos annonces...</div>;
 
-    const ads = data?.data?.items || [];
+    const ads = data?.data || [];
 
     return (
         <div className="bg-white shadow-sm border border-gray-100 rounded-sm overflow-hidden font-sans">
