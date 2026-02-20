@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { CATEGORIES } from '../data/categories';
-import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal } from 'lucide-react';
+import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search } from 'lucide-react';
 import AdCard from '../components/AdCard';
 
 // Icon mapping
@@ -53,21 +53,48 @@ const Home = () => {
     return (
         <div className="font-sans bg-gray-50 min-h-screen pb-24">
             {/* Hero Carousel Section */}
-            <div className="relative h-48 md:h-72 w-full overflow-hidden bg-gray-200">
+            <div className="relative h-64 md:h-80 w-full overflow-hidden bg-gray-200">
                 {BANNERS.map((banner, index) => (
                     <div
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-1000 ${index === currentBanner ? 'opacity-100' : 'opacity-0'} `}
                     >
                         <img src={banner} alt="Banner" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <div className="text-center text-white p-4">
-                                <h1 className="text-3xl md:text-5xl font-bold mb-2 drop-shadow-md">SOKONEX</h1>
-                                <p className="text-sm md:text-lg font-medium opacity-90">Le marché de confiance en RDC</p>
-                            </div>
-                        </div>
                     </div>
                 ))}
+                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center px-4">
+                    <div className="text-center text-white mb-6 w-full mt-4">
+                        <h1 className="text-3xl md:text-5xl font-extrabold mb-2 drop-shadow-lg tracking-tight">SOKONEX</h1>
+                        <p className="text-base md:text-xl font-medium opacity-95 drop-shadow-md">Le marché de confiance en RDC</p>
+                    </div>
+
+                    {/* Main Home Search Bar */}
+                    <div className="w-full max-w-2xl px-2">
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                const query = new FormData(e.currentTarget).get('q');
+                                if (query && query.toString().trim()) {
+                                    navigate(`/results?q=${encodeURIComponent(query.toString())}`);
+                                }
+                            }}
+                            className="w-full flex bg-white/95 backdrop-blur-sm rounded-full p-1.5 shadow-2xl ring-4 ring-black/10 focus-within:ring-blue-500/30 transition-all border border-transparent hover:border-white"
+                        >
+                            <div className="pl-4 pr-2 flex items-center justify-center">
+                                <Search className="w-5 h-5 text-gray-400" />
+                            </div>
+                            <input
+                                type="text"
+                                name="q"
+                                placeholder="Que cherchez-vous ?"
+                                className="flex-1 bg-transparent py-2.5 md:py-3 text-sm md:text-base text-gray-900 placeholder-gray-500 focus:outline-none w-full"
+                            />
+                            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold text-sm md:text-base transition-colors shadow-md">
+                                Chercher
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 mt-6">
