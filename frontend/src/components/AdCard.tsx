@@ -4,20 +4,26 @@ import { Heart } from 'lucide-react';
 interface AdCardProps {
     ad: any;
     promoted?: boolean;
+    viewMode?: 'grid' | 'list';
 }
 
-const AdCard = ({ ad, promoted = false }: AdCardProps) => {
+const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
+    const isList = viewMode === 'list';
+
     return (
-        <Link to={`/ad/${ad._id}`} className="flex flex-col h-full group pb-2">
-            <div className="aspect-[3/4] bg-gray-100 relative overflow-hidden rounded-sm">
+        <Link
+            to={`/ad/${ad._id}`}
+            className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-3 gap-3' : 'flex-col h-full pb-2'}`}
+        >
+            <div className={`relative bg-gray-100 overflow-hidden rounded-sm shrink-0 ${isList ? 'w-28 h-28 md:w-36 md:h-36' : 'aspect-[3/4]'}`}>
                 {ad.images?.[0] ? (
                     <img
                         src={ad.images[0].url}
                         alt={ad.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">Aucune image</div>
+                    <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Aucune image</div>
                 )}
                 {promoted && (
                     <div className="absolute top-1.5 left-1.5 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider z-10">
@@ -35,16 +41,34 @@ const AdCard = ({ ad, promoted = false }: AdCardProps) => {
                 </button>
             </div>
 
-            <div className="pt-2 flex flex-col flex-1 px-1">
-                <h3 className="text-[12px] md:text-xs text-gray-700 font-normal line-clamp-1 group-hover:underline">
+            <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
+                {/* 1. Price */}
+                <p className="text-black font-extrabold text-sm md:text-base leading-none mb-1.5">
+                    {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
+                        ? `$${ad.price?.toLocaleString()}`
+                        : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
+                </p>
+
+                {/* 2. Title (Max 2 lines) */}
+                <h3 className="text-[12px] md:text-[13px] text-gray-800 font-medium line-clamp-2 leading-tight group-hover:underline mb-1">
                     {ad.title}
                 </h3>
-                <div className="mt-1 flex items-baseline gap-1">
-                    <p className="text-black font-bold text-sm">
-                        {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
-                            ? `$${ad.price?.toLocaleString()}`
-                            : ad.priceType === 'free' ? 'Gratuit' : 'Prix libre'}
-                    </p>
+
+                {/* 3 & 4. City and Condition */}
+                <div className="mt-auto pt-1 flex flex-wrap items-center gap-1.5">
+                    {ad.city && (
+                        <span className="text-[10px] md:text-xs text-gray-500 font-medium whitespace-nowrap">
+                            {ad.city}
+                        </span>
+                    )}
+                    {ad.condition && (
+                        <>
+                            <span className="w-1 h-1 rounded-full bg-gray-300 shrink-0"></span>
+                            <span className="text-[10px] md:text-xs text-gray-500 font-medium capitalize whitespace-nowrap">
+                                {ad.condition}
+                            </span>
+                        </>
+                    )}
                 </div>
             </div>
         </Link>

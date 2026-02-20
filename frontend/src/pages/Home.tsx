@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { CATEGORIES } from '../data/categories';
-import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search, Bell, Clock } from 'lucide-react';
+import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search, Bell, Clock, LayoutGrid, List } from 'lucide-react';
 import AdCard from '../components/AdCard';
 
 // Icon mapping
@@ -29,6 +29,8 @@ const BANNERS = [
 const Home = () => {
     const navigate = useNavigate();
     const [currentBanner, setCurrentBanner] = useState(0);
+    const [activeTab, setActiveTab] = useState<'recommande' | 'nouveau' | 'tendance'>('recommande');
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
     // Auto-scroll banner
     useEffect(() => {
@@ -44,10 +46,14 @@ const Home = () => {
         queryFn: () => getAds({ promoted: true, limit: 4 }),
     });
 
-    // Fetch Recent Ads
-    const { data: recentAds } = useQuery({
-        queryKey: ['ads', 'recent'],
-        queryFn: () => getAds({ limit: 8 }),
+    // Fetch feed Ads based on active tab
+    const { data: feedAds } = useQuery({
+        queryKey: ['ads', 'feed', activeTab],
+        queryFn: () => {
+            if (activeTab === 'tendance') return getAds({ promoted: true, limit: 12 });
+            if (activeTab === 'nouveau') return getAds({ sort: 'newest', limit: 12 });
+            return getAds({ limit: 12 }); // recommande
+        },
     });
 
     return (
@@ -116,17 +122,48 @@ const Home = () => {
 
                 {/* Main Feed */}
                 <div className="mt-2 md:mt-6">
-                    <div className="bg-white py-5 px-4 mb-2 sticky top-[62px] md:top-[80px] z-30 md:rounded-t-lg shadow-sm">
-                        <h2 className="text-lg font-extrabold tracking-wide text-center text-[#1a1c29] uppercase">RECOMMANDÉ POUR VOUS</h2>
+                    <div className="bg-white py-4 px-4 mb-2 sticky top-[62px] md:top-[80px] z-30 md:rounded-t-lg shadow-sm">
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex gap-4 overflow-x-auto scrollbar-hide flex-1">
+                                <button
+                                    onClick={() => setActiveTab('recommande')}
+                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'recommande' ? 'border-black text-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                                >
+                                    Recommandé pour vous
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('nouveau')}
+                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'nouveau' ? 'border-black text-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                                >
+                                    Nouveau
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('tendance')}
+                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'tendance' ? 'border-black text-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                                >
+                                    Tendance
+                                </button>
+                            </div>
+
+                            <div className="flex gap-1 shrink-0 bg-gray-100 p-0.5 rounded-sm">
+                                <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-sm transition-all shadow-none ${viewMode === 'grid' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-black' : 'text-gray-400 hover:text-gray-600'}`}>
+                                    <LayoutGrid className="w-4 h-4" />
+                                </button>
+                                <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-sm transition-all shadow-none ${viewMode === 'list' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-black' : 'text-gray-400 hover:text-gray-600'}`}>
+                                    <List className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    {/* Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0">
-                        {recentAds?.data?.items?.map((ad: any) => (
-                            <AdCard key={ad._id} ad={ad} />
+
+                    {/* Grid/List */}
+                    <div className={viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0" : "flex flex-col gap-0 md:gap-2 px-0 md:px-0"}>
+                        {feedAds?.data?.items?.map((ad: any) => (
+                            <AdCard key={ad._id} ad={ad} viewMode={viewMode} />
                         ))}
                     </div>
 
-                    {(!recentAds?.data?.items || recentAds.data.items.length === 0) && (
+                    {(!feedAds?.data?.items || feedAds.data.items.length === 0) && (
                         <div className="text-center py-12 bg-white rounded-lg mt-2">
                             <p className="text-gray-500">Aucun article trouvé.</p>
                             <Link to="/post" className="border border-black text-black font-bold mt-4 px-6 py-2 rounded-sm inline-block hover:bg-black hover:text-white transition">Vendre un article</Link>
