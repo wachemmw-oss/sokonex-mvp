@@ -52,15 +52,6 @@ const Home = () => {
 
     return (
         <div className="font-sans bg-gray-100 min-h-screen pb-20">
-            {/* Mobile Header (Hidden on Desktop since Navbar handles it) */}
-            <div className="md:hidden bg-white px-4 py-3 flex justify-between items-center sticky top-0 z-40">
-                <h1 className="text-xl font-bold tracking-tighter">SOKONEX</h1>
-                <div className="flex gap-4">
-                    <Search className="w-6 h-6 text-gray-800" onClick={() => navigate('/results')} />
-                    <Bell className="w-6 h-6 text-gray-800" />
-                </div>
-            </div>
-
             {/* Desktop spacer */}
             <div className="hidden md:block h-6 bg-gray-100"></div>
 
@@ -84,16 +75,16 @@ const Home = () => {
 
             <div className="max-w-7xl mx-auto px-0 md:px-4">
                 {/* Category Slider */}
-                <div className="bg-white mt-2 md:mt-6 py-4 px-2 md:rounded-lg">
-                    <div className="flex gap-4 overflow-x-auto pb-2 px-2 scrollbar-hide snap-x">
+                <div className="bg-white mt-2 md:mt-6 py-5 px-2 md:rounded-lg">
+                    <div className="flex gap-3 overflow-x-auto pb-2 px-3 scrollbar-hide snap-x">
                         {CATEGORIES.map(cat => {
                             const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
                             return (
-                                <Link key={cat.id} to={`/results?category=${cat.id}`} className="flex flex-col items-center min-w-[70px] snap-start group">
-                                    <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center text-gray-800 mb-2 border border-gray-100 group-hover:border-black transition-colors">
-                                        <IconComponent className="w-6 h-6" strokeWidth={1.5} />
+                                <Link key={cat.id} to={`/results?category=${cat.id}`} className="flex flex-col items-center min-w-[80px] snap-start group">
+                                    <div className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center text-gray-800 mb-2 border border-gray-100 group-hover:border-black transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                        <IconComponent className="w-7 h-7" strokeWidth={1.5} />
                                     </div>
-                                    <span className="text-[10px] text-gray-600 text-center font-medium leading-tight group-hover:text-black">{cat.label}</span>
+                                    <span className="text-[11px] text-gray-600 font-bold max-w-[76px] text-center leading-[1.1] whitespace-normal group-hover:text-black">{cat.label}</span>
                                 </Link>
                             );
                         })}
@@ -125,8 +116,8 @@ const Home = () => {
 
                 {/* Main Feed */}
                 <div className="mt-2 md:mt-6">
-                    <div className="bg-white py-3 px-4 mb-2 sticky top-[60px] md:top-[80px] z-30 border-b border-gray-100 md:rounded-t-lg">
-                        <h2 className="text-lg font-bold tracking-tight text-center">RECOMMANDÉ POUR VOUS</h2>
+                    <div className="bg-white py-5 px-4 mb-2 sticky top-[62px] md:top-[80px] z-30 md:rounded-t-lg shadow-sm">
+                        <h2 className="text-lg font-extrabold tracking-wide text-center text-[#1a1c29] uppercase">RECOMMANDÉ POUR VOUS</h2>
                     </div>
                     {/* Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0">
