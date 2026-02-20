@@ -7,6 +7,19 @@ interface AdCardProps {
     viewMode?: 'grid' | 'list';
 }
 
+const getConditionDetails = (condition: string) => {
+    switch (condition?.toLowerCase()) {
+        case 'new':
+            return { label: 'Neuf', bg: 'bg-green-100', text: 'text-green-800' };
+        case 'used':
+            return { label: 'Occasion', bg: 'bg-orange-100', text: 'text-orange-800' };
+        case 'refurbished':
+            return { label: 'Reconditionné', bg: 'bg-blue-100', text: 'text-blue-800' };
+        default:
+            return { label: condition, bg: 'bg-gray-100', text: 'text-gray-800' };
+    }
+};
+
 const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
     const isList = viewMode === 'list';
 
@@ -62,12 +75,9 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                         </span>
                     )}
                     {ad.condition && (
-                        <>
-                            <span className="w-1 h-1 rounded-full bg-gray-300 shrink-0"></span>
-                            <span className="text-[10px] md:text-xs text-gray-500 font-medium capitalize whitespace-nowrap">
-                                {ad.condition}
-                            </span>
-                        </>
+                        <span className={`text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap ${getConditionDetails(ad.condition).bg} ${getConditionDetails(ad.condition).text}`}>
+                            {getConditionDetails(ad.condition).label}
+                        </span>
                     )}
                 </div>
             </div>
