@@ -140,6 +140,10 @@ const PostAd = () => {
         setExistingImages(prev => prev.filter((_, i) => i !== index));
     };
 
+    const removeNewImage = (index: number) => {
+        setImages(prev => prev.filter((_, i) => i !== index));
+    };
+
     if (isEditMode && isLoadingAd) {
         return <div className="p-8 text-center text-gray-500">Chargement de l'annonce...</div>;
     }
@@ -281,12 +285,13 @@ const PostAd = () => {
                     {existingImages.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-4 justify-center">
                             {existingImages.map((img, idx) => (
-                                <div key={idx} className="relative group w-16 h-16 bg-white border border-gray-200 rounded-sm overflow-hidden">
+                                <div key={idx} className="relative w-16 h-16 bg-white border border-gray-200 rounded-sm overflow-hidden">
                                     <img src={img.url} alt={`Existing ${idx}`} className="w-full h-full object-cover" />
                                     <button
                                         type="button"
                                         onClick={(e) => { e.stopPropagation(); e.preventDefault(); removeExistingImage(idx); }}
-                                        className="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 flex flex-col items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className="absolute top-0 right-0 bg-red-500 hover:bg-red-600 text-white w-6 h-6 flex flex-col items-center justify-center text-sm font-bold shadow-sm"
+                                        title="Supprimer cette photo"
                                     >
                                         ×
                                     </button>
@@ -298,7 +303,14 @@ const PostAd = () => {
                     {images.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2 justify-center">
                             {images.map((img, idx) => (
-                                <span key={idx} className="bg-black text-white text-xs px-2 py-1 rounded-sm">{img.name}</span>
+                                <div key={idx} className="flex items-center gap-1 bg-black text-white text-xs pl-2 pr-1 py-1 rounded-sm">
+                                    <span className="max-w-[100px] truncate">{img.name}</span>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); removeNewImage(idx); }}
+                                        className="w-4 h-4 rounded-full hover:bg-white hover:text-black flex items-center justify-center font-bold"
+                                    >×</button>
+                                </div>
                             ))}
                         </div>
                     )}

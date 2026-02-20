@@ -1,8 +1,8 @@
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { Link, Routes, Route, useLocation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getAds } from '../services/ads';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getMyAds, deleteAd } from '../services/ads';
 import {
     UserCircleIcon,
     DocumentTextIcon,
@@ -16,12 +16,29 @@ import Settings from './Settings';
 
 const MyAds = () => {
     const { user } = useAuth();
+    const queryClient = useQueryClient();
 
     const { data, isLoading } = useQuery({
         queryKey: ['myAds', user?._id],
-        queryFn: () => getAds({ seller: user?._id }), // Assuming the backend supports filtering by seller
+        queryFn: getMyAds,
         enabled: !!user?._id
     });
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteAd,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['myAds'] });
+        },
+        onError: (err: any) => {
+            alert(err.response?.data?.error?.message || 'Erreur lors de la suppression');
+        }
+    });
+
+    const handleDelete = (id: string) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cette annonce ?")) {
+            deleteMutation.mutate(id);
+        }
+    };
 
     if (isLoading) return <div className="p-8 text-center text-gray-500">Chargement de vos annonces...</div>;
 
@@ -74,7 +91,11 @@ const MyAds = () => {
                                 <Link to={`/edit-ad/${ad._id}`} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-2 border border-gray-200 text-sm font-medium text-gray-700 rounded-sm hover:border-black hover:text-black transition-colors">
                                     <PencilSquareIcon className="w-4 h-4" /> Modifier
                                 </Link>
-                                <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-2 border border-red-100 text-sm font-medium text-red-600 rounded-sm hover:bg-red-50 hover:border-red-200 transition-colors">
+                                <button
+                                    onClick={() => handleDelete(ad._id)}
+                                    disabled={deleteMutation.isPending}
+                                    className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-2 border border-red-100 text-sm font-medium text-red-600 rounded-sm hover:bg-red-50 hover:border-red-200 transition-colors disabled:opacity-50"
+                                >
                                     <TrashIcon className="w-4 h-4" /> Supprimer
                                 </button>
                             </div>
