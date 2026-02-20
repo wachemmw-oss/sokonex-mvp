@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { updateProfile as updateProfileService, verifyPhone as verifyPhoneService } from '../services/auth';
+import { uploadImage } from '../services/upload';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 
 const Settings = () => {
     const { user, updateProfile: updateAuthProfile } = useAuth();
@@ -8,9 +10,12 @@ const Settings = () => {
         name: user?.name || '',
         phone: user?.phone || '',
         whatsapp: user?.whatsapp || '',
+        avatar: user?.avatar || '',
         showPhone: user?.settings?.showPhone ?? true,
         showWhatsApp: user?.settings?.showWhatsApp ?? user?.showWhatsApp ?? true
     });
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState(user?.avatar || '');
     const [loading, setLoading] = useState(false);
     const [verifying, setVerifying] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
@@ -22,9 +27,11 @@ const Settings = () => {
                 name: user.name || '',
                 phone: user.phone || '',
                 whatsapp: user.whatsapp || '',
+                avatar: user.avatar || '',
                 showPhone: user.showPhone ?? true,
                 showWhatsApp: user.whatsapp ? true : false
             });
+            if (user.avatar) setPreviewUrl(user.avatar);
         }
     }, [user]);
 
@@ -42,7 +49,13 @@ const Settings = () => {
         setMessage({ type: '', text: '' });
 
         try {
-            const res = await updateAuthProfile(formData);
+            let finalData = { ...formData };
+            if (avatarFile) {
+                const uploaded = await uploadImage(avatarFile);
+                finalData.avatar = uploaded.url; // assuming uploadImage returns { url, publicId }
+            }
+
+            const res = await updateAuthProfile(finalData);
             if (res.success) {
                 setMessage({ type: 'success', text: 'Profil mis à jour avec succès !' });
                 setTimeout(() => window.location.reload(), 1000);
@@ -79,6 +92,14 @@ const Settings = () => {
         }
     };
 
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setAvatarFile(file);
+            setPreviewUrl(URL.createObjectURL(file));
+        }
+    };
+
     return (
         <div className="max-w-2xl mx-auto bg-white shadow-sm border border-gray-100 rounded-sm p-8 mt-8 font-sans">
             <h2 className="text-2xl font-extrabold mb-8 text-black tracking-tight uppercase">Paramètres du profil</h2>
@@ -91,6 +112,27 @@ const Settings = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Avatar */}
+                <div className="flex flex-col items-center sm:items-start mb-6">
+                    <label className="block text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">Photo de profil</label>
+                    <div className="flex items-center gap-6">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full border border-gray-200 overflow-hidden flex items-center justify-center relative">
+                            {previewUrl ? (
+                                <img src={previewUrl} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                                <UserCircleIcon className="w-12 h-12 text-gray-400" />
+                            )}
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="cursor-pointer bg-white border border-gray-200 text-black px-4 py-2 text-sm font-bold rounded-sm hover:border-black transition-colors">
+                                Changer la photo
+                                <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+                            </label>
+                            <p className="text-xs text-gray-500">JPG, PNG, WEBP (Max 2MB)</p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Email (Read-only) */}
                 <div>
                     <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email (non modifiable)</label>

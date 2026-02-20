@@ -23,6 +23,7 @@ const Navbar = () => {
 
     const location = useLocation();
     const isHome = location.pathname === '/';
+    const isAdDetails = location.pathname.startsWith('/ad/');
 
     return (
         <nav className="bg-white sticky top-0 z-50 font-sans transition-all duration-300">
@@ -40,25 +41,38 @@ const Navbar = () => {
                         </Link>
 
                         {/* Integrated Search Bar (Desktop) */}
-                        <div className="hidden md:flex flex-1 max-w-2xl mx-8">
-                            <form onSubmit={handleSearch} className="w-full relative group flex items-center">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher des articles..."
-                                    className="w-full bg-gray-100 border-none rounded-sm py-2 px-4 text-sm focus:ring-0 focus:outline-none focus:bg-gray-200 transition-colors placeholder-gray-500"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                                <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-600 hover:text-black transition">
-                                    <Search className="w-4 h-4" />
-                                </button>
-                            </form>
-                        </div>
+                        {!isAdDetails && (
+                            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+                                <form onSubmit={handleSearch} className="w-full relative group flex items-center">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher des articles..."
+                                        className="w-full bg-gray-100 border-none rounded-sm py-2 px-4 text-sm focus:ring-0 focus:outline-none focus:bg-gray-200 transition-colors placeholder-gray-500"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                    <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-600 hover:text-black transition">
+                                        <Search className="w-4 h-4" />
+                                    </button>
+                                </form>
+                            </div>
+                        )}
+                        {/* Placeholder if AdDetails so logo stays left and actions right */}
+                        {isAdDetails && <div className="hidden md:block flex-1"></div>}
 
                         {/* Right Side Actions */}
                         <div className="flex items-center space-x-4">
                             {/* Post Ad Button - Hidden on Mobile (moved to BottomTab) */}
-                            <Link to="/post" className="hidden md:inline-flex bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-sm font-semibold text-sm transition items-center gap-2">
+                            <Link
+                                to={user ? "/post" : "/login"}
+                                onClick={(e) => {
+                                    if (!user) {
+                                        e.preventDefault();
+                                        navigate('/login', { state: { message: "Vous devez être connecté pour publier une annonce." } });
+                                    }
+                                }}
+                                className="hidden md:inline-flex bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-sm font-semibold text-sm transition items-center gap-2"
+                            >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
                                 Publier
                             </Link>
@@ -119,26 +133,28 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Navbar (Matching Exact Screenshot) */}
-            <div className="md:hidden px-3 py-2.5 flex items-center gap-3 border-b border-gray-100 bg-white">
-                <button className="bg-gray-100 text-gray-800 font-bold text-[13px] px-4 py-2 rounded-sm flex items-center justify-center shrink-0 h-[42px]">
-                    Ville
-                </button>
-                <form onSubmit={handleSearch} className="flex-1 relative flex items-center h-[42px]">
-                    <input
-                        type="text"
-                        placeholder="Rechercher des articles..."
-                        className="w-full h-full bg-gray-100 border-none rounded-sm py-0 pl-3 pr-12 text-[13px] focus:ring-0 focus:outline-none placeholder-gray-500"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <button type="submit" className="absolute right-1 top-1 bottom-1 w-[46px] bg-[#1a1c29] hover:bg-black text-white flex items-center justify-center rounded-sm transition-colors">
-                        <Search className="w-5 h-5" />
+            {!isAdDetails && (
+                <div className="md:hidden px-3 py-2.5 flex items-center gap-3 border-b border-gray-100 bg-white">
+                    <button className="bg-gray-100 text-gray-800 font-bold text-[13px] px-4 py-2 rounded-sm flex items-center justify-center shrink-0 h-[42px]">
+                        Ville
                     </button>
-                </form>
-                <button className="text-gray-800 p-1 shrink-0 flex items-center justify-center h-[42px]">
-                    <Bell className="w-[26px] h-[26px]" strokeWidth={1.5} />
-                </button>
-            </div>
+                    <form onSubmit={handleSearch} className="flex-1 relative flex items-center h-[42px]">
+                        <input
+                            type="text"
+                            placeholder="Rechercher des articles..."
+                            className="w-full h-full bg-gray-100 border-none rounded-sm py-0 pl-3 pr-12 text-[13px] focus:ring-0 focus:outline-none placeholder-gray-500"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button type="submit" className="absolute right-1 top-1 bottom-1 w-[46px] bg-[#1a1c29] hover:bg-black text-white flex items-center justify-center rounded-sm transition-colors">
+                            <Search className="w-5 h-5" />
+                        </button>
+                    </form>
+                    <button className="text-gray-800 p-1 shrink-0 flex items-center justify-center h-[42px]">
+                        <Bell className="w-[26px] h-[26px]" strokeWidth={1.5} />
+                    </button>
+                </div>
+            )}
         </nav>
     );
 };

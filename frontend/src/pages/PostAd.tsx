@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query'; // Import Query client hooks
-import { createAd } from '../services/ads';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createAd, updateAd, getAdById } from '../services/ads';
 import { uploadImage } from '../services/upload';
 import { useAuth } from '../context/AuthContext';
 
@@ -11,6 +11,18 @@ import { LOCATIONS } from '../data/locations';
 const PostAd = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { id } = useParams(); // For edit mode
+    const queryClient = useQueryClient();
+
+    // Fetch ad if in edit mode
+    const { data: adData, isLoading: isLoadingAd } = useQuery({
+        queryKey: ['adToEdit', id],
+        queryFn: () => getAdById(id as string),
+        enabled: !!id
+    });
+
+    const isEditMode = !!id;
+
     const [formData, setFormData] = useState({
         title: '', description: '',
         category: CATEGORIES[0].id,
@@ -20,21 +32,44 @@ const PostAd = () => {
         condition: 'used'
     });
     const [images, setImages] = useState<File[]>([]);
+    const [existingImages, setExistingImages] = useState<{ url: string, publicId: string }[]>([]);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
+    const [attributes, setAttributes] = useState<Record<string, any>>({});
+
+    // Populate form data when editing
+    useEffect(() => {
+        if (isEditMode && adData?.success) {
+            const ad = adData.data;
+            setFormData({
+                title: ad.title || '',
+                description: ad.description || '',
+                category: ad.category || CATEGORIES[0].id,
+                subCategory: ad.subCategory || CATEGORIES[0].subCategories[0].id,
+                province: ad.province || LOCATIONS[0].province,
+                city: ad.city || LOCATIONS[0].cities[0],
+                priceType: ad.priceType || 'fixed',
+                price: ad.price?.toString() || '',
+                delivery: ad.delivery || { available: false, included: false, national: false },
+                condition: ad.condition || 'used'
+            });
+            setAttributes(ad.attributes || {});
+            setExistingImages(ad.images || []);
+        }
+    }, [isEditMode, adData]);
 
     const mutation = useMutation({
-        mutationFn: createAd,
+        mutationFn: isEditMode ? (data: any) => updateAd(id as string, data) : createAd,
         onSuccess: (data: any) => {
-            navigate(`/ad/${data.data._id}`);
+            queryClient.invalidateQueries({ queryKey: ['myAds'] });
+            queryClient.invalidateQueries({ queryKey: ['ad', id] });
+            navigate(isEditMode ? '/account/my-ads' : `/ad/${data.data._id}`);
         },
         onError: (err: any) => {
-            setError(err.response?.data?.error?.message || 'Failed to create ad');
+            setError(err.response?.data?.error?.message || (isEditMode ? 'Échec de la modification' : 'Échec de la création'));
             setUploading(false);
         }
     });
-
-    const [attributes, setAttributes] = useState<Record<string, any>>({});
 
     // Derived state for current category attributes
     const currentCategory = CATEGORIES.find(c => c.id === formData.category);
@@ -68,7 +103,7 @@ const PostAd = () => {
             mutation.mutate({
                 ...formData,
                 attributes: attributes, // Include dynamic attributes
-                images: uploadedImages,
+                images: [...existingImages, ...uploadedImages], // Combine old and new images
                 price: formData.price ? Number(formData.price) : undefined
             });
         } catch (err: any) {
@@ -101,9 +136,19 @@ const PostAd = () => {
         }
     };
 
+    const removeExistingImage = (index: number) => {
+        setExistingImages(prev => prev.filter((_, i) => i !== index));
+    };
+
+    if (isEditMode && isLoadingAd) {
+        return <div className="p-8 text-center text-gray-500">Chargement de l'annonce...</div>;
+    }
+
     return (
         <div className="max-w-3xl mx-auto p-6 lg:p-10 bg-white border border-gray-100 shadow-sm rounded-sm mt-8 font-sans pb-24">
-            <h1 className="text-2xl font-extrabold mb-8 text-black tracking-tight uppercase">Publier une annonce</h1>
+            <h1 className="text-2xl font-extrabold mb-8 text-black tracking-tight uppercase">
+                {isEditMode ? 'Modifier l\'annonce' : 'Publier une annonce'}
+            </h1>
             {error && <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-sm mb-6 text-sm">{error}</div>}
 
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -232,10 +277,28 @@ const PostAd = () => {
                         </div>
                         <p className="text-xs text-gray-500">PNG, JPG, WEBP jusqu'à 5MB</p>
                     </div>
+                    {/* Display existing images */}
+                    {existingImages.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-4 justify-center">
+                            {existingImages.map((img, idx) => (
+                                <div key={idx} className="relative group w-16 h-16 bg-white border border-gray-200 rounded-sm overflow-hidden">
+                                    <img src={img.url} alt={`Existing ${idx}`} className="w-full h-full object-cover" />
+                                    <button
+                                        type="button"
+                                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); removeExistingImage(idx); }}
+                                        className="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 flex flex-col items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {/* Display new files */}
                     {images.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2 justify-center">
                             {images.map((img, idx) => (
-                                <span key={idx} className="bg-gray-200 text-black text-xs px-2 py-1 rounded-sm">{img.name}</span>
+                                <span key={idx} className="bg-black text-white text-xs px-2 py-1 rounded-sm">{img.name}</span>
                             ))}
                         </div>
                     )}
@@ -243,7 +306,7 @@ const PostAd = () => {
 
                 <div className="pt-4">
                     <button disabled={uploading || mutation.isPending} type="submit" className="w-full bg-black text-white py-4 rounded-sm font-bold tracking-wide hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95">
-                        {uploading ? 'Upload des images...' : mutation.isPending ? 'Publication en cours...' : 'Publier mon annonce'}
+                        {uploading ? 'Upload des images...' : mutation.isPending ? 'Enregistrement en cours...' : (isEditMode ? 'Enregistrer les modifications' : 'Publier mon annonce')}
                     </button>
                     <p className="text-center text-xs text-gray-500 mt-3">En publiant, vous acceptez nos conditions d'utilisation.</p>
                 </div>

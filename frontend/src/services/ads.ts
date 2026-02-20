@@ -5,6 +5,11 @@ export const createAd = async (data: any) => {
     return response.data;
 };
 
+export const updateAd = async (id: string, data: any) => {
+    const response = await client.put(`/ads/${id}`, data);
+    return response.data;
+};
+
 export const getAds = async (params: any) => {
     const response = await client.get('/ads', { params });
     return response.data;

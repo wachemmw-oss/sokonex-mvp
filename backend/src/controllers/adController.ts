@@ -270,4 +270,41 @@ export const deleteAd = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
     }
-}
+};
+
+// @desc    Update ad
+// @route   PUT /api/ads/:id
+// @access  Private (Owner or Admin)
+export const updateAd = async (req: Request, res: Response) => {
+    try {
+        const ad = await Ad.findById(req.params.id);
+        if (!ad) return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Ad not found' } });
+
+        if (ad.sellerId.toString() !== req.user?._id.toString() && req.user?.role !== 'admin') {
+            return res.status(403).json({ success: false, error: { code: 'FORBIDDEN', message: 'Not authorized to edit this ad' } });
+        }
+
+        const {
+            title, description, category, subCategory, province, city,
+            priceType, price, delivery, condition, attributes, images
+        } = req.body;
+
+        ad.title = title || ad.title;
+        ad.description = description || ad.description;
+        ad.category = category || ad.category;
+        ad.subCategory = subCategory || ad.subCategory;
+        ad.province = province || ad.province;
+        ad.city = city || ad.city;
+        ad.priceType = priceType || ad.priceType;
+        ad.price = price !== undefined ? price : ad.price;
+        ad.delivery = delivery || ad.delivery;
+        ad.condition = condition || ad.condition;
+        ad.attributes = attributes || ad.attributes;
+        ad.images = images || ad.images;
+
+        const updatedAd = await ad.save();
+        res.json({ success: true, data: updatedAd });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};

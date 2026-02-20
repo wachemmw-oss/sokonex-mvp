@@ -23,6 +23,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
             }
 
             if (req.body.whatsapp !== undefined) user.whatsapp = req.body.whatsapp;
+            if (req.body.avatar !== undefined) (user as any).avatar = req.body.avatar; // Handle TS issue smoothly
             if (req.body.showPhone !== undefined) user.showPhone = req.body.showPhone;
 
             const updatedUser = await user.save();
@@ -36,6 +37,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
                     role: updatedUser.role,
                     phone: updatedUser.phone,
                     whatsapp: updatedUser.whatsapp,
+                    avatar: (updatedUser as any).avatar,
                     showPhone: updatedUser.showPhone,
                     isPhoneVerified: updatedUser.isPhoneVerified,
                 },

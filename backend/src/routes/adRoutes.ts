@@ -1,5 +1,5 @@
 import express from 'express';
-import { createAd, getAds, getAdById, getSimilarAds, getMyAds, deleteAd } from '../controllers/adController';
+import { createAd, getAds, getAdById, getSimilarAds, getMyAds, deleteAd, updateAd } from '../controllers/adController';
 import { protect } from '../middlewares/authMiddleware';
 
 const router = express.Router();
@@ -9,7 +9,7 @@ router.get('/', getAds);
 router.get('/mine', protect, getMyAds);
 router.get('/:id', getAdById);
 router.get('/:id/similar', getSimilarAds);
+router.put('/:id', protect, updateAd);
 router.delete('/:id', protect, deleteAd);
-// PATCH /:id for update to be implemented
 
 export default router;

@@ -8,6 +8,7 @@ export interface IUser extends Document {
     role: 'user' | 'admin';
     phone: string;
     whatsapp?: string;
+    avatar?: string;
     showPhone: boolean;
     isPhoneVerified: boolean;
     status: 'active' | 'suspended';
@@ -22,6 +23,7 @@ const UserSchema: Schema = new Schema(
         role: { type: String, enum: ['user', 'admin'], default: 'user' },
         phone: { type: String, default: '' },
         whatsapp: { type: String, default: '' },
+        avatar: { type: String, default: '' },
         showPhone: { type: Boolean, default: true },
         isPhoneVerified: { type: Boolean, default: false },
         status: { type: String, enum: ['active', 'suspended'], default: 'active' },

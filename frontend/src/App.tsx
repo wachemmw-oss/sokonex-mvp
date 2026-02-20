@@ -28,6 +28,7 @@ function App() {
                 <Route path="/results" element={<Results />} />
                 <Route path="/ad/:id" element={<AdDetails />} />
                 <Route path="/post" element={<PostAd />} />
+                <Route path="/edit-ad/:id" element={<PostAd />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/account/*" element={<Dashboard />} />

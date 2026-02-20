@@ -1,8 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Search, User, PlusSquare } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const BottomTab = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user } = useAuth();
 
     const isActive = (path: string) => {
         return location.pathname === path ? 'text-blue-600' : 'text-gray-400';
@@ -21,12 +24,30 @@ const BottomTab = () => {
                     <span className="text-[11px] font-bold tracking-wide">Explorer</span>
                 </Link>
 
-                <Link to="/post" className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/post') ? 'text-black' : 'text-gray-600 hover:text-black'}`}>
+                <Link
+                    to={user ? "/post" : "/login"}
+                    className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/post') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
+                    onClick={(e) => {
+                        if (!user) {
+                            e.preventDefault();
+                            navigate('/login', { state: { message: "Vous devez être connecté pour publier une annonce." } });
+                        }
+                    }}
+                >
                     <PlusSquare className="w-[26px] h-[26px] mb-1" strokeWidth={isActive('/post') ? 2.5 : 2} />
                     <span className="text-[11px] font-bold tracking-wide">Publier</span>
                 </Link>
 
-                <Link to="/account" className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/account') ? 'text-black' : 'text-gray-600 hover:text-black'}`}>
+                <Link
+                    to={user ? "/account" : "/login"}
+                    className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/account') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
+                    onClick={(e) => {
+                        if (!user) {
+                            e.preventDefault();
+                            navigate('/login', { state: { message: "Vous devez être connecté pour voir votre profil." } });
+                        }
+                    }}
+                >
                     <User className="w-[26px] h-[26px] mb-1" strokeWidth={isActive('/account') ? 2.5 : 2} />
                     <span className="text-[11px] font-bold tracking-wide">Profil</span>
                 </Link>

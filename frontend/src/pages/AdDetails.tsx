@@ -154,19 +154,19 @@ const AdDetails = () => {
             </div>
 
             {/* Mobile Sticky Bottom Action Bar */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-3 pb-safe z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 {ad.sellerId?.showPhone && (
-                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 border border-black text-black text-center py-3 text-sm font-bold flex justify-center items-center gap-2">
+                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 border border-black text-black text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm">
                         <Phone className="w-4 h-4" /> Appeler
                     </a>
                 )}
                 {ad.sellerId?.whatsapp ? (
-                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-black text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2">
-                        <MessageCircle className="w-4 h-4" /> Contacter
+                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-[#1a1c29] text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm">
+                        <MessageCircle className="w-4 h-4" /> WhatsApp
                     </a>
                 ) : (
-                    <button className="flex-1 bg-black text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2">
-                        Contacter le vendeur
+                    <button className="flex-1 bg-[#1a1c29] text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm">
+                        Contacter
                     </button>
                 )}
             </div>

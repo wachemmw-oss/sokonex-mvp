@@ -8,6 +8,7 @@ interface User {
     role: 'user' | 'admin';
     phone?: string;
     whatsapp?: string;
+    avatar?: string;
     showPhone?: boolean;
     showWhatsApp?: boolean;
     isPhoneVerified?: boolean;
