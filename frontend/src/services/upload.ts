@@ -1,7 +1,28 @@
 import client from '../api/client';
 import axios from 'axios';
+import imageCompression from 'browser-image-compression';
 
-export const uploadImage = async (file: File) => {
+export const uploadImage = async (originalFile: File) => {
+    // 0. Compress the image before uploading
+    let file = originalFile;
+    try {
+        const options = {
+            maxSizeMB: 0.5,           // Compress to max 500KB
+            maxWidthOrHeight: 1024,   // Max width/height to 1024px for great performance but sharp details
+            useWebWorker: true,
+            fileType: 'image/webp'    // Force modern light format if possible, otherwise falls back
+        };
+        const compressedFile = await imageCompression(originalFile, options);
+        // Cast back to File to maintain the original filename (optional, but good for backend parsing)
+        file = new File([compressedFile], originalFile.name, {
+            type: compressedFile.type,
+            lastModified: Date.now(),
+        });
+        console.log(`Compression: ${originalFile.size / 1024 / 1024} MB -> ${file.size / 1024 / 1024} MB`);
+    } catch (error) {
+        console.warn("Image compression failed, falling back to original file:", error);
+    }
+
     // 1. Get presigned URL
     let presignData;
     try {
