@@ -2,6 +2,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import FilterSidebar from '../components/FilterSidebar';
+import AdCard from '../components/AdCard';
 
 const Results = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -62,35 +63,7 @@ const Results = () => {
                             {data?.data?.items?.length > 0 ? (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {data.data.items.map((ad: any) => (
-                                        <Link key={ad._id} to={`/ad/${ad._id}`} className="block group">
-                                            <div className="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
-                                                <div className="h-48 bg-gray-100 relative overflow-hidden">
-                                                    {ad.images && ad.images.length > 0 ? (
-                                                        <img src={ad.images[0].url} alt={ad.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-                                                    ) : (
-                                                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                                            <span>Pas d'image</span>
-                                                        </div>
-                                                    )}
-                                                    {ad.priceType === 'free' && (
-                                                        <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">Gratuit</span>
-                                                    )}
-                                                </div>
-                                                <div className="p-4 flex flex-col flex-grow">
-                                                    <h3 className="font-bold text-gray-800 mb-1 truncate">{ad.title}</h3>
-                                                    <p className="text-blue-600 font-bold text-lg mb-2">
-                                                        {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
-                                                            ? `$${ad.price?.toLocaleString()}`
-                                                            : ad.priceType === 'on_request' ? 'Sur demande' : 'Gratuit'}
-                                                    </p>
-                                                    <div className="mt-auto flex items-center text-gray-500 text-xs">
-                                                        <span className="truncate max-w-[100px]">{ad.city}</span>
-                                                        <span className="mx-1">•</span>
-                                                        <span>{new Date(ad.createdAt).toLocaleDateString()}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Link>
+                                        <AdCard key={ad._id} ad={ad} />
                                     ))}
                                 </div>
                             ) : (

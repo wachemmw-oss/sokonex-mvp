@@ -1,0 +1,1 @@
+[MISSING_FILE] AdCard.tsx seems to be missing or named differently. I will create a new robust AdCard.tsx component to ensure it exists and matches the new design requirements.
