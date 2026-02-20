@@ -33,6 +33,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                     <img
                         src={ad.images[0].url}
                         alt={ad.title}
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                 ) : (

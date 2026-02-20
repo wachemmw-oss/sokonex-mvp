@@ -47,6 +47,7 @@ const AdDetails = () => {
                             key={idx}
                             src={img.url}
                             alt={`Image ${idx + 1}`}
+                            loading={idx === 0 ? "eager" : "lazy"}
                             className="w-full h-full object-cover snap-center shrink-0"
                             style={{ transform: `translateX(-${currentImage * 100}%)`, transition: 'transform 0.3s ease-in-out' }}
                         />

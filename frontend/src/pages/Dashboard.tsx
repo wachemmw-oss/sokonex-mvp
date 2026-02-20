@@ -65,7 +65,7 @@ const MyAds = () => {
                             {/* Image */}
                             <div className="w-full sm:w-24 h-24 shrink-0 bg-gray-100 rounded-sm overflow-hidden">
                                 {ad.images?.[0] ? (
-                                    <img src={ad.images[0].url} alt={ad.title} className="w-full h-full object-cover" />
+                                    <img src={ad.images[0].url} alt={ad.title} loading="lazy" className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">Pas d'image</div>
                                 )}
@@ -156,7 +156,7 @@ const Dashboard = () => {
                         <div className="p-6 text-center border-b border-gray-100">
                             <div className="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-gray-300">
                                 {user?.avatar ? (
-                                    <img src={user.avatar} alt="Profil" className="w-full h-full rounded-full object-cover" />
+                                    <img src={user.avatar} alt="Profil" loading="lazy" className="w-full h-full rounded-full object-cover" />
                                 ) : (
                                     <UserCircleIcon className="w-12 h-12 text-gray-400" />
                                 )}
