@@ -47,6 +47,7 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import adRoutes from './routes/adRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 app.get('/', (req, res) => {
     res.send('API is running...');
@@ -56,6 +57,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/ads', adRoutes);
 app.use('/api/uploads', uploadRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

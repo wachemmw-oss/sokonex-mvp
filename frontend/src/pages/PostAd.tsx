@@ -5,7 +5,8 @@ import { createAd } from '../services/ads';
 import { uploadImage } from '../services/upload';
 import { useAuth } from '../context/AuthContext';
 
-import { CATEGORIES, PROVINCES } from '../data/categories';
+import { CATEGORIES } from '../data/categories';
+import { LOCATIONS } from '../data/locations';
 
 const PostAd = () => {
     const { user } = useAuth();
@@ -14,7 +15,7 @@ const PostAd = () => {
         title: '', description: '',
         category: CATEGORIES[0].id,
         subCategory: CATEGORIES[0].subCategories[0].id,
-        province: 'kinshasa', city: 'kinshasa', priceType: 'fixed', price: '',
+        province: LOCATIONS[0].province, city: LOCATIONS[0].cities[0], priceType: 'fixed', price: '',
         delivery: { available: false, included: false, national: false },
         condition: 'used'
     });
@@ -33,8 +34,20 @@ const PostAd = () => {
         }
     });
 
-    // Helper to get subcategories based on selected category
-    const currentSubCategories = CATEGORIES.find(c => c.id === formData.category)?.subCategories || [];
+    const [attributes, setAttributes] = useState<Record<string, any>>({});
+
+    // Derived state for current category attributes
+    const currentCategory = CATEGORIES.find(c => c.id === formData.category);
+    const currentSubCategories = currentCategory?.subCategories || [];
+    const currentAttributes = currentCategory?.attributes || [];
+
+    const handleAttributeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+        setAttributes(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+        }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,12 +67,12 @@ const PostAd = () => {
 
             mutation.mutate({
                 ...formData,
+                attributes: attributes, // Include dynamic attributes
                 images: uploadedImages,
                 price: formData.price ? Number(formData.price) : undefined
             });
         } catch (err: any) {
             console.error("Upload error details:", err);
-            // Check for specific axios error response
             const details = err.response?.data?.error?.message || err.message || 'Inconnu';
             setError(`Erreur lors de l'upload des images: ${details}`);
             setUploading(false);
@@ -70,12 +83,13 @@ const PostAd = () => {
         const { name, value } = e.target;
         setFormData(prev => {
             const newData = { ...prev, [name]: value };
-            // Reset subcategory if category changes
+            // Reset subcategory and attributes if category changes
             if (name === 'category') {
                 const newCat = CATEGORIES.find(c => c.id === value);
                 if (newCat && newCat.subCategories.length > 0) {
                     newData.subCategory = newCat.subCategories[0].id;
                 }
+                setAttributes({}); // Reset attributes
             }
             return newData;
         });
@@ -124,16 +138,56 @@ const PostAd = () => {
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-2">Province</label>
                         <select name="province" value={formData.province} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500">
-                            {PROVINCES.map(p => (
-                                <option key={p.id} value={p.id}>{p.label}</option>
+                            {LOCATIONS.map(p => (
+                                <option key={p.province} value={p.province}>{p.province}</option>
                             ))}
                         </select>
                     </div>
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-2">Ville / Commune</label>
-                        <input name="city" required value={formData.city} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Ex: Gombe, Limete..." />
+                        <select name="city" value={formData.city} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            {LOCATIONS.find(l => l.province === formData.province)?.cities.map(c => (
+                                <option key={c} value={c}>{c}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
+
+                {/* Dynamic Attributes */}
+                {currentAttributes.length > 0 && (
+                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h3 className="font-semibold text-gray-700 mb-3 block">Détails spécifiques</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {currentAttributes.map(attr => (
+                                <div key={attr.id}>
+                                    <label className="block text-xs font-semibold text-gray-600 mb-1">{attr.label}</label>
+                                    {attr.type === 'select' ? (
+                                        <select name={attr.id} value={attributes[attr.id] || ''} onChange={handleAttributeChange} className="w-full border p-2 rounded text-sm bg-white">
+                                            <option value="">Sélectionner...</option>
+                                            {attr.options?.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                    ) : attr.type === 'boolean' ? (
+                                        <select name={attr.id} value={attributes[attr.id] || ''} onChange={handleAttributeChange} className="w-full border p-2 rounded text-sm bg-white">
+                                            <option value="">Sélectionner...</option>
+                                            <option value="true">Oui</option>
+                                            <option value="false">Non</option>
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type={attr.type === 'number' ? 'number' : 'text'}
+                                            name={attr.id}
+                                            value={attributes[attr.id] || ''}
+                                            onChange={handleAttributeChange}
+                                            className="w-full border p-2 rounded text-sm bg-white"
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Price & Condition */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

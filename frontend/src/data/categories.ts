@@ -5,90 +5,149 @@ export const CATEGORIES = [
         subCategories: [
             { id: 'maisons-a-vendre', label: 'Maisons à vendre' },
             { id: 'maisons-a-louer', label: 'Maisons à louer' },
-            { id: 'appartements-a-vendre', label: 'Appartements à vendre' },
-            { id: 'appartements-a-louer', label: 'Appartements à louer' },
-            { id: 'terrains', label: 'Terrains & Parcelles' },
-            { id: 'bureaux-commerces', label: 'Bureaux & Commerces' },
+            { id: 'parcelles-terrains', label: 'Parcelles & Terrains' },
+            { id: 'chambres-a-louer', label: 'Chambres à louer' },
+            { id: 'espaces-commerciaux', label: 'Espaces commerciaux' },
+            { id: 'locations-journalieres', label: 'Locations journalières' },
+        ],
+        attributes: [
+            { id: 'saleType', label: 'Type', type: 'select', options: ['sell', 'rent'] },
+            { id: 'propertyType', label: 'Type de bien', type: 'select', options: ['house', 'apartment', 'land', 'commercial', 'room'] },
+            { id: 'emptyLand', label: 'Terrain nu', type: 'boolean' },
+            { id: 'area', label: 'Surface (m²)', type: 'number' },
+            { id: 'bedrooms', label: 'Chambres', type: 'number' },
+            { id: 'bathrooms', label: 'Salles de bain', type: 'number' },
+            { id: 'furnished', label: 'Meublé', type: 'boolean' },
+            { id: 'parking', label: 'Parking', type: 'boolean' },
         ]
     },
     {
         id: 'vehicules',
-        label: 'Véhicules',
+        label: 'Véhicules & Transport',
         subCategories: [
             { id: 'voitures', label: 'Voitures' },
-            { id: 'motos-scooters', label: 'Motos & Scooters' },
-            { id: 'camions-bus', label: 'Camions & Bus' },
-            { id: 'pieces-auto', label: 'Pièces détachées' },
-            { id: 'location-vehicules', label: 'Location de véhicules' },
+            { id: 'motos', label: 'Motos' },
+            { id: 'bus-camions', label: 'Bus & Camions' },
+            { id: 'pieces-detachees', label: 'Pièces détachées' },
+            { id: 'engins-chantier', label: 'Engins de chantier' },
+            { id: 'bateaux-pirogues', label: 'Bateaux / Pirogues' },
+        ],
+        attributes: [
+            { id: 'brand', label: 'Marque', type: 'text' }, // Could be select in V2
+            { id: 'model', label: 'Modèle', type: 'text' },
+            { id: 'year', label: 'Année', type: 'number' },
+            { id: 'mileage', label: 'Kilométrage', type: 'number' },
+            { id: 'fuel', label: 'Carburant', type: 'select', options: ['essence', 'diesel', 'hybride', 'electrique'] },
+            { id: 'gearbox', label: 'Boîte de vitesse', type: 'select', options: ['manuelle', 'automatique'] },
         ]
     },
     {
         id: 'electronique',
-        label: 'Électronique & Multimédia',
+        label: 'Téléphones & Électronique',
         subCategories: [
-            { id: 'telephones', label: 'Téléphones & Tablettes' },
-            { id: 'ordinateurs', label: 'Ordinateurs & Accessoires' },
-            { id: 'tv-son', label: 'TV, Image & Son' },
-            { id: 'consoles-jeux', label: 'Consoles & Jeux vidéo' },
-            { id: 'camera-photo', label: 'Appareils photo & Caméras' },
+            { id: 'smartphones', label: 'Smartphones' },
+            { id: 'telephones-simples', label: 'Téléphones simples' },
+            { id: 'ordinateurs', label: 'Ordinateurs' },
+            { id: 'televisions', label: 'Télévisions' },
+            { id: 'accessoires', label: 'Accessoires' },
+            { id: 'electromenager', label: 'Électroménager' },
+        ],
+        attributes: [
+            { id: 'brand', label: 'Marque', type: 'text' },
+            { id: 'storage', label: 'Stockage (GB)', type: 'number' },
+            { id: 'ram', label: 'RAM (GB)', type: 'number' },
+            { id: 'warranty', label: 'Garantie', type: 'boolean' },
         ]
     },
     {
-        id: 'maison',
-        label: 'Maison & Déco',
+        id: 'commerce',
+        label: 'Commerce & Business',
         subCategories: [
-            { id: 'meubles', label: 'Meubles' },
-            { id: 'electromenager', label: 'Électroménager' },
-            { id: 'decoration', label: 'Décoration & Luminaires' },
-            { id: 'bricolage', label: 'Bricolage & Jardinage' },
-            { id: 'cuisine', label: 'Arts de la table' },
+            { id: 'fonds-commerce', label: 'Fonds de commerce' },
+            { id: 'materiel-boutique', label: 'Matériel de boutique' },
+            { id: 'materiel-restaurant', label: 'Matériel de restaurant' },
+            { id: 'stock-gros', label: 'Stock en gros' },
+            { id: 'investissement', label: 'Opportunités d\'investissement' },
         ]
     },
     {
         id: 'mode',
         label: 'Mode & Beauté',
         subCategories: [
-            { id: 'vetements-hommes', label: 'Vêtements Hommes' },
-            { id: 'vetements-femmes', label: 'Vêtements Femmes' },
+            { id: 'vetements-femme', label: 'Vêtements femme' },
+            { id: 'vetements-homme', label: 'Vêtements homme' },
             { id: 'chaussures', label: 'Chaussures' },
-            { id: 'montres-bijoux', label: 'Montres & Bijoux' },
-            { id: 'sacs-accessoires', label: 'Sacs & Accessoires' },
-            { id: 'beaute-sante', label: 'Beauté & Santé' },
+            { id: 'sacs', label: 'Sacs' },
+            { id: 'montres-bijoux', label: 'Montres & bijoux' },
+            { id: 'beaute-soins', label: 'Produits de beauté & soins' },
+            { id: 'cheveux', label: 'Cheveux (perruques, mèches)' },
+            { id: 'cosmetiques', label: 'Cosmétiques & maquillage' },
+            { id: 'parfums', label: 'Parfums & déodorants' },
+            { id: 'soins-traditionnels', label: 'Soins traditionnels' },
+            { id: 'onglerie', label: 'Onglerie & accessoires' },
+        ],
+        attributes: [
+            { id: 'type', label: 'Type', type: 'text' },
+            { id: 'size', label: 'Taille/Pointure', type: 'text' },
+            { id: 'brand', label: 'Marque', type: 'text' },
+            { id: 'gender', label: 'Genre', type: 'select', options: ['homme', 'femme', 'unisex', 'enfant'] },
         ]
     },
     {
-        id: 'emploi-services',
+        id: 'maison',
+        label: 'Maison & Construction',
+        subCategories: [
+            { id: 'meubles', label: 'Meubles' },
+            { id: 'materiaux', label: 'Matériaux de construction' },
+            { id: 'plomberie', label: 'Plomberie' },
+            { id: 'electricite', label: 'Électricité' },
+            { id: 'carrelage', label: 'Carrelage' },
+            { id: 'outils', label: 'Outils' },
+        ]
+    },
+    {
+        id: 'enfants',
+        label: 'Enfants & Famille',
+        subCategories: [
+            { id: 'vetements-enfants', label: 'Vêtements enfants' },
+            { id: 'fournitures-scolaires', label: 'Fournitures scolaires' },
+            { id: 'jouets', label: 'Jouets' },
+            { id: 'poussettes', label: 'Poussettes' },
+        ]
+    },
+    {
+        id: 'emploi',
         label: 'Emploi & Services',
         subCategories: [
             { id: 'offres-emploi', label: 'Offres d\'emploi' },
-            { id: 'prestations-services', label: 'Prestations de services' },
-            { id: 'cours-formations', label: 'Cours & Formations' },
-            { id: 'evenementiel', label: 'Événementiel' },
+            { id: 'recherche-emploi', label: 'Recherche d\'emploi' },
+            { id: 'services-domicile', label: 'Services à domicile' },
+            { id: 'reparations', label: 'Réparations' },
+            { id: 'transport-livraison', label: 'Transport & livraison' },
+            { id: 'formation', label: 'Formation' },
+        ],
+        attributes: [
+            { id: 'serviceType', label: 'Type', type: 'select', options: ['offer', 'search', 'service'] },
+            { id: 'contract', label: 'Contrat', type: 'select', options: ['cdi', 'cdd', 'interim', 'freelance', 'stage'] },
+        ]
+    },
+    {
+        id: 'agriculture',
+        label: 'Agriculture & Élevage',
+        subCategories: [
+            { id: 'animaux', label: 'Animaux' },
+            { id: 'produits-agricoles', label: 'Produits agricoles' },
+            { id: 'materiel-agricole', label: 'Matériel agricole' },
+            { id: 'semences', label: 'Semences' },
         ]
     },
     {
         id: 'loisirs',
-        label: 'Loisirs & Divertissement',
+        label: 'Loisirs',
         subCategories: [
-            { id: 'sports', label: 'Sports & Équipements' },
-            { id: 'instruments-musique', label: 'Instruments de musique' },
-            { id: 'livres-films', label: 'Livres, Films & Musique' },
-            { id: 'voyages', label: 'Voyages & Billetterie' },
+            { id: 'jeux-video', label: 'Jeux vidéo' },
+            { id: 'sport', label: 'Sport' },
+            { id: 'instruments', label: 'Instruments de musique' },
         ]
     },
-];
-
-export const PROVINCES = [
-    { id: 'kinshasa', label: 'Kinshasa' },
-    { id: 'katanga', label: 'Haut-Katanga (Lubumbashi)' },
-    { id: 'kongo-central', label: 'Kongo Central (Matadi)' },
-    { id: 'kwilu', label: 'Kwilu (Kikwit)' },
-    { id: 'nord-kivu', label: 'Nord-Kivu (Goma)' },
-    { id: 'sud-kivu', label: 'Sud-Kivu (Bukavu)' },
-    { id: 'ituri', label: 'Ituri (Bunia)' },
-    { id: 'tshopo', label: 'Tshopo (Kisangani)' },
-    { id: 'equateur', label: 'Équateur (Mbandaka)' },
-    { id: 'kasai-oriental', label: 'Kasaï-Oriental (Mbuji-Mayi)' },
-    { id: 'kasai-central', label: 'Kasaï-Central (Kananga)' },
-    { id: 'lualaba', label: 'Lualaba (Kolwezi)' },
 ];

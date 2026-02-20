@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { updateProfile as updateProfileService } from '../services/auth';
+import { updateProfile as updateProfileService, verifyPhone as verifyPhoneService } from '../services/auth';
 
 const Settings = () => {
     const { user, updateProfile: updateAuthProfile } = useAuth();
@@ -10,9 +9,10 @@ const Settings = () => {
         phone: user?.phone || '',
         whatsapp: user?.whatsapp || '',
         showPhone: user?.settings?.showPhone ?? true,
-        showWhatsApp: user?.settings?.showWhatsApp ?? true
+        showWhatsApp: user?.settings?.showWhatsApp ?? user?.showWhatsApp ?? true
     });
     const [loading, setLoading] = useState(false);
+    const [verifying, setVerifying] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
 
     // Populate form with user data
@@ -22,8 +22,8 @@ const Settings = () => {
                 name: user.name || '',
                 phone: user.phone || '',
                 whatsapp: user.whatsapp || '',
-                showPhone: user.settings?.showPhone ?? true,
-                showWhatsApp: user.settings?.showWhatsApp ?? true
+                showPhone: user.showPhone ?? true,
+                showWhatsApp: user.whatsapp ? true : false
             });
         }
     }, [user]);
@@ -45,7 +45,7 @@ const Settings = () => {
             const res = await updateAuthProfile(formData);
             if (res.success) {
                 setMessage({ type: 'success', text: 'Profil mis à jour avec succès !' });
-                window.location.reload();
+                setTimeout(() => window.location.reload(), 1000);
             }
         } catch (error: any) {
             setMessage({
@@ -57,12 +57,34 @@ const Settings = () => {
         }
     };
 
+    const handleVerifyPhone = async () => {
+        setVerifying(true);
+        setMessage({ type: '', text: '' });
+        try {
+            const res = await verifyPhoneService();
+            if (res.success) {
+                setMessage({ type: 'success', text: res.data.message || 'Téléphone vérifié avec succès !' });
+                setTimeout(() => window.location.reload(), 1500);
+            }
+        } catch (error: any) {
+            console.error(error);
+            const code = error.response?.data?.error?.code;
+            if (code === 'OTP_REQUIRED') {
+                setMessage({ type: 'info', text: 'Un code OTP a été envoyé (Simulation: Mode Test activé côté serveur pour MVP)' });
+            } else {
+                setMessage({ type: 'error', text: error.response?.data?.error?.message || 'Erreur de vérification' });
+            }
+        } finally {
+            setVerifying(false);
+        }
+    };
+
     return (
-        <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-6">
+        <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-6 mt-8">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Paramètres du profil</h2>
 
             {message.text && (
-                <div className={`p-4 rounded-md mb-6 ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                <div className={`p-4 rounded-md mb-6 ${message.type === 'success' ? 'bg-green-50 text-green-700' : message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'
                     }`}>
                     {message.text}
                 </div>
@@ -80,18 +102,48 @@ const Settings = () => {
                     />
                 </div>
 
+                {/* Name */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                </div>
+
                 {/* Phone */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Numéro de téléphone</label>
-                    <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Ex: +243 000 000 000"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Nécessaire pour être contacté par les acheteurs.</p>
+                    <div className="flex gap-2">
+                        <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Ex: +243 000 000 000"
+                        />
+                    </div>
+
+                    <div className="mt-2 flex items-center justify-between">
+                        <p className="text-xs text-gray-500">Nécessaire pour être contacté.</p>
+                        {!user?.isPhoneVerified && formData.phone && (
+                            <button
+                                type="button"
+                                onClick={handleVerifyPhone}
+                                disabled={verifying}
+                                className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 transition-colors disabled:opacity-50"
+                            >
+                                {verifying ? 'Vérification...' : 'Vérifier maintenant'}
+                            </button>
+                        )}
+                        {user?.isPhoneVerified && (
+                            <span className="text-xs text-green-600 font-bold bg-green-50 px-2 py-1 rounded">✅ Vérifié</span>
+                        )}
+                    </div>
                 </div>
 
                 {/* WhatsApp */}

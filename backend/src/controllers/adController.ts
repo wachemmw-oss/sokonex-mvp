@@ -83,6 +83,11 @@ export const getAds = async (req: Request, res: Response) => {
         // Delivery
         if (delivery === '1') query['delivery.available'] = true;
 
+        // Promoted
+        if (req.query.promoted) {
+            query.promoted = req.query.promoted === 'true';
+        }
+
         // Price Range
         // “Gratuit” => priceType=free, “Sur demande” => on_request
         if (min || max) {

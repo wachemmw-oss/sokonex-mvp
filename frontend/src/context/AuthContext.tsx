@@ -3,12 +3,14 @@ import { login as loginService, register as registerService, getMe, updateProfil
 
 interface User {
     _id: string;
+    name: string;
     email: string;
     role: 'user' | 'admin';
     phone?: string;
-    isPhoneVerified: boolean;
-    name?: string;
     whatsapp?: string;
+    showPhone?: boolean;
+    showWhatsApp?: boolean;
+    isPhoneVerified?: boolean;
     settings?: {
         showPhone: boolean;
         showWhatsApp: boolean;

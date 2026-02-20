@@ -53,7 +53,7 @@ const AdSchema: Schema = new Schema(
             default: 'active',
             index: true,
         },
-        promoted: { type: Boolean, default: false },
+        promoted: { type: Boolean, default: false, index: true },
         promotedUntil: { type: Date },
     },
     { timestamps: true }
