@@ -80,11 +80,11 @@ const Settings = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-6 mt-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Paramètres du profil</h2>
+        <div className="max-w-2xl mx-auto bg-white shadow-sm border border-gray-100 rounded-sm p-8 mt-8 font-sans">
+            <h2 className="text-2xl font-extrabold mb-8 text-black tracking-tight uppercase">Paramètres du profil</h2>
 
             {message.text && (
-                <div className={`p-4 rounded-md mb-6 ${message.type === 'success' ? 'bg-green-50 text-green-700' : message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'
+                <div className={`p-4 rounded-sm mb-6 text-sm font-medium ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : message.type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-gray-50 text-gray-700 border border-gray-200'
                     }`}>
                     {message.text}
                 </div>
@@ -93,92 +93,92 @@ const Settings = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Email (Read-only) */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email (non modifiable)</label>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email (non modifiable)</label>
                     <input
                         type="email"
                         value={user?.email || ''}
                         disabled
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 text-gray-500"
+                        className="w-full border border-gray-200 rounded-sm px-3 py-2 bg-gray-50 text-gray-400 focus:outline-none"
                     />
                 </div>
 
                 {/* Name */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Nom complet</label>
                     <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
                     />
                 </div>
 
                 {/* Phone */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Numéro de téléphone</label>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Numéro de téléphone</label>
                     <div className="flex gap-2">
                         <input
                             type="tel"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
                             placeholder="Ex: +243 000 000 000"
                         />
                     </div>
 
                     <div className="mt-2 flex items-center justify-between">
-                        <p className="text-xs text-gray-500">Nécessaire pour être contacté.</p>
+                        <p className="text-xs text-gray-400">Nécessaire pour être contacté.</p>
                         {!user?.isPhoneVerified && formData.phone && (
                             <button
                                 type="button"
                                 onClick={handleVerifyPhone}
                                 disabled={verifying}
-                                className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 transition-colors disabled:opacity-50"
+                                className="text-xs font-bold uppercase tracking-wide bg-black text-white px-3 py-1.5 rounded-sm hover:bg-gray-800 transition-colors disabled:opacity-50"
                             >
                                 {verifying ? 'Vérification...' : 'Vérifier maintenant'}
                             </button>
                         )}
                         {user?.isPhoneVerified && (
-                            <span className="text-xs text-green-600 font-bold bg-green-50 px-2 py-1 rounded">✅ Vérifié</span>
+                            <span className="text-xs text-black font-bold border border-black px-2 py-1 rounded-sm uppercase tracking-wide">Vérifié</span>
                         )}
                     </div>
                 </div>
 
                 {/* WhatsApp */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Numéro WhatsApp (Optionnel)</label>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Numéro WhatsApp (Optionnel)</label>
                     <input
                         type="tel"
                         name="whatsapp"
                         value={formData.whatsapp}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
                         placeholder="Ex: +243 000 000 000"
                     />
                 </div>
 
                 {/* Visibility Toggle */}
-                <div className="flex items-center">
+                <div className="flex items-center mt-6">
                     <input
                         type="checkbox"
                         name="showPhone"
                         id="showPhone"
                         checked={formData.showPhone}
                         onChange={handleChange}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded-sm transition-colors cursor-pointer accent-black"
                     />
-                    <label htmlFor="showPhone" className="ml-2 block text-sm text-gray-900">
+                    <label htmlFor="showPhone" className="ml-2 block text-sm font-medium text-gray-700 cursor-pointer">
                         Afficher mon numéro sur mes annonces
                     </label>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-6">
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                        className="w-full bg-black text-white py-3 px-4 rounded-sm font-bold tracking-wide hover:bg-gray-800 focus:outline-none transition-colors active:scale-95 disabled:opacity-50"
                     >
                         {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
                     </button>

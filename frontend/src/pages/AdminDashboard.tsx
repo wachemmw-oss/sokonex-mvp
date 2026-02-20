@@ -44,50 +44,50 @@ const AdminDashboard = () => {
     const reports = data?.data || [];
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-8">Administration - Modération</h1>
+        <div className="max-w-6xl mx-auto p-6 font-sans">
+            <h1 className="text-2xl font-extrabold mb-8 tracking-tight uppercase">Administration - Modération</h1>
 
-            <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="bg-white shadow-sm border border-gray-100 rounded-sm overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raison</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Annonce</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Raison</th>
+                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Annonce</th>
+                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Note</th>
+                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white divide-y divide-gray-100">
                         {reports.map((report: any) => (
-                            <tr key={report._id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <tr key={report._id} className="hover:bg-gray-50 transition-colors">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-medium">
                                     {new Date(report.createdAt).toLocaleDateString()}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${report.reason === 'scam' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-bold rounded-sm uppercase tracking-wider ${report.reason === 'scam' ? 'bg-black text-white' : 'bg-gray-200 text-black'
                                         }`}>
                                         {report.reason}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-black font-bold">
                                     {report.adId?.title || 'Annonce supprimée'}
-                                    <div className="text-xs text-gray-500">{report.adId?.subCategory}</div>
+                                    <div className="text-xs text-gray-400 font-normal">{report.adId?.subCategory}</div>
                                 </td>
-                                <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
                                     {report.text || '-'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                    <a href={`/ad/${report.adId?._id}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-900">Voir</a>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-bold space-x-3">
+                                    <a href={`/ad/${report.adId?._id}`} target="_blank" rel="noopener noreferrer" className="text-black underline hover:text-gray-600">Voir</a>
                                     <button
                                         onClick={() => { if (window.confirm('Retirer cette annonce ?')) removeMutation.mutate(report.adId?._id) }}
-                                        className="text-red-600 hover:text-red-900"
+                                        className="text-red-600 hover:text-red-800 underline"
                                     >
                                         Retirer
                                     </button>
                                     <button
                                         onClick={() => { if (window.confirm('Suspendre l\'auteur de ce signalement ? (Attention, logic to suspend REPORTER or AD OWNER needed)')) suspendMutation.mutate(report.reporterUserId?._id) }}
-                                        className="text-orange-600 hover:text-orange-900"
+                                        className="text-orange-600 hover:text-orange-800 underline"
                                         title="Suspendre le signalant (debug)"
                                     >
                                         Suspendre
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
                         ))}
                         {reports.length === 0 && (
                             <tr>
-                                <td colSpan={5} className="px-6 py-12 text-center text-gray-500">Aucun signalement</td>
+                                <td colSpan={5} className="px-6 py-12 text-center text-gray-500 font-medium">Aucun signalement</td>
                             </tr>
                         )}
                     </tbody>

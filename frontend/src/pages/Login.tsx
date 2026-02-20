@@ -20,22 +20,22 @@ const Login = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded">
-            <h2 className="text-2xl font-bold mb-6">Connexion</h2>
-            {error && <div className="text-red-500 mb-4">{error}</div>}
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="max-w-md mx-auto mt-10 p-8 bg-white border border-gray-100 rounded-sm shadow-sm font-sans">
+            <h2 className="text-2xl font-extrabold mb-8 text-center uppercase tracking-tight">Connexion</h2>
+            {error && <div className="text-red-500 mb-4 text-sm text-center">{error}</div>}
+            <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label className="block text-sm font-medium">Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border p-2 rounded" required />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" required />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium">Mot de passe</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border p-2 rounded" required />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Mot de passe</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" required />
                 </div>
-                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">Se connecter</button>
+                <button type="submit" className="w-full bg-black text-white font-bold py-3 rounded-sm hover:bg-gray-800 transition active:scale-95">Se connecter</button>
             </form>
-            <p className="mt-4 text-center">
-                Pas de compte ? <Link to="/register" className="text-blue-600">S'inscrire</Link>
+            <p className="mt-6 text-center text-sm text-gray-600">
+                Pas de compte ? <Link to="/register" className="text-black font-bold underline hover:text-gray-700">S'inscrire</Link>
             </p>
         </div>
     );

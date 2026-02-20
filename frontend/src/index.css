@@ -5,33 +5,17 @@
 }
 
 body {
-  background-color: #f8fafc;
-  /* slate-50 - slighly cooler grey */
-  color: #1e293b;
-  /* slate-800 */
+  background-color: #ffffff;
+  color: #111827;
 }
 
 /* Custom Utilities for Marketplace Vibe */
 @layer utilities {
-  .text-highlight {
-    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .bg-gradient-primary {
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-  }
-
-  .bg-gradient-orange {
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-  }
-
   .shadow-card {
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   .shadow-card-hover {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 }

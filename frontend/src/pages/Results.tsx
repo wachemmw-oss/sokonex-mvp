@@ -56,7 +56,7 @@ const Results = () => {
                         <div className="p-4 border-t sticky bottom-0 bg-white">
                             <button
                                 onClick={() => setIsFilterOpen(false)}
-                                className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition"
+                                className="w-full bg-black text-white font-bold py-3 rounded-sm active:scale-95 transition"
                             >
                                 Afficher les résultats
                             </button>
@@ -65,18 +65,18 @@ const Results = () => {
                 </div>
             )}
 
-            {/* Sort Dropdown & View Toggles (Desktop only for sort, incorporated in filter drawer for mobile ideally but kept here for now) */}
+            {/* Sort Dropdown & View Toggles */}
             <div className="hidden lg:flex justify-between items-center mb-4">
-                <div className="flex items-center space-x-2 bg-gray-100 p-1 rounded-lg">
+                <div className="flex items-center space-x-2 bg-gray-50 p-1 rounded-sm">
                     <button
                         onClick={() => setViewMode('grid')}
-                        className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`p-2 rounded-sm transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-black' : 'text-gray-400 hover:text-black'}`}
                     >
                         <LayoutGrid className="w-5 h-5" />
                     </button>
                     <button
                         onClick={() => setViewMode('list')}
-                        className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`p-2 rounded-sm transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-black' : 'text-gray-400 hover:text-black'}`}
                     >
                         <List className="w-5 h-5" />
                     </button>
@@ -84,7 +84,7 @@ const Results = () => {
 
                 <div className="flex flex-1 justify-end">
                     <select
-                        className="border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="border border-gray-200 rounded-sm py-2 px-3 text-sm focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                         value={params.sort || ''}
                         onChange={(e) => {
                             const newParams = new URLSearchParams(searchParams);
@@ -101,10 +101,10 @@ const Results = () => {
                 </div>
             </div>
 
-            {/* View Toggle Mobile (Only list/grid, sort is in drawer/above) */}
+            {/* View Toggle Mobile */}
             <div className="flex lg:hidden justify-end mb-4 gap-2">
                 <select
-                    className="flex-1 border border-gray-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="flex-1 border border-gray-200 rounded-sm py-2 px-3 text-sm focus:outline-none focus:border-black focus:ring-1 focus:ring-black bg-white"
                     value={params.sort || ''}
                     onChange={(e) => {
                         const newParams = new URLSearchParams(searchParams);
@@ -118,16 +118,16 @@ const Results = () => {
                     <option value="price_asc">Prix Croissant</option>
                     <option value="price_desc">Prix Décroissant</option>
                 </select>
-                <div className="flex items-center space-x-1 bg-gray-100 p-1 rounded-lg">
+                <div className="flex items-center space-x-1 bg-gray-50 p-1 rounded-sm">
                     <button
                         onClick={() => setViewMode('grid')}
-                        className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`p-2 rounded-sm transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-black' : 'text-gray-400 hover:text-black'}`}
                     >
                         <LayoutGrid className="w-4 h-4" />
                     </button>
                     <button
                         onClick={() => setViewMode('list')}
-                        className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`p-2 rounded-sm transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-black' : 'text-gray-400 hover:text-black'}`}
                     >
                         <List className="w-4 h-4" />
                     </button>
@@ -171,7 +171,7 @@ const Results = () => {
                                                     </div>
                                                     <div className="flex justify-between items-end">
                                                         <div>
-                                                            <p className="text-blue-600 font-bold">
+                                                            <p className="text-black font-bold">
                                                                 {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                                             </p>
                                                             <p className="text-xs text-gray-400 mt-1">{ad.city} • {new Date(ad.createdAt).toLocaleDateString()}</p>
@@ -183,13 +183,13 @@ const Results = () => {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-16 bg-white rounded-lg border border-dashed border-gray-300">
-                                    <div className="text-gray-400 mb-2">
+                                <div className="text-center py-16 bg-white rounded-sm border border-dashed border-gray-200">
+                                    <div className="text-gray-300 mb-2">
                                         <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     </div>
-                                    <p className="text-gray-600 text-lg font-medium">Aucune annonce trouvée.</p>
-                                    <p className="text-gray-500">Essayez de modifier vos filtres ou effectuez une nouvelle recherche.</p>
-                                    <button onClick={() => window.location.href = '/results'} className="mt-4 text-blue-600 hover:underline">
+                                    <p className="text-black text-lg font-medium">Aucune annonce trouvée.</p>
+                                    <p className="text-gray-500 text-sm mt-1">Essayez de modifier vos filtres ou effectuez une nouvelle recherche.</p>
+                                    <button onClick={() => window.location.href = '/results'} className="mt-4 text-black font-bold underline hover:text-gray-700 transition">
                                         Voir toutes les annonces
                                     </button>
                                 </div>

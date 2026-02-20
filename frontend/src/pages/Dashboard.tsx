@@ -26,41 +26,42 @@ const DashboardHome = () => {
 
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-4">Mon Compte</h2>
-            <div className="bg-white p-6 shadow-sm rounded-lg mb-6 border border-gray-100">
+            <h2 className="text-2xl font-extrabold mb-6 tracking-tight uppercase">Mon Compte</h2>
+            <div className="bg-white p-6 shadow-sm rounded-sm mb-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-lg font-medium text-gray-900">{user?.email}</p>
-                        <p className="text-sm text-gray-500 uppercase tracking-wider">{user?.role}</p>
+                        <p className="text-lg font-bold text-black">{user?.email}</p>
+                        <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{user?.role}</p>
                     </div>
                     {user?.isPhoneVerified ? (
-                        <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Vérifié</span>
+                        <span className="bg-gray-100 text-black text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Vérifié</span>
                     ) : (
-                        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Non vérifié</span>
+                        <span className="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Non vérifié</span>
                     )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-gray-700">
-                        <strong>Téléphone:</strong> {user?.phone || 'Non défini'}
+                <div className="mt-6 pt-4 border-t border-gray-100">
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                        Téléphone
                     </p>
+                    <p className="text-black font-medium mt-1">{user?.phone || 'Non défini'}</p>
                     {user?.phone && !user?.isPhoneVerified && (
-                        <button onClick={handleVerify} className="mt-2 text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors">
-                            Vérifier maintenant (Mode Test)
+                        <button onClick={handleVerify} className="mt-3 text-xs bg-black hover:bg-gray-800 text-white font-bold px-4 py-2 rounded-sm uppercase tracking-wide transition-colors">
+                            Vérifier maintenant
                         </button>
                     )}
                 </div>
-                {msg && <p className="mt-2 text-blue-600 text-sm">{msg}</p>}
+                {msg && <p className="mt-3 text-black text-sm font-semibold">{msg}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Link to="/account/my-ads" className="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">Mes Annonces</h5>
-                    <p className="font-normal text-gray-700">Gérer vos annonces publiées.</p>
+                <Link to="/account/my-ads" className="block p-6 bg-white border border-gray-100 rounded-sm shadow-sm hover:border-black transition-colors group">
+                    <h5 className="mb-2 text-xl font-bold tracking-tight text-black group-hover:underline">Mes Annonces</h5>
+                    <p className="font-normal text-sm text-gray-500">Gérer vos annonces publiées.</p>
                 </Link>
-                <Link to="/account/settings" className="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">Paramètres</h5>
-                    <p className="font-normal text-gray-700">Modifier votre profil et vos informations.</p>
+                <Link to="/account/settings" className="block p-6 bg-white border border-gray-100 rounded-sm shadow-sm hover:border-black transition-colors group">
+                    <h5 className="mb-2 text-xl font-bold tracking-tight text-black group-hover:underline">Paramètres</h5>
+                    <p className="font-normal text-sm text-gray-500">Modifier votre profil et vos informations.</p>
                 </Link>
             </div>
         </div>

@@ -25,7 +25,7 @@ const Navbar = () => {
     const isHome = location.pathname === '/';
 
     return (
-        <nav className={`bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100 font-sans h-16 transition-all duration-300 ${isHome ? 'hidden md:block' : 'block'}`}>
+        <nav className={`bg-white sticky top-0 z-50 border-b border-gray-100 font-sans h-14 md:h-16 transition-all duration-300 ${isHome ? 'hidden md:block' : 'block'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                 <div className="flex justify-between items-center h-full gap-4">
                     {/* Logo */}
@@ -38,30 +38,30 @@ const Navbar = () => {
                     </Link>
 
                     {/* Integrated Search Bar (Desktop) */}
-                    <div className="hidden md:flex flex-1 max-w-lg mx-4">
-                        <form onSubmit={handleSearch} className="w-full relative group">
+                    <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+                        <form onSubmit={handleSearch} className="w-full relative group flex items-center">
                             <input
                                 type="text"
-                                placeholder="Rechercher sur Sokonex..."
-                                className="w-full bg-slate-50 border border-transparent group-hover:border-blue-200 rounded-full py-2.5 pl-5 pr-12 text-sm focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 transition-all outline-none"
+                                placeholder="Rechercher des articles..."
+                                className="w-full bg-gray-100 border-none rounded-sm py-2 px-4 text-sm focus:ring-0 focus:outline-none focus:bg-gray-200 transition-colors placeholder-gray-500"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <button type="submit" className="absolute right-1 top-1 h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition shadow-sm">
+                            <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-600 hover:text-black transition">
                                 <Search className="w-4 h-4" />
                             </button>
                         </form>
                     </div>
 
                     {/* Right Side Actions */}
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-4">
                         {/* Mobile Search Icon (visible only on small screens) */}
-                        <Link to="/results" className="md:hidden p-2 text-slate-600 hover:text-blue-600 transition">
-                            <Search className="w-6 h-6" />
+                        <Link to="/results" className="md:hidden p-2 text-gray-800 hover:text-black transition">
+                            <Search className="w-5 h-5" />
                         </Link>
 
                         {/* Post Ad Button - Hidden on Mobile (moved to BottomTab) */}
-                        <Link to="/post" className="hidden md:inline-flex bg-gradient-orange hover:brightness-110 text-white px-5 py-2.5 rounded-full font-bold text-sm transition shadow-lg shadow-orange-500/20 items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
+                        <Link to="/post" className="hidden md:inline-flex bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-sm font-semibold text-sm transition items-center gap-2">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
                             Publier
                         </Link>
@@ -71,7 +71,7 @@ const Navbar = () => {
                             <div className="relative">
                                 <button
                                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-50 hover:bg-blue-50 text-slate-600 hover:text-blue-600 transition focus:outline-none ring-2 ring-transparent focus:ring-blue-100"
+                                    className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 text-gray-800 hover:text-black transition focus:outline-none"
                                 >
                                     <UserIcon className="w-5 h-5" />
                                 </button>
@@ -109,9 +109,9 @@ const Navbar = () => {
                                 )}
                             </div>
                         ) : (
-                            <div className="flex items-center space-x-1">
-                                <Link to="/login" className="text-slate-600 font-semibold hover:text-blue-600 text-sm px-4 py-2 transition-colors">Connexion</Link>
-                                <Link to="/register" className="bg-blue-50 text-blue-700 font-bold text-sm px-5 py-2.5 rounded-full hover:bg-blue-100 transition hidden sm:inline-block">
+                            <div className="flex items-center space-x-2">
+                                <Link to="/login" className="text-gray-800 font-medium hover:text-black text-sm px-3 py-2 transition-colors">Connexion</Link>
+                                <Link to="/register" className="bg-gray-100 text-black font-medium text-sm px-4 py-2 rounded-sm hover:bg-gray-200 transition hidden sm:inline-block">
                                     Inscription
                                 </Link>
                             </div>

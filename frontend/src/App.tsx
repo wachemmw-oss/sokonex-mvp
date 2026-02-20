@@ -20,9 +20,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+          <div className="min-h-screen bg-white text-gray-900 font-sans">
             <Navbar />
-            <div className="pb-16 md:pb-0"> {/* Add padding for bottom tab on mobile */}
+            <div className="pb-[60px] md:pb-0"> {/* Add padding for bottom tab on mobile */}
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/results" element={<Results />} />

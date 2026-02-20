@@ -85,17 +85,17 @@ const FilterSidebar = () => {
     const currentSubCategories = CATEGORIES.find(c => c.id === filters.category)?.subCategories || [];
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
+        <div className="bg-white p-4 rounded-sm shadow-sm border border-gray-100">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="font-bold text-gray-800">Filtres</h3>
-                <button onClick={handleClear} className="text-xs text-blue-600 hover:underline">Tout effacer</button>
+                <h3 className="font-bold text-gray-900 uppercase tracking-wider text-sm">Filtres</h3>
+                <button onClick={handleClear} className="text-xs text-black underline hover:text-gray-600 transition">Tout effacer</button>
             </div>
 
-            <form onSubmit={handleApply} className="space-y-4">
+            <form onSubmit={handleApply} className="space-y-5">
                 {/* Search */}
                 <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Recherche</label>
-                    <input name="q" value={filters.q} onChange={handleChange} placeholder="Mots-clés..." className="w-full border p-2 rounded text-sm" />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Recherche</label>
+                    <input name="q" value={filters.q} onChange={handleChange} placeholder="Mots-clés..." className="w-full border border-gray-200 bg-gray-50 focus:bg-white p-2 rounded-sm text-sm focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors" />
                 </div>
 
                 {/* Category */}
@@ -234,7 +234,7 @@ const FilterSidebar = () => {
                 ))}
 
                 {/* Apply Button */}
-                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded text-sm font-semibold hover:bg-blue-700 transition">
+                <button type="submit" className="w-full bg-black text-white py-2.5 rounded-sm text-sm font-semibold hover:bg-gray-800 transition active:scale-95">
                     Appliquer
                 </button>
             </form>
