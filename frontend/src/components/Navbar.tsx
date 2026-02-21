@@ -26,9 +26,9 @@ const Navbar = () => {
     const isAdDetails = location.pathname.startsWith('/ad/');
 
     return (
-        <nav className="sticky top-0 z-50 font-sans transition-all duration-300" style={{ backgroundColor: '#214829' }}>
+        <nav className="bg-white sticky top-0 z-50 font-sans transition-all duration-300">
             {/* Desktop Navbar */}
-            <div className="hidden md:block h-16">
+            <div className="hidden md:block border-b border-gray-100 h-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                     <div className="flex justify-between items-center h-full gap-4">
                         {/* Logo */}
@@ -47,11 +47,11 @@ const Navbar = () => {
                                     <input
                                         type="text"
                                         placeholder="Rechercher des articles..."
-                                        className="w-full bg-white/10 border-none rounded-sm py-2 px-4 text-sm text-white focus:ring-0 focus:outline-none focus:bg-white/20 transition-colors placeholder-white/60"
+                                        className="w-full bg-gray-100 border-none rounded-sm py-2 px-4 text-sm focus:ring-0 focus:outline-none focus:bg-gray-200 transition-colors placeholder-gray-500"
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                     />
-                                    <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-white/70 hover:text-white transition">
+                                    <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-600 hover:text-black transition">
                                         <Search className="w-4 h-4" />
                                     </button>
                                 </form>
@@ -82,7 +82,7 @@ const Navbar = () => {
                                 <div className="relative">
                                     <button
                                         onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                        className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-white transition focus:outline-none"
+                                        className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 text-gray-800 hover:text-black transition focus:outline-none"
                                     >
                                         <UserIcon className="w-5 h-5" />
                                     </button>
@@ -121,7 +121,7 @@ const Navbar = () => {
                                 </div>
                             ) : (
                                 <div className="flex items-center space-x-2">
-                                    <Link to="/login" className="text-white/80 font-medium hover:text-white text-sm px-3 py-2 transition-colors">Connexion</Link>
+                                    <Link to="/login" className="text-gray-800 font-medium hover:text-black text-sm px-3 py-2 transition-colors">Connexion</Link>
                                     <Link to="/register" className="font-medium text-sm px-4 py-2 rounded-sm transition hidden sm:inline-block" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                                         Inscription
                                     </Link>
@@ -134,7 +134,7 @@ const Navbar = () => {
 
             {/* Mobile Navbar (Matching Exact Screenshot) */}
             {!isAdDetails && (
-                <div className="md:hidden px-3 py-2.5 flex items-center gap-3" style={{ backgroundColor: '#214829' }}>
+                <div className="md:hidden px-3 py-2.5 flex items-center gap-3 border-b border-gray-100 bg-white">
                     <button className="font-bold text-[13px] px-4 py-2 rounded-sm flex items-center justify-center shrink-0 h-[42px]" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                         Ville
                     </button>
@@ -142,15 +142,15 @@ const Navbar = () => {
                         <input
                             type="text"
                             placeholder="Rechercher des articles..."
-                            className="w-full h-full bg-white/10 border-none rounded-sm py-0 pl-3 pr-12 text-[13px] text-white focus:ring-0 focus:outline-none placeholder-white/50"
+                            className="w-full h-full bg-gray-100 border-none rounded-sm py-0 pl-3 pr-12 text-[13px] focus:ring-0 focus:outline-none placeholder-gray-500"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button type="submit" className="absolute right-1 top-1 bottom-1 w-[46px] flex items-center justify-center rounded-sm transition-colors" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                        <button type="submit" className="absolute right-1 top-1 bottom-1 w-[46px] flex items-center justify-center rounded-sm transition-colors" style={{ backgroundColor: '#214829', color: 'white' }}>
                             <Search className="w-5 h-5" />
                         </button>
                     </form>
-                    <button className="text-white/80 hover:text-white p-1 shrink-0 flex items-center justify-center h-[42px]">
+                    <button className="text-gray-800 p-1 shrink-0 flex items-center justify-center h-[42px]">
                         <Bell className="w-[26px] h-[26px]" strokeWidth={1.5} />
                     </button>
                 </div>

@@ -11,10 +11,10 @@ const BottomTab = () => {
     const isHome = isActive('/') || location.pathname === '';
 
     const tabClass = (active: boolean) =>
-        `flex flex-col items-center justify-center w-16 h-full transition-colors ${active ? 'text-[#FFBA34]' : 'text-white/60 hover:text-white/90'}`;
+        `flex flex-col items-center justify-center w-16 h-full transition-colors ${active ? 'text-[#214829]' : 'text-gray-500 hover:text-gray-800'}`;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden font-sans pb-safe shadow-[0_-2px_10px_rgba(33,72,41,0.3)]" style={{ backgroundColor: '#214829' }}>
+        <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden font-sans bg-white border-t border-gray-200 pb-safe shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
             <div className="h-[60px] flex items-center justify-around px-2">
                 <Link to="/" className={tabClass(isHome)}>
                     <Home className="w-[26px] h-[26px] mb-1" strokeWidth={isHome ? 2.5 : 1.5} />
