@@ -39,7 +39,7 @@ const Home = () => {
     });
 
     // Fetch feed Ads based on active tab — max 10
-    const { data: feedAds } = useQuery({
+    const { data: feedAds, isLoading: feedLoading } = useQuery({
         queryKey: ['ads', 'feed', activeTab],
         queryFn: () => {
             if (activeTab === 'tendance') return getAds({ promoted: true, limit: 10 });
@@ -160,31 +160,48 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Grid/List */}
-                    <div className={viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0" : "flex flex-col gap-0 md:gap-2 px-0 md:px-0"}>
-                        {feedAds?.data?.items?.map((ad: any) => (
-                            <AdCard key={ad._id} ad={ad} viewMode={viewMode} />
-                        ))}
-                    </div>
-
-                    {/* Voir plus button */}
-                    {feedAds?.data?.items?.length > 0 && (
-                        <div className="flex justify-center mt-6 mb-2 px-2">
-                            <Link
-                                to="/results"
-                                className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-3 font-bold text-sm rounded-sm border-2 transition hover:opacity-80 active:scale-95"
-                                style={{ borderColor: '#214829', color: '#214829' }}
-                            >
-                                Voir plus d'annonces
-                                <ChevronRight className="w-4 h-4" />
-                            </Link>
+                    {/* 3 états : chargement / résultats / vide */}
+                    {feedLoading ? (
+                        /* Skeleton — s'affiche pendant la requête */
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+                                <div key={i} className="rounded-sm overflow-hidden bg-white">
+                                    <div className="aspect-square bg-gray-200 animate-pulse" />
+                                    <div className="p-2 space-y-1.5">
+                                        <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+                                        <div className="h-3 bg-gray-200 rounded animate-pulse w-1/2" />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    )}
+                    ) : feedAds?.data?.items?.length > 0 ? (
+                        <>
+                            {/* Grid/List d'annonces */}
+                            <div className={viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0" : "flex flex-col gap-0 md:gap-2"}>
+                                {feedAds.data.items.map((ad: any) => (
+                                    <AdCard key={ad._id} ad={ad} viewMode={viewMode} />
+                                ))}
+                            </div>
 
-                    {(!feedAds?.data?.items || feedAds.data.items.length === 0) && (
+                            {/* Bouton Voir plus */}
+                            <div className="flex justify-center mt-6 mb-2 px-2">
+                                <Link
+                                    to="/results"
+                                    className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-3 font-bold text-sm rounded-sm border-2 transition hover:opacity-80 active:scale-95"
+                                    style={{ borderColor: '#214829', color: '#214829' }}
+                                >
+                                    Voir plus d'annonces
+                                    <ChevronRight className="w-4 h-4" />
+                                </Link>
+                            </div>
+                        </>
+                    ) : (
+                        /* Vide — seulement quand la requête est terminée et il n'y a rien */
                         <div className="text-center py-12 bg-white rounded-lg mt-2">
                             <p className="text-gray-500">Aucun article trouvé.</p>
-                            <Link to="/post" className="border border-black text-black font-bold mt-4 px-6 py-2 rounded-sm inline-block hover:bg-black hover:text-white transition">Vendre un article</Link>
+                            <Link to="/post" className="border border-black text-black font-bold mt-4 px-6 py-2 rounded-sm inline-block hover:bg-black hover:text-white transition">
+                                Vendre un article
+                            </Link>
                         </div>
                     )}
                 </div>
