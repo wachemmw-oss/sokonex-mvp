@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getMyAds, deleteAd } from '../services/ads';
+import { CheckCircle2, Info } from 'lucide-react';
 import {
     UserCircleIcon,
     DocumentTextIcon,
@@ -108,17 +109,76 @@ const MyAds = () => {
     );
 };
 
-const EarnMoney = () => <div className="p-8 bg-white shadow-sm border border-gray-100 rounded-sm text-center">
-    <CurrencyDollarIcon className="w-16 h-16 mx-auto mb-4 text-green-600" />
-    <h2 className="text-2xl font-bold mb-2">Comment faire de l'argent ?</h2>
-    <p className="text-gray-600 max-w-md mx-auto">Découvrez nos astuces et outils pour maximiser vos ventes sur SOKONEX Marketplace.</p>
-</div>;
+const EarnMoney = () => (
+    <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-sm">
+        <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-[#FFBA34] rounded-full flex items-center justify-center">
+                <CurrencyDollarIcon className="w-7 h-7 text-[#1A3620]" />
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-black uppercase tracking-tight">Comment faire de l'argent ?</h2>
+        </div>
 
-const FAQ = () => <div className="p-8 bg-white shadow-sm border border-gray-100 rounded-sm text-center">
-    <QuestionMarkCircleIcon className="w-16 h-16 mx-auto mb-4 text-blue-600" />
-    <h2 className="text-2xl font-bold mb-2">Foire aux questions</h2>
-    <p className="text-gray-600 max-w-md mx-auto">Trouvez les réponses à vos questions concernant la gestion de votre boutique et de vos annonces.</p>
-</div>;
+        <div className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-gray-50 rounded-sm">
+                    <h3 className="font-bold text-sm mb-2 flex items-center gap-2 text-black">
+                        <CheckCircle2 className="w-4 h-4 text-green-600" /> Belles Photos
+                    </h3>
+                    <p className="text-xs text-gray-600">Prenez des photos à la lumière du jour. Les annonces avec de belles photos se vendent 3x plus vite.</p>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-sm">
+                    <h3 className="font-bold text-sm mb-2 flex items-center gap-2 text-black">
+                        <CheckCircle2 className="w-4 h-4 text-green-600" /> Prix Juste
+                    </h3>
+                    <p className="text-xs text-gray-600">Comparez les prix des produits similaires. Un prix compétitif attire plus d'acheteurs.</p>
+                </div>
+            </div>
+
+            <div className="p-5" style={{ backgroundColor: '#EBF5EE', borderLeft: '4px solid #214829' }}>
+                <h3 className="font-bold text-sm mb-3 text-[#1A3620]">Conseils de pro :</h3>
+                <ul className="text-xs space-y-2 text-[#2D6138]">
+                    <li className="flex items-center gap-2">• Soyez réactif sur WhatsApp ou par appel.</li>
+                    <li className="flex items-center gap-2">• Partagez vos annonces sur vos réseaux sociaux.</li>
+                    <li className="flex items-center gap-2">• Demandez à vos clients de vous recommander.</li>
+                </ul>
+            </div>
+
+            <Link to="/post" className="inline-block w-full text-center py-3 font-bold rounded-sm transition-opacity hover:opacity-90" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                Publier une nouvelle annonce
+            </Link>
+        </div>
+    </div>
+);
+
+const FAQ = () => (
+    <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-sm">
+        <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                <QuestionMarkCircleIcon className="w-7 h-7 text-gray-600" />
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-black uppercase tracking-tight">Foire aux questions</h2>
+        </div>
+
+        <div className="space-y-4">
+            {[
+                { q: "Comment se passe la livraison ?", a: "SOKONEX ne gère pas la livraison. Vous devez vous entendre directement avec l'acheteur sur le lieu et le mode de remise de l'article." },
+                { q: "Comment suis-je payé ?", a: "Le paiement se fait hors ligne, directement entre vous et l'acheteur. Nous déconseillons les paiements par avance non sécurisés." },
+                { q: "Puis-je modifier mon annonce ?", a: "Oui, cliquez sur 'Mes Annonces' puis sur le bouton 'Modifier' de l'annonce concernée." },
+            ].map((f, i) => (
+                <div key={i} className="border-b border-gray-100 pb-4 last:border-0">
+                    <h3 className="font-bold text-sm text-black mb-1">{f.q}</h3>
+                    <p className="text-xs text-gray-600 leading-relaxed">{f.a}</p>
+                </div>
+            ))}
+        </div>
+
+        <div className="mt-8 p-4 bg-blue-50 rounded-sm border border-blue-100">
+            <p className="text-xs text-blue-700 flex items-center gap-2">
+                <Info className="w-4 h-4" /> Besoin d'aide supplémentaire ? Contactez notre support.
+            </p>
+        </div>
+    </div>
+);
 
 const SidebarLink = ({ to, icon: Icon, text, active }: { to: string, icon: any, text: string, active: boolean }) => (
     <Link

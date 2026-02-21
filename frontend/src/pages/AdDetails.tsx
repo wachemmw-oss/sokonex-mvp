@@ -95,18 +95,18 @@ const AdDetails = () => {
                     onTouchEnd={(e) => handleTouchEnd(e, images.length)}
                 >
                     <div
-                        className="flex h-full transition-transform duration-300 ease-in-out"
-                        style={{ transform: `translateX(-${currentImage * 100}%)`, width: `${images.length * 100}%` }}
+                        className="flex h-full transition-transform duration-500 ease-out"
+                        style={{ transform: `translateX(-${currentImage * 100}%)` }}
                     >
                         {images.map((img: any, idx: number) => (
-                            <img
-                                key={idx}
-                                src={img.url}
-                                alt={`Image ${idx + 1}`}
-                                loading={idx === 0 ? "eager" : "lazy"}
-                                className="h-full object-cover"
-                                style={{ width: `${100 / images.length}%` }}
-                            />
+                            <div key={idx} className="w-full h-full flex-shrink-0">
+                                <img
+                                    src={img.url}
+                                    alt={`Image ${idx + 1}`}
+                                    loading={idx === 0 ? "eager" : "lazy"}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
                         ))}
                     </div>
 

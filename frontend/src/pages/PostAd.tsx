@@ -317,7 +317,12 @@ const PostAd = () => {
                 </div>
 
                 <div className="pt-4">
-                    <button disabled={uploading || mutation.isPending} type="submit" className="w-full bg-black text-white py-4 rounded-sm font-bold tracking-wide hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95">
+                    <button
+                        disabled={uploading || mutation.isPending}
+                        type="submit"
+                        className="w-full py-4 rounded-sm font-bold tracking-wide transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}
+                    >
                         {uploading ? 'Upload des images...' : mutation.isPending ? 'Enregistrement en cours...' : (isEditMode ? 'Enregistrer les modifications' : 'Publier mon annonce')}
                     </button>
                     <p className="text-center text-xs text-gray-500 mt-3">En publiant, vous acceptez nos conditions d'utilisation.</p>

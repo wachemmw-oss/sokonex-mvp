@@ -28,6 +28,8 @@ const Navbar = () => {
     const isHome = location.pathname === '/';
     const isAdDetails = location.pathname.startsWith('/ad/');
     const isDashboard = location.pathname.startsWith('/account') || location.pathname.startsWith('/admin');
+    const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+    const hideSearch = isAdDetails || isDashboard || isAuthPage;
 
     return (
         <>
@@ -46,7 +48,7 @@ const Navbar = () => {
                             </Link>
 
                             {/* Integrated Search Bar (Desktop) */}
-                            {!isAdDetails && (
+                            {!hideSearch && (
                                 <div className="hidden md:flex flex-1 max-w-2xl mx-8">
                                     <form onSubmit={handleSearch} className="w-full relative group flex items-center">
                                         <input
@@ -129,8 +131,8 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Mobile Navbar — hidden on AdDetails and Dashboard */}
-                {!isAdDetails && !isDashboard && (
+                {/* Mobile Navbar — hidden on AdDetails, Dashboard, and Auth pages */}
+                {!hideSearch && (
                     <div className="md:hidden px-3 py-2.5 flex items-center gap-2 border-b border-gray-100 bg-white">
                         {/* Hamburger Menu Button */}
                         <button
