@@ -47,9 +47,9 @@ const MyAds = () => {
 
     return (
         <div className="bg-white shadow-sm border border-gray-100 rounded-sm overflow-hidden font-sans">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                <h2 className="text-xl font-bold text-black uppercase tracking-tight">Mes Annonces ({ads.length})</h2>
-                <Link to="/post" className="bg-[#1a1c29] text-white px-4 py-2 rounded-sm text-sm font-bold hover:bg-black transition-colors">
+            <div className="p-6 border-b border-white/10 flex justify-between items-center">
+                <h2 className="text-xl font-bold uppercase tracking-tight" style={{ color: '#1A3620' }}>Mes Annonces ({ads.length})</h2>
+                <Link to="/post" className="text-sm font-bold px-4 py-2 rounded-sm transition-colors hover:opacity-90" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                     Nouvelle Annonce
                 </Link>
             </div>
@@ -81,7 +81,7 @@ const MyAds = () => {
                                     <span className="text-xs text-gray-500">{new Date(ad.createdAt).toLocaleDateString('fr-FR')}</span>
                                 </div>
                                 <h3 className="font-bold text-black text-base truncate mb-1">{ad.title}</h3>
-                                <p className="text-sm font-bold text-black mb-1">
+                                <p className="text-sm font-bold mb-1" style={{ color: '#214829' }}>
                                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate">{ad.category} • {ad.city}</p>
@@ -124,8 +124,8 @@ const SidebarLink = ({ to, icon: Icon, text, active }: { to: string, icon: any, 
     <Link
         to={to}
         className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${active
-            ? 'bg-gray-100 text-black border-r-4 border-black'
-            : 'text-gray-600 hover:bg-gray-50 hover:text-black'
+                ? 'bg-[#FFBA34] text-[#1A3620] font-bold border-r-4 border-[#1A3620]'
+                : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
     >
         <Icon className="w-5 h-5 shrink-0" />
@@ -157,21 +157,21 @@ const Dashboard = () => {
 
                 {/* Sidebar */}
                 <div className="w-full md:w-72 shrink-0">
-                    <div className="bg-white border border-gray-100 shadow-sm rounded-sm overflow-hidden sticky top-24">
+                    <div className="shadow-sm rounded-sm overflow-hidden sticky top-24" style={{ backgroundColor: '#214829' }}>
 
                         {/* Vendor Profile Summary Block */}
-                        <div className="p-6 text-center border-b border-gray-100">
-                            <div className="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-gray-300">
+                        <div className="p-6 text-center border-b border-white/10">
+                            <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-white/30" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
                                 {user?.avatar ? (
                                     <img src={user.avatar} alt="Profil" loading="lazy" className="w-full h-full rounded-full object-cover" />
                                 ) : (
-                                    <UserCircleIcon className="w-12 h-12 text-gray-400" />
+                                    <UserCircleIcon className="w-12 h-12 text-white/60" />
                                 )}
                             </div>
-                            <h2 className="font-bold text-lg text-black truncate">{user?.name}</h2>
-                            <p className="text-xs text-gray-500 mb-2 truncate">{user?.email}</p>
+                            <h2 className="font-bold text-lg text-white truncate">{user?.name}</h2>
+                            <p className="text-xs text-white/60 mb-2 truncate">{user?.email}</p>
                             {user?.whatsapp && (
-                                <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 px-2 py-1 rounded-sm text-xs font-bold font-mono">
+                                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-sm text-xs font-bold font-mono" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                                     WA: {user.whatsapp}
                                 </div>
                             )}
@@ -187,7 +187,7 @@ const Dashboard = () => {
                             {/* Mobile Logout Button */}
                             <button
                                 onClick={handleLogout}
-                                className="flex md:hidden items-center gap-3 px-4 py-4 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100 mt-2"
+                                className="flex md:hidden items-center gap-3 px-4 py-4 text-sm font-bold text-red-400 hover:bg-white/10 transition-colors border-t border-white/10 mt-2"
                             >
                                 <ArrowRightOnRectangleIcon className="w-5 h-5 shrink-0" />
                                 Se déconnecter

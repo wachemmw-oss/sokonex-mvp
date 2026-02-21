@@ -56,7 +56,8 @@ const Results = () => {
                         <div className="p-4 border-t sticky bottom-0 bg-white">
                             <button
                                 onClick={() => setIsFilterOpen(false)}
-                                className="w-full bg-black text-white font-bold py-3 rounded-sm active:scale-95 transition"
+                                className="w-full text-white font-bold py-3 rounded-sm active:scale-95 transition"
+                                style={{ backgroundColor: '#214829' }}
                             >
                                 Afficher les résultats
                             </button>
@@ -171,7 +172,7 @@ const Results = () => {
                                                     </div>
                                                     <div className="flex justify-between items-end">
                                                         <div>
-                                                            <p className="text-black font-bold">
+                                                            <p className="font-bold" style={{ color: '#214829' }}>
                                                                 {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                                             </p>
                                                             <p className="text-xs text-gray-400 mt-1">{ad.city} • {new Date(ad.createdAt).toLocaleDateString()}</p>

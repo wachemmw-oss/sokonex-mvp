@@ -57,7 +57,7 @@ const Home = () => {
     });
 
     return (
-        <div className="font-sans bg-gray-100 min-h-screen pb-20">
+        <div className="font-sans min-h-screen pb-20" style={{ backgroundColor: '#FAFAF8' }}>
             {/* Desktop spacer */}
             <div className="hidden md:block h-6 bg-gray-100"></div>
 
@@ -102,8 +102,8 @@ const Home = () => {
                     <div className="mt-2 md:mt-6 bg-white p-4 md:rounded-lg">
                         <div className="flex justify-between items-center mb-4">
                             <div className="flex items-center gap-2">
-                                <h2 className="text-lg font-bold text-red-600 tracking-tight uppercase">Ventes Flash</h2>
-                                <div className="flex items-center gap-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                                <h2 className="text-lg font-bold tracking-tight uppercase" style={{ color: '#FFBA34' }}>Ventes Flash</h2>
+                                <div className="flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: '#214829', color: '#FFBA34' }}>
                                     <Clock className="w-3 h-3" />
                                     <span>23:59:59</span>
                                 </div>
@@ -127,19 +127,19 @@ const Home = () => {
                             <div className="flex gap-4 overflow-x-auto scrollbar-hide flex-1">
                                 <button
                                     onClick={() => setActiveTab('recommande')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'recommande' ? 'border-black text-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'recommande' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
                                 >
                                     Recommandé pour vous
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('nouveau')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'nouveau' ? 'border-black text-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'nouveau' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
                                 >
                                     Nouveau
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('tendance')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'tendance' ? 'border-black text-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'tendance' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
                                 >
                                     Tendance
                                 </button>

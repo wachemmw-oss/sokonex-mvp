@@ -2,20 +2,64 @@
 
 :root {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* ─── SOKONEX Color System ─── */
+  --color-primary: #FFBA34;
+  /* Ambre / CTA */
+  --color-primary-dark: #E8A520;
+  /* Ambre hover */
+  --color-primary-light: #FFF3D4;
+  /* Ambre très clair (backgrounds) */
+  --color-secondary: #214829;
+  /* Vert forêt / Navigation */
+  --color-secondary-dark: #172f1b;
+  /* Vert foncé hover */
+  --color-secondary-light: #EBF5EE;
+  /* Vert très clair (backgrounds) */
+  --color-text-main: #1A3620;
+  /* Texte principal (vert nuit) */
+  --color-bg: #FAFAF8;
+  /* Fond page */
+  --color-border: #E8EDE5;
+  /* Séparateurs */
 }
 
 body {
-  background-color: #ffffff;
-  color: #111827;
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
 }
 
-/* Custom Utilities for Marketplace Vibe */
+/* ─── Custom Utilities ─── */
 @layer utilities {
   .shadow-card {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 3px rgba(33, 72, 41, 0.08);
   }
 
   .shadow-card-hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 12px rgba(33, 72, 41, 0.14);
+  }
+
+  /* Primary button: Ambre #FFBA34 */
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-text-main);
+    font-weight: 700;
+    transition: background-color 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  /* Secondary button: Vert #214829 */
+  .btn-secondary {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+    font-weight: 700;
+    transition: background-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-dark);
   }
 }

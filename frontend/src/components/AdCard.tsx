@@ -10,13 +10,13 @@ interface AdCardProps {
 const getConditionDetails = (condition: string) => {
     switch (condition?.toLowerCase()) {
         case 'new':
-            return { label: 'Neuf', bg: 'bg-green-100', text: 'text-green-800' };
+            return { label: 'Neuf', bg: 'bg-[#EBF5EE]', text: 'text-[#214829]' };
         case 'used':
-            return { label: 'Occasion', bg: 'bg-orange-100', text: 'text-orange-800' };
+            return { label: 'Occasion', bg: 'bg-orange-100', text: 'text-orange-700' };
         case 'refurbished':
-            return { label: 'Reconditionné', bg: 'bg-blue-100', text: 'text-blue-800' };
+            return { label: 'Reconditionné', bg: 'bg-blue-100', text: 'text-blue-700' };
         default:
-            return { label: condition, bg: 'bg-gray-100', text: 'text-gray-800' };
+            return { label: condition, bg: 'bg-gray-100', text: 'text-gray-700' };
     }
 };
 
@@ -40,14 +40,14 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Aucune image</div>
                 )}
                 {promoted && (
-                    <div className="absolute top-1.5 left-1.5 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider z-10">
+                    <div className="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider z-10" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                         Promo
                     </div>
                 )}
                 <button
-                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur rounded-full p-1.5 text-gray-400 hover:text-red-500 transition-colors z-10 shadow-sm"
+                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur rounded-full p-1.5 text-gray-400 hover:text-[#FFBA34] transition-colors z-10 shadow-sm"
                     onClick={(e) => {
-                        e.preventDefault(); // Prevent navigation when liking
+                        e.preventDefault();
                         // Wishlist logic here later
                     }}
                 >
@@ -57,7 +57,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
 
             <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
                 {/* 1. Price */}
-                <p className="text-black font-extrabold text-sm md:text-base leading-none mb-1.5">
+                <p className="font-extrabold text-sm md:text-base leading-none mb-1.5" style={{ color: '#214829' }}>
                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
                         ? `$${ad.price?.toLocaleString()}`
                         : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}

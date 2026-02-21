@@ -26,16 +26,16 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                     <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" required />
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-[#214829] focus:ring-1 focus:ring-[#214829] transition-colors" required />
                 </div>
                 <div>
                     <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Mot de passe</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" required />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-[#214829] focus:ring-1 focus:ring-[#214829] transition-colors" required />
                 </div>
-                <button type="submit" className="w-full bg-black text-white font-bold py-3 rounded-sm hover:bg-gray-800 transition active:scale-95">Se connecter</button>
+                <button type="submit" className="w-full text-white font-bold py-3 rounded-sm transition active:scale-95" style={{ backgroundColor: '#214829' }}>Se connecter</button>
             </form>
             <p className="mt-6 text-center text-sm text-gray-600">
-                Pas de compte ? <Link to="/register" className="text-black font-bold underline hover:text-gray-700">S'inscrire</Link>
+                Pas de compte ? <Link to="/register" className="font-bold underline" style={{ color: '#214829' }}>S'inscrire</Link>
             </p>
         </div>
     );
