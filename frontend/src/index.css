@@ -62,4 +62,25 @@ body {
   .btn-secondary:hover {
     background-color: var(--color-secondary-dark);
   }
+
+  /* ─── Drill-down Animations ─── */
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(1.5rem);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-in {
+    animation: slideInFromRight 0.25s ease-out forwards;
+  }
+
+  .slide-in-from-right {
+    animation-name: slideInFromRight;
+  }
 }

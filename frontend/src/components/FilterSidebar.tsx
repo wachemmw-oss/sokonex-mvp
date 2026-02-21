@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CATEGORIES } from '../data/categories';
 import { LOCATIONS } from '../data/locations';
+import { ChevronRight, ChevronLeft, ChevronDown, Search } from 'lucide-react';
 
 const FilterSidebar = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -16,6 +17,9 @@ const FilterSidebar = () => {
         priceMax: searchParams.get('max') || '',
         condition: searchParams.get('condition') || ''
     });
+
+    const [drilldownCategory, setDrilldownCategory] = useState<string | null>(searchParams.get('category'));
+    const [drilldownProvince, setDrilldownProvince] = useState<string | null>(searchParams.get('province'));
 
     // Update local state when URL params change
     useEffect(() => {
@@ -80,6 +84,7 @@ const FilterSidebar = () => {
             q: '', category: '', subCategory: '', province: '', city: '',
             priceMin: '', priceMax: '', condition: ''
         });
+        setDrilldownCategory(null);
     };
 
     const currentSubCategories = CATEGORIES.find(c => c.id === filters.category)?.subCategories || [];
@@ -98,53 +103,189 @@ const FilterSidebar = () => {
                     <input name="q" value={filters.q} onChange={handleChange} placeholder="Mots-clés..." className="w-full border border-gray-200 bg-gray-50 focus:bg-white p-2 rounded-sm text-sm focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors" />
                 </div>
 
-                {/* Category */}
-                <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Catégorie</label>
-                    <select name="category" value={filters.category} onChange={(e) => { handleChange(e); updateParams({ ...filters, category: e.target.value, subCategory: '' }) }} className="w-full border p-2 rounded text-sm">
-                        <option value="">Toutes les catégories</option>
-                        {CATEGORIES.map(c => (
-                            <option key={c.id} value={c.id}>{c.label}</option>
-                        ))}
-                    </select>
+                {/* Category Drill-down — Mobile/Sidebar style */}
+                <div className="space-y-4">
+                    <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide">Catégorie</label>
+
+                    {!drilldownCategory ? (
+                        /* List of all categories */
+                        <div className="space-y-1">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const newF = { ...filters, category: '', subCategory: '' };
+                                    setFilters(newF);
+                                    updateParams(newF);
+                                }}
+                                className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${!filters.category ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
+                            >
+                                <span>Toutes les catégories</span>
+                                {!filters.category && <div className="w-1.5 h-1.5 rounded-full bg-[#FFBA34]" />}
+                            </button>
+                            {CATEGORIES.map(c => (
+                                <button
+                                    key={c.id}
+                                    type="button"
+                                    onClick={() => setDrilldownCategory(c.id)}
+                                    className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${filters.category === c.id ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-lg opacity-70 group-hover:opacity-100 transition-opacity">
+                                            {/* We could add category-specific icons here if we had a map */}
+                                        </span>
+                                        <span>{c.label}</span>
+                                    </div>
+                                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
+                        /* Sub-categories for selected category */
+                        <div className="space-y-2 animate-in slide-in-from-right duration-200">
+                            <button
+                                type="button"
+                                onClick={() => setDrilldownCategory(null)}
+                                className="flex items-center gap-2 text-xs font-bold text-[#214829] mb-2 hover:underline"
+                            >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                                Retour aux catégories
+                            </button>
+
+                            <div className="p-3 bg-gray-50 rounded-sm mb-2 border border-gray-100">
+                                <span className="text-xs text-gray-500 uppercase font-medium">Sélectionné : </span>
+                                <span className="text-sm font-bold text-gray-900 ml-1">{CATEGORIES.find(c => c.id === drilldownCategory)?.label}</span>
+                            </div>
+
+                            <div className="space-y-1 ml-2 border-l border-gray-100 pl-4">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        const newF = { ...filters, category: drilldownCategory, subCategory: '' };
+                                        setFilters(newF);
+                                        updateParams(newF);
+                                    }}
+                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${!filters.subCategory ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                >
+                                    Toutes les sous-catégories
+                                </button>
+                                {CATEGORIES.find(c => c.id === drilldownCategory)?.subCategories.map(sub => (
+                                    <button
+                                        key={sub.id}
+                                        type="button"
+                                        onClick={() => {
+                                            const newF = { ...filters, category: drilldownCategory, subCategory: sub.id };
+                                            setFilters(newF);
+                                            updateParams(newF);
+                                        }}
+                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.subCategory === sub.id ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                    >
+                                        {sub.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                {/* SubCategory - Only show if category selected */}
-                {filters.category && currentSubCategories.length > 0 && (
-                    <div className="pl-2 border-l-2 border-gray-100">
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Sous-catégorie</label>
-                        <select name="subCategory" value={filters.subCategory} onChange={(e) => { handleChange(e); updateParams({ ...filters, subCategory: e.target.value }) }} className="w-full border p-2 rounded text-sm">
-                            <option value="">Toutes</option>
-                            {currentSubCategories.map(sub => (
-                                <option key={sub.id} value={sub.id}>{sub.label}</option>
-                            ))}
-                        </select>
-                    </div>
-                )}
+                {/* Location Drill-down — Consistent with Category style */}
+                <div className="space-y-4 pt-4 border-t border-gray-100">
+                    <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide">Localisation</label>
 
-                {/* Location */}
-                <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Province</label>
-                    <select name="province" value={filters.province} onChange={(e) => { handleChange(e); updateParams({ ...filters, province: e.target.value, city: '' }) }} className="w-full border p-2 rounded text-sm">
-                        <option value="">Toute la RDC</option>
-                        {LOCATIONS.map(p => (
-                            <option key={p.province} value={p.province}>{p.province}</option>
-                        ))}
-                    </select>
+                    {!drilldownProvince ? (
+                        <button
+                            type="button"
+                            onClick={() => setDrilldownProvince('DRC_ROOT')}
+                            className={`w-full flex items-center justify-between p-3 border border-gray-100 rounded-sm text-sm transition ${filters.province ? 'bg-gray-50 text-black font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                        >
+                            <div className="flex items-center gap-2">
+                                <span className="text-gray-400">📍</span>
+                                <span>{filters.province || 'Toute la RDC'}</span>
+                                {filters.city && <span className="text-gray-400 font-normal">, {filters.city}</span>}
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-gray-400" />
+                        </button>
+                    ) : drilldownProvince === 'DRC_ROOT' ? (
+                        <div className="space-y-1 animate-in slide-in-from-right duration-200">
+                            <button
+                                type="button"
+                                onClick={() => setDrilldownProvince(null)}
+                                className="flex items-center gap-2 text-xs font-bold text-[#214829] mb-2 hover:underline"
+                            >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                                Retour aux filtres
+                            </button>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        const newF = { ...filters, province: '', city: '' };
+                                        setFilters(newF);
+                                        updateParams(newF);
+                                        setDrilldownProvince(null);
+                                    }}
+                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${!filters.province ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50'}`}
+                                >
+                                    Toute la RDC
+                                </button>
+                                {LOCATIONS.map(p => (
+                                    <button
+                                        key={p.province}
+                                        type="button"
+                                        onClick={() => setDrilldownProvince(p.province)}
+                                        className={`w-full flex items-center justify-between p-2.5 rounded-sm text-sm transition ${filters.province === p.province ? 'text-[#1A3620] font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    >
+                                        <span>{p.province}</span>
+                                        <ChevronRight className="w-4 h-4 text-gray-400" />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-1 animate-in slide-in-from-right duration-200">
+                            <button
+                                type="button"
+                                onClick={() => setDrilldownProvince('DRC_ROOT')}
+                                className="flex items-center gap-2 text-xs font-bold text-[#214829] mb-2 hover:underline"
+                            >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                                Retour aux provinces
+                            </button>
+                            <div className="p-3 bg-gray-50 rounded-sm mb-2">
+                                <span className="text-xs text-gray-500 font-medium">Province : </span>
+                                <span className="text-sm font-bold text-gray-900 ml-1">{drilldownProvince}</span>
+                            </div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide ml-2 border-l border-gray-100 pl-4">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        const newF = { ...filters, province: drilldownProvince, city: '' };
+                                        setFilters(newF);
+                                        updateParams(newF);
+                                        setDrilldownProvince(null);
+                                    }}
+                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.province === drilldownProvince && !filters.city ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                >
+                                    Toute la province
+                                </button>
+                                {LOCATIONS.find(l => l.province === drilldownProvince)?.cities.map(c => (
+                                    <button
+                                        key={c}
+                                        type="button"
+                                        onClick={() => {
+                                            const newF = { ...filters, province: drilldownProvince, city: c };
+                                            setFilters(newF);
+                                            updateParams(newF);
+                                            setDrilldownProvince(null);
+                                        }}
+                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.city === c ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                    >
+                                        {c}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
-
-                {/* City - Only show if province selected */}
-                {filters.province && (
-                    <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Ville</label>
-                        <select name="city" value={filters.city} onChange={(e) => { handleChange(e); updateParams({ ...filters, city: e.target.value }) }} className="w-full border p-2 rounded text-sm">
-                            <option value="">Toutes</option>
-                            {LOCATIONS.find(l => l.province === filters.province)?.cities.map(c => (
-                                <option key={c} value={c}>{c}</option>
-                            ))}
-                        </select>
-                    </div>
-                )}
 
                 {/* Price Range */}
                 <div>
