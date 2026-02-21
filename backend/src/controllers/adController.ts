@@ -118,14 +118,16 @@ export const getAds = async (req: Request, res: Response) => {
         if (sort === 'price_desc') sortOptions = { price: -1 };
         // if sort === 'newest' (default)
 
-        // Execute Main Query
-        const total = await Ad.countDocuments(query);
-        const ads = await Ad.find(query)
-            .sort(sortOptions)
-            .skip(skip)
-            .limit(limitNum)
-            // .select('title price priceType images city province subCategory delivery condition createdAt') // Projection for performance
-            .populate('sellerId', 'role isPhoneVerified createdAt'); // Populate seller for "pro" check if needed
+        // Execute Main Query — parallel for speed
+        const [total, ads] = await Promise.all([
+            Ad.countDocuments(query),
+            Ad.find(query)
+                .sort(sortOptions)
+                .skip(skip)
+                .limit(limitNum)
+                .select('title price priceType images city province subCategory condition promoted createdAt sellerId')
+            // No populate — seller not displayed in list view
+        ]);
 
         // Facets (Aggregation for counts)
         // We want facets for the CURRENT query context usually, OR for the category context?

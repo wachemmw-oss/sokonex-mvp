@@ -60,9 +60,11 @@ const AdSchema: Schema = new Schema(
 );
 
 // Indexes for Search & Filtering
+AdSchema.index({ status: 1, createdAt: -1 });                                      // Default home query
+AdSchema.index({ status: 1, promoted: 1, createdAt: -1 });                         // Flash deals query
 AdSchema.index({ category: 1, subCategory: 1, province: 1, city: 1, createdAt: -1 });
 AdSchema.index({ province: 1, city: 1, priceType: 1, price: 1 });
-AdSchema.index({ subCategory: 1, city: 1, createdAt: -1 }); // Similar ads
-AdSchema.index({ title: 'text', description: 'text' }); // Text search
+AdSchema.index({ subCategory: 1, city: 1, createdAt: -1 });                        // Similar ads
+AdSchema.index({ title: 'text', description: 'text' });                            // Text search
 
 export default mongoose.model<IAd>('Ad', AdSchema);
