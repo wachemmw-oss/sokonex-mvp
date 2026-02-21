@@ -57,7 +57,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
 
             <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
                 {/* 1. Price */}
-                <p className="font-extrabold text-sm md:text-base leading-none mb-1.5" style={{ color: '#FFBA34' }}>
+                <p className="font-extrabold text-base md:text-lg leading-none mb-1.5 text-black">
                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
                         ? `$${ad.price?.toLocaleString()}`
                         : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
