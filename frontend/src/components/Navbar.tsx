@@ -190,27 +190,33 @@ const Navbar = () => {
                     <div className="relative w-[85vw] max-w-[320px] h-full bg-white flex flex-col overflow-y-auto shadow-2xl">
                         {/* Header */}
                         <div className="flex items-center justify-between p-4 border-b" style={{ backgroundColor: '#214829' }}>
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                                    <UserIcon className="w-5 h-5 text-white" />
-                                </div>
-                                <div>
-                                    {user ? (
-                                        <>
-                                            <p className="font-bold text-sm text-white">{user.name}</p>
-                                            <p className="text-xs text-white/70">{user.email}</p>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Link to="/login" onClick={() => setIsMenuOpen(false)} className="font-bold text-sm text-white">Se connecter</Link>
-                                            <p className="text-xs text-white/70">ou <Link to="/register" onClick={() => setIsMenuOpen(false)} className="underline">S'inscrire</Link></p>
-                                        </>
-                                    )}
-                                </div>
+                            <div className="flex items-center gap-2">
+                                <img src={logo} alt="SOKONEX" className="h-7 w-auto brightness-0 invert" />
+                                <span className="text-white font-bold tracking-wider text-lg">SOKONEX</span>
                             </div>
                             <button onClick={() => setIsMenuOpen(false)} className="text-white/80 hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
+                        </div>
+
+                        {/* User Profile Section */}
+                        <div className="flex bg-gray-50 p-4 border-b items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-[#FFBA34]/20 flex items-center justify-center">
+                                <UserIcon className="w-5 h-5 text-[#214829]" />
+                            </div>
+                            <div>
+                                {user ? (
+                                    <>
+                                        <p className="font-bold text-sm text-gray-900">{user.name}</p>
+                                        <p className="text-xs text-gray-500">{user.email}</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link to="/login" onClick={() => setIsMenuOpen(false)} className="font-bold text-sm text-gray-900">Se connecter</Link>
+                                        <p className="text-xs text-gray-500">ou <Link to="/register" onClick={() => setIsMenuOpen(false)} className="underline text-[#214829]">S'inscrire</Link></p>
+                                    </>
+                                )}
+                            </div>
                         </div>
 
                         {/* Categories */}
