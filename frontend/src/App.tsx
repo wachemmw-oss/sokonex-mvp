@@ -14,6 +14,8 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const Aide = lazy(() => import('./pages/Aide'));
+const Legal = lazy(() => import('./pages/Legal'));
 
 // Global query client — stale cache: data considered fresh for 2 min
 const queryClient = new QueryClient({
@@ -56,6 +58,8 @@ function App() {
                   <Route path="/register" element={<Register />} />
                   <Route path="/account/*" element={<Dashboard />} />
                   <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/aide" element={<Aide />} />
+                  <Route path="/legal" element={<Legal />} />
                 </Routes>
               </Suspense>
             </div>
