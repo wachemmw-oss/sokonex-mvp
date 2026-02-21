@@ -193,11 +193,18 @@ export const getAds = async (req: Request, res: Response) => {
 // @route   GET /api/ads/:id
 export const getAdById = async (req: Request, res: Response) => {
     try {
-        const ad = await Ad.findById(req.params.id).populate('sellerId', 'email phone whatsapp showPhone isPhoneVerified role createdAt');
+        const cacheKey = `ad:${req.params.id}`;
+        const cached = cache.get(cacheKey);
+        if (cached) {
+            res.setHeader('X-Cache', 'HIT');
+            return res.json(cached);
+        }
+
+        // FIX: added 'name' and 'avatar' which were missing — that's why seller name/photo didn't show
+        const ad = await Ad.findById(req.params.id)
+            .populate('sellerId', 'name avatar email phone whatsapp showPhone isPhoneVerified role createdAt');
         if (!ad) return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Ad not found' } });
 
-        // Filter seller phone if not verify/shown
-        // This logic can be done in frontend or backend. Backend is safer.
         const adObj = ad.toObject();
         const seller = adObj.sellerId as any;
         if (seller) {
@@ -207,7 +214,10 @@ export const getAdById = async (req: Request, res: Response) => {
             }
         }
 
-        res.json({ success: true, data: adObj });
+        const response = { success: true, data: adObj };
+        cache.set(cacheKey, response, 60); // 60 sec TTL
+        res.setHeader('X-Cache', 'MISS');
+        res.json(response);
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
     }
@@ -249,11 +259,15 @@ export const getSimilarAds = async (req: Request, res: Response) => {
                 _id: { $ne: currentAd._id, $nin: similar.map(a => a._id) },
                 category: currentAd.category,
                 status: 'active'
-            }).limit(limit - similar.length);
+            }).select('title price priceType images city subCategory condition createdAt')
+                .limit(limit - similar.length);
             similar = [...similar, ...evenMore];
         }
 
-        res.json({ success: true, data: similar });
+        // FIX: wrap in {items:...} to match frontend's similarData?.data?.items access pattern
+        const response = { success: true, data: { items: similar } };
+        cache.set(`similar:${req.params.id}`, response, 120); // 2 min TTL
+        res.json(response);
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
     }

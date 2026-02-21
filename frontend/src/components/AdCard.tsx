@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
+import { getAdById } from '../services/ads';
 
 interface AdCardProps {
     ad: any;
@@ -22,11 +24,27 @@ const getConditionDetails = (condition: string) => {
 
 const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
     const isList = viewMode === 'list';
+    const queryClient = useQueryClient();
+
+    // Prefetch ad detail on hover — so it's ready before the user clicks
+    let prefetchTimer: ReturnType<typeof setTimeout>;
+    const handleMouseEnter = () => {
+        prefetchTimer = setTimeout(() => {
+            queryClient.prefetchQuery({
+                queryKey: ['ad', ad._id],
+                queryFn: () => getAdById(ad._id),
+                staleTime: 1000 * 60,
+            });
+        }, 150); // 150ms delay — only prefetch if hover is intentional
+    };
+    const handleMouseLeave = () => clearTimeout(prefetchTimer);
 
     return (
         <Link
             to={`/ad/${ad._id}`}
             className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-3 gap-3' : 'flex-col h-full pb-2'}`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
             <div className={`relative bg-gray-100 overflow-hidden rounded-sm shrink-0 ${isList ? 'w-28 h-28 md:w-36 md:h-36' : 'aspect-[3/4]'}`}>
                 {ad.images?.[0] ? (

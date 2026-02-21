@@ -26,13 +26,15 @@ const AdDetails = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ['ad', id],
         queryFn: () => getAdById(id as string),
-        enabled: !!id
+        enabled: !!id,
+        staleTime: 1000 * 60,
     });
 
     const { data: similarData } = useQuery({
         queryKey: ['similar', id],
         queryFn: () => getSimilarAds(id as string),
-        enabled: !!id
+        enabled: !!id,
+        staleTime: 1000 * 60 * 2,
     });
 
     const reportMutation = useMutation({
@@ -63,7 +65,8 @@ const AdDetails = () => {
 
     const ad = data.data;
     const images = ad.images?.length > 0 ? ad.images : [{ url: 'https://via.placeholder.com/600x800?text=Aucune+Image' }];
-    const similarAds = similarData?.data?.items || [];
+    // FIX: backend now returns data.items (was returning data directly before)
+    const similarAds = similarData?.data?.items ?? [];
 
     return (
         <div className="bg-white min-h-screen pb-24 font-sans">
@@ -241,6 +244,27 @@ const AdDetails = () => {
                     </div>
                 </div>
             )}
+
+            {/* Mobile Seller Info Block — visible uniquement sur mobile */}
+            <div className="md:hidden px-4 pb-4 mt-6">
+                <div className="p-4 rounded-sm" style={{ backgroundColor: '#EBF5EE' }}>
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ backgroundColor: '#214829' }}>
+                            {ad.sellerId?.avatar ? (
+                                <img src={ad.sellerId.avatar} alt="Vendeur" className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
+                                    {ad.sellerId?.name?.charAt(0)?.toUpperCase() || 'V'}
+                                </div>
+                            )}
+                        </div>
+                        <div>
+                            <p className="font-bold text-sm" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
+                            <p className="text-xs text-gray-500">Membre vérifié</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* Mobile Sticky Bottom Action Bar */}
             <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
