@@ -126,6 +126,13 @@ const PostAd = () => {
                 }
                 setAttributes({}); // Reset attributes
             }
+            // FIX: Reset city if province changes — avoid staying on 'Kinshasa'
+            if (name === 'province') {
+                const provinceData = LOCATIONS.find(l => l.province === value);
+                if (provinceData && provinceData.cities.length > 0) {
+                    newData.city = provinceData.cities[0];
+                }
+            }
             return newData;
         });
     };

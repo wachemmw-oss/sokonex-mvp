@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User as UserIcon, LogOut, LayoutDashboard, Settings, ShieldAlert, Search, Bell, Menu, X, ChevronRight, Heart, Info, FileText, Grid } from 'lucide-react';
+import {
+    Search, User as UserIcon, LogOut, Menu, X, ChevronRight,
+    Info, HelpCircle, ShieldCheck, FileText, Bell, SlidersHorizontal,
+    LayoutDashboard, Settings, ShieldAlert, Heart, Grid
+} from 'lucide-react';
 import { CATEGORIES } from '../data/categories';
 
 const Navbar = () => {
@@ -27,9 +31,11 @@ const Navbar = () => {
     const location = useLocation();
     const isHome = location.pathname === '/';
     const isAdDetails = location.pathname.startsWith('/ad/');
+    const isResults = location.pathname === '/results';
+    const isPostAd = location.pathname === '/post' || location.pathname.startsWith('/edit-ad/');
     const isDashboard = location.pathname.startsWith('/account') || location.pathname.startsWith('/admin');
     const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
-    const hideSearch = isAdDetails || isDashboard || isAuthPage;
+    const hideSearch = isAdDetails || isDashboard || isAuthPage || isPostAd || isResults;
 
     return (
         <>
@@ -131,16 +137,25 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Mobile Navbar — hidden on AdDetails, Dashboard, and Auth pages */}
-                {!hideSearch && (
+                {/* Mobile Navbar — hidden on Home but shown on Results/other if not specifically hidden */}
+                {(!hideSearch || isResults) && (
                     <div className="md:hidden px-3 py-2.5 flex items-center gap-2 border-b border-gray-100 bg-white">
-                        {/* Hamburger Menu Button */}
-                        <button
-                            onClick={() => setIsMenuOpen(true)}
-                            className="flex items-center justify-center shrink-0 h-[42px] w-[42px] rounded-sm bg-gray-100"
-                        >
-                            <Menu className="w-5 h-5 text-gray-700" />
-                        </button>
+                        {/* Hamburger or Filter Menu Button */}
+                        {isResults ? (
+                            <button
+                                onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-filters'))}
+                                className="flex items-center justify-center shrink-0 h-[42px] w-[42px] rounded-sm bg-[#FFBA34]/10"
+                            >
+                                <SlidersHorizontal className="w-5 h-5 text-[#1A3620]" />
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => setIsMenuOpen(true)}
+                                className="flex items-center justify-center shrink-0 h-[42px] w-[42px] rounded-sm bg-gray-100"
+                            >
+                                <Menu className="w-5 h-5 text-gray-700" />
+                            </button>
+                        )}
 
                         {/* Search Bar */}
                         <form onSubmit={handleSearch} className="flex-1 relative flex items-center h-[42px]">
@@ -206,7 +221,7 @@ const Navbar = () => {
                                 {CATEGORIES.map((cat) => (
                                     <Link
                                         key={cat.id}
-                                        to={`/results?category=${cat.id}`}
+                                        to={`/ results ? category = ${cat.id} `}
                                         onClick={() => setIsMenuOpen(false)}
                                         className="flex items-center justify-between py-2.5 px-2 rounded-sm hover:bg-gray-50 text-sm text-gray-700 font-medium"
                                     >

@@ -96,7 +96,7 @@ const FilterSidebar = () => {
                 <button onClick={handleClear} className="text-xs text-black underline hover:text-gray-600 transition">Tout effacer</button>
             </div>
 
-            <form onSubmit={handleApply} className="space-y-5">
+            <form id="mobile-filter-form" onSubmit={handleApply} className="space-y-5">
                 {/* Search */}
                 <div>
                     <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Recherche</label>
@@ -374,10 +374,6 @@ const FilterSidebar = () => {
                     </div>
                 ))}
 
-                {/* Apply Button */}
-                <button type="submit" className="w-full bg-black text-white py-2.5 rounded-sm text-sm font-semibold hover:bg-gray-800 transition active:scale-95">
-                    Appliquer
-                </button>
             </form>
         </div>
     );

@@ -12,7 +12,15 @@ const Results = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const params = Object.fromEntries([...searchParams]);
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    // Mobile Filter Drawer State
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    // Listen for custom event from Navbar to open filters
+    useEffect(() => {
+        const handleOpenFilters = () => setIsFilterOpen(true);
+        window.addEventListener('open-mobile-filters', handleOpenFilters);
+        return () => window.removeEventListener('open-mobile-filters', handleOpenFilters);
+    }, []);
     const loaderRef = useRef<HTMLDivElement>(null);
 
     const {
@@ -157,7 +165,7 @@ const Results = () => {
             {isFilterOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden font-sans">
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsFilterOpen(false)} />
-                    <div className="absolute inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto">
+                    <div className="absolute inset-y-0 left-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto">
                         <div className="flex items-center justify-between p-4 border-b">
                             <h2 className="text-lg font-bold text-gray-900">Filtres</h2>
                             <button onClick={() => setIsFilterOpen(false)} className="p-2 text-gray-500 hover:bg-gray-100 rounded-full">
@@ -169,7 +177,11 @@ const Results = () => {
                         </div>
                         <div className="p-4 border-t sticky bottom-0 bg-white">
                             <button
-                                onClick={() => setIsFilterOpen(false)}
+                                onClick={() => {
+                                    const form = document.getElementById('mobile-filter-form') as HTMLFormElement;
+                                    if (form) form.requestSubmit();
+                                    setIsFilterOpen(false);
+                                }}
                                 className="w-full font-bold py-3 rounded-sm active:scale-95 transition"
                                 style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}
                             >
