@@ -1,19 +1,41 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
-// Pages (Placeholders for now)
-import Home from './pages/Home';
-import Results from './pages/Results';
-import PostAd from './pages/PostAd';
-import AdDetails from './pages/AdDetails';
 import Navbar from './components/Navbar';
 import BottomTab from './components/BottomTab';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard';
 
-const queryClient = new QueryClient();
+// Lazy-loaded pages — each is only downloaded when visited
+const Home = lazy(() => import('./pages/Home'));
+const Results = lazy(() => import('./pages/Results'));
+const PostAd = lazy(() => import('./pages/PostAd'));
+const AdDetails = lazy(() => import('./pages/AdDetails'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+
+// Global query client — stale cache: data considered fresh for 2 min
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 2,        // 2 min: no refetch if data is fresh
+      gcTime: 1000 * 60 * 10,           // 10 min: keep in memory
+      refetchOnWindowFocus: false,       // no refetch when switching tabs
+      retry: 1,
+    },
+  },
+});
+
+// Minimal skeleton shown while a lazy page loads
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-10 h-10 border-4 border-gray-200 border-t-[#214829] rounded-full animate-spin" />
+      <span className="text-sm text-gray-400 font-medium">Chargement...</span>
+    </div>
+  </div>
+);
 
 function App() {
   return (
@@ -22,18 +44,20 @@ function App() {
         <Router>
           <div className="min-h-screen bg-white text-gray-900 font-sans">
             <Navbar />
-            <div className="pb-[60px] md:pb-0"> {/* Add padding for bottom tab on mobile */}
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/results" element={<Results />} />
-                <Route path="/ad/:id" element={<AdDetails />} />
-                <Route path="/post" element={<PostAd />} />
-                <Route path="/edit-ad/:id" element={<PostAd />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/account/*" element={<Dashboard />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-              </Routes>
+            <div className="pb-[60px] md:pb-0">
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/results" element={<Results />} />
+                  <Route path="/ad/:id" element={<AdDetails />} />
+                  <Route path="/post" element={<PostAd />} />
+                  <Route path="/edit-ad/:id" element={<PostAd />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/account/*" element={<Dashboard />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                </Routes>
+              </Suspense>
             </div>
             <BottomTab />
           </div>

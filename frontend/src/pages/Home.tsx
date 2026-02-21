@@ -35,16 +35,18 @@ const Home = () => {
     const { data: promotedAds } = useQuery({
         queryKey: ['ads', 'promoted'],
         queryFn: () => getAds({ promoted: true, limit: 4 }),
+        staleTime: 1000 * 60 * 2,
     });
 
-    // Fetch feed Ads based on active tab
+    // Fetch feed Ads based on active tab — max 10
     const { data: feedAds } = useQuery({
         queryKey: ['ads', 'feed', activeTab],
         queryFn: () => {
-            if (activeTab === 'tendance') return getAds({ promoted: true, limit: 12 });
-            if (activeTab === 'nouveau') return getAds({ sort: 'newest', limit: 12 });
-            return getAds({ limit: 12 }); // recommande
+            if (activeTab === 'tendance') return getAds({ promoted: true, limit: 10 });
+            if (activeTab === 'nouveau') return getAds({ sort: 'newest', limit: 10 });
+            return getAds({ limit: 10 }); // recommande
         },
+        staleTime: 1000 * 60 * 2,
     });
 
     return (
@@ -164,6 +166,20 @@ const Home = () => {
                             <AdCard key={ad._id} ad={ad} viewMode={viewMode} />
                         ))}
                     </div>
+
+                    {/* Voir plus button */}
+                    {feedAds?.data?.items?.length > 0 && (
+                        <div className="flex justify-center mt-6 mb-2 px-2">
+                            <Link
+                                to="/results"
+                                className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-3 font-bold text-sm rounded-sm border-2 transition hover:opacity-80 active:scale-95"
+                                style={{ borderColor: '#214829', color: '#214829' }}
+                            >
+                                Voir plus d'annonces
+                                <ChevronRight className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    )}
 
                     {(!feedAds?.data?.items || feedAds.data.items.length === 0) && (
                         <div className="text-center py-12 bg-white rounded-lg mt-2">
