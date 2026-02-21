@@ -7,6 +7,7 @@ import {
     LayoutDashboard, Settings, ShieldAlert, Heart, Grid
 } from 'lucide-react';
 import { CATEGORIES } from '../data/categories';
+import logo from '../assets/sokonex-best-logo.png';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
@@ -47,9 +48,9 @@ const Navbar = () => {
                             {/* Logo */}
                             <Link to="/" className="flex-shrink-0 flex items-center h-full group">
                                 <img
-                                    src="/src/assets/sokonex-logo-png.png"
+                                    src={logo}
                                     alt="SOKONEX Logo"
-                                    className="h-8 md:h-10 w-auto object-contain transform group-hover:scale-105 transition-transform"
+                                    className="h-9 md:h-11 w-auto object-contain transform group-hover:scale-105 transition-transform"
                                 />
                             </Link>
 
@@ -221,7 +222,7 @@ const Navbar = () => {
                                 {CATEGORIES.map((cat) => (
                                     <Link
                                         key={cat.id}
-                                        to={`/ results ? category = ${cat.id} `}
+                                        to={`/results?category=${cat.id}`}
                                         onClick={() => setIsMenuOpen(false)}
                                         className="flex items-center justify-between py-2.5 px-2 rounded-sm hover:bg-gray-50 text-sm text-gray-700 font-medium"
                                     >

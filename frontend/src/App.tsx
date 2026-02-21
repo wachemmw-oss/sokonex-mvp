@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import BottomTab from './components/BottomTab';
+import Footer from './components/Footer';
 
 // Lazy-loaded pages — each is only downloaded when visited
 const Home = lazy(() => import('./pages/Home'));
@@ -63,6 +64,7 @@ function App() {
                 </Routes>
               </Suspense>
             </div>
+            <Footer />
             <BottomTab />
           </div>
         </Router>
