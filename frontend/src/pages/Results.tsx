@@ -67,15 +67,90 @@ const Results = () => {
                 <span className="text-gray-500 text-lg font-normal ml-2">({total})</span>
             </h1>
 
-            {/* Mobile Filter Button */}
-            <div className="lg:hidden mb-4">
-                <button
-                    onClick={() => setIsFilterOpen(true)}
-                    className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 py-2.5 rounded-lg font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition"
-                >
-                    <Filter className="w-4 h-4" />
-                    Filtrer & Trier
-                </button>
+            {/* Mobile Filter Bar — Le Bon Coin style horizontal chips */}
+            <div className="lg:hidden -mx-4 mb-4">
+                <div className="flex items-center gap-2 px-4 overflow-x-auto scrollbar-hide pb-1 pt-1">
+                    {/* Main filter button */}
+                    <button
+                        onClick={() => setIsFilterOpen(true)}
+                        className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full border text-sm font-medium transition"
+                        style={Object.keys(params).some(k => ['category', 'city', 'condition', 'sort'].includes(k))
+                            ? { backgroundColor: '#214829', color: 'white', borderColor: '#214829' }
+                            : { backgroundColor: 'white', color: '#333', borderColor: '#ccc' }}
+                    >
+                        <Filter className="w-3.5 h-3.5" />
+                        Filtres
+                    </button>
+
+                    {/* Active filter chips */}
+                    {params.sort && (
+                        <button
+                            onClick={() => { const p = new URLSearchParams(searchParams); p.delete('sort'); setSearchParams(p); }}
+                            className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
+                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                        >
+                            {params.sort === 'price_asc' ? 'Prix ↑' : 'Prix ↓'}
+                            <X className="w-3 h-3" />
+                        </button>
+                    )}
+                    {params.category && (
+                        <button
+                            onClick={() => { const p = new URLSearchParams(searchParams); p.delete('category'); p.delete('subCategory'); setSearchParams(p); }}
+                            className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
+                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                        >
+                            {params.category}
+                            <X className="w-3 h-3" />
+                        </button>
+                    )}
+                    {params.city && (
+                        <button
+                            onClick={() => { const p = new URLSearchParams(searchParams); p.delete('city'); setSearchParams(p); }}
+                            className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
+                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                        >
+                            {params.city}
+                            <X className="w-3 h-3" />
+                        </button>
+                    )}
+                    {params.condition && (
+                        <button
+                            onClick={() => { const p = new URLSearchParams(searchParams); p.delete('condition'); setSearchParams(p); }}
+                            className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
+                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                        >
+                            {params.condition === 'new' ? 'Neuf' : params.condition === 'used' ? 'Occasion' : 'Reconditionné'}
+                            <X className="w-3 h-3" />
+                        </button>
+                    )}
+                    {params.delivery && (
+                        <button
+                            onClick={() => { const p = new URLSearchParams(searchParams); p.delete('delivery'); setSearchParams(p); }}
+                            className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
+                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                        >
+                            Livraison <X className="w-3 h-3" />
+                        </button>
+                    )}
+
+                    {/* Sort chips */}
+                    {!params.sort && (
+                        <>
+                            <button
+                                onClick={() => { const p = new URLSearchParams(searchParams); p.set('sort', 'price_asc'); setSearchParams(p); }}
+                                className="flex items-center shrink-0 px-3 py-2 rounded-full text-sm font-medium border bg-white text-gray-600 border-gray-300"
+                            >
+                                Prix ↑
+                            </button>
+                            <button
+                                onClick={() => { const p = new URLSearchParams(searchParams); p.set('sort', 'price_desc'); setSearchParams(p); }}
+                                className="flex items-center shrink-0 px-3 py-2 rounded-full text-sm font-medium border bg-white text-gray-600 border-gray-300"
+                            >
+                                Prix ↓
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
 
             {/* Mobile Filter Drawer */}
@@ -103,7 +178,8 @@ const Results = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            )
+            }
 
             {/* Sort & View Toggles — Desktop */}
             <div className="hidden lg:flex justify-between items-center mb-4">
@@ -248,7 +324,7 @@ const Results = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
