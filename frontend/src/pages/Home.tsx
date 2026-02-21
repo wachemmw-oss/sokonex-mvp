@@ -62,6 +62,17 @@ const Home = () => {
                         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${idx === currentBanner ? 'opacity-100' : 'opacity-0'}`}
                     />
                 ))}
+                {/* Explorer Button */}
+                <div className="absolute bottom-8 left-4 md:bottom-10 md:left-8 z-10">
+                    <Link
+                        to="/results"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm font-bold text-sm text-white shadow-lg transition hover:opacity-90 active:scale-95"
+                        style={{ backgroundColor: '#214829' }}
+                    >
+                        Explorer
+                        <ChevronRight className="w-4 h-4" />
+                    </Link>
+                </div>
                 {/* Banner Indicators */}
                 <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
                     {BANNERS.map((_, idx) => (
