@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Ad from '../models/Ad';
+import { cache } from '../utils/cache';
 
 // @desc    Create a new ad
 // @route   POST /api/ads
@@ -42,8 +43,11 @@ export const createAd = async (req: Request, res: Response) => {
             condition,
             attributes,
             images,
-            status: 'active' // Default active for MVP
+            status: 'active'
         });
+
+        // Invalidate all ads cache so new ad appears immediately
+        cache.invalidatePrefix('ads:');
 
         res.status(201).json({ success: true, data: ad });
     } catch (error: any) {
@@ -56,6 +60,14 @@ export const createAd = async (req: Request, res: Response) => {
 // @access  Public
 export const getAds = async (req: Request, res: Response) => {
     try {
+        // Build cache key from all query params
+        const cacheKey = 'ads:' + JSON.stringify(req.query);
+        const cached = cache.get(cacheKey);
+        if (cached) {
+            res.setHeader('X-Cache', 'HIT');
+            return res.json(cached);
+        }
+
         const {
             q, category, subCategory, province, city,
             priceType, min, max, delivery, condition, sellerType,
@@ -155,7 +167,7 @@ export const getAds = async (req: Request, res: Response) => {
         // For price ranges, it's fixed buckets usually.
         // 0-5, 5-10, 10-20, ...
 
-        res.json({
+        const response = {
             success: true,
             data: {
                 items: ads,
@@ -163,12 +175,14 @@ export const getAds = async (req: Request, res: Response) => {
                 page: pageNum,
                 pages: Math.ceil(total / limitNum)
             },
-            // facets: facetResults[0] // to be implemented fully if needed
-            facets: {
-                // Placeholder for now as aggregation might be heavy and needs distinct query
-                subCategories: [],
-            }
-        });
+            facets: { subCategories: [] }
+        };
+
+        // Store in cache — 90 sec TTL (fresh enough, fast enough)
+        cache.set(cacheKey, response, 90);
+
+        res.setHeader('X-Cache', 'MISS');
+        res.json(response);
 
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });

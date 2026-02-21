@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import compression from 'compression';
 import { connectDB } from './config/db';
 
 import dns from 'node:dns';
@@ -14,6 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+app.use(compression()); // gzip — reduces JSON payload by 60-80%
 app.use(express.json());
 app.use(cors({
     origin: (origin, callback) => {
