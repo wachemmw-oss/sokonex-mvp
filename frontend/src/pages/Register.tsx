@@ -32,7 +32,7 @@ const Register = () => {
                     <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Mot de passe</label>
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-[#214829] focus:ring-1 focus:ring-[#214829] transition-colors" required />
                 </div>
-                <button type="submit" className="w-full text-white font-bold py-3 rounded-sm transition active:scale-95" style={{ backgroundColor: '#214829' }}>S'inscrire</button>
+                <button type="submit" className="w-full font-bold py-3 rounded-sm transition active:scale-95" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>S'inscrire</button>
             </form>
             <p className="mt-6 text-center text-sm text-gray-600">
                 Déjà un compte ? <Link to="/login" className="font-bold underline" style={{ color: '#214829' }}>Se connecter</Link>

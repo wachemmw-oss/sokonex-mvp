@@ -143,7 +143,7 @@ const AdDetails = () => {
                     {/* Price and Title */}
                     <div className="mb-4">
                         <div className="flex items-baseline gap-2 mb-2">
-                            <h2 className="text-3xl font-extrabold tracking-tight" style={{ color: '#214829' }}>
+                            <h2 className="text-3xl font-extrabold tracking-tight" style={{ color: '#FFBA34' }}>
                                 {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` :
                                     ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                             </h2>
@@ -208,12 +208,12 @@ const AdDetails = () => {
                         </div>
                         <div className="flex gap-3">
                             {ad.sellerId?.showPhone && (
-                                <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90" style={{ backgroundColor: '#214829' }}>
+                                <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                                     <Phone className="w-4 h-4" /> Appeler
                                 </a>
                             )}
                             {ad.sellerId?.whatsapp && (
-                                <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                                <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                                     <MessageCircle className="w-4 h-4" /> WhatsApp
                                 </a>
                             )}
@@ -245,16 +245,16 @@ const AdDetails = () => {
             {/* Mobile Sticky Bottom Action Bar */}
             <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 {ad.sellerId?.showPhone && (
-                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm border" style={{ borderColor: '#214829', color: '#214829' }}>
+                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                         <Phone className="w-4 h-4" /> Appeler
                     </a>
                 )}
                 {ad.sellerId?.whatsapp ? (
-                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#214829' }}>
+                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                         <MessageCircle className="w-4 h-4" /> WhatsApp
                     </a>
                 ) : (
-                    <button className="flex-1 text-white text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#214829' }}>
+                    <button className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                         Contacter
                     </button>
                 )}

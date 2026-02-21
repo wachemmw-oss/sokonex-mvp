@@ -81,7 +81,7 @@ const MyAds = () => {
                                     <span className="text-xs text-gray-500">{new Date(ad.createdAt).toLocaleDateString('fr-FR')}</span>
                                 </div>
                                 <h3 className="font-bold text-black text-base truncate mb-1">{ad.title}</h3>
-                                <p className="text-sm font-bold mb-1" style={{ color: '#214829' }}>
+                                <p className="text-sm font-bold mb-1" style={{ color: '#FFBA34' }}>
                                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate">{ad.category} • {ad.city}</p>
@@ -124,8 +124,8 @@ const SidebarLink = ({ to, icon: Icon, text, active }: { to: string, icon: any, 
     <Link
         to={to}
         className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${active
-                ? 'bg-[#FFBA34] text-[#1A3620] font-bold border-r-4 border-[#1A3620]'
-                : 'text-white/80 hover:bg-white/10 hover:text-white'
+            ? 'bg-[#FFBA34] text-[#1A3620] font-bold border-r-4 border-[#1A3620]'
+            : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
     >
         <Icon className="w-5 h-5 shrink-0" />

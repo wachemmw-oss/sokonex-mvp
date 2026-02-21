@@ -56,8 +56,8 @@ const Results = () => {
                         <div className="p-4 border-t sticky bottom-0 bg-white">
                             <button
                                 onClick={() => setIsFilterOpen(false)}
-                                className="w-full text-white font-bold py-3 rounded-sm active:scale-95 transition"
-                                style={{ backgroundColor: '#214829' }}
+                                className="w-full font-bold py-3 rounded-sm active:scale-95 transition"
+                                style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}
                             >
                                 Afficher les résultats
                             </button>
