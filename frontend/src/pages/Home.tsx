@@ -33,6 +33,9 @@ const Home = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<'recommande' | 'nouveau' | 'tendance'>('recommande');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [currentBanner, setCurrentBanner] = useState(0);
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [isPaused, setIsPaused] = useState(false);
 
     const banners = [
         {
@@ -88,6 +91,29 @@ const Home = () => {
             dark: false
         }
     ];
+
+    // Banner Auto-play Logic
+    useEffect(() => {
+        if (isPaused) return;
+
+        const interval = setInterval(() => {
+            setCurrentBanner((prev) => (prev + 1) % banners.length);
+        }, 5000); // 5 seconds per banner
+
+        return () => clearInterval(interval);
+    }, [isPaused, banners.length]);
+
+    // Scroll to active banner
+    useEffect(() => {
+        if (carouselRef.current) {
+            const container = carouselRef.current;
+            const bannerWidth = container.offsetWidth;
+            container.scrollTo({
+                left: currentBanner * bannerWidth,
+                behavior: 'smooth'
+            });
+        }
+    }, [currentBanner]);
 
     // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCats } = useQuery({
