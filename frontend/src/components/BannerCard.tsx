@@ -43,26 +43,26 @@ const BannerCard: React.FC<BannerCardProps> = ({
 
             {/* Content Layer */}
             <div className={`relative z-20 h-full w-full flex flex-col justify-center p-8 md:p-24 ${reverse ? 'items-end text-right' : 'items-start text-left'}`}>
-                {/* Text Container with subtle glass effect for guaranteed visibility */}
-                <div className={`flex flex-col max-w-2xl bg-black/10 backdrop-blur-[4px] p-8 md:p-14 rounded-[3rem] border border-white/5 shadow-2xl ${reverse ? 'items-end' : 'items-start'}`}>
-                    <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.6em] mb-4 text-[#FFBA34] drop-shadow-sm">
+                {/* Text Container with polished look */}
+                <div className={`flex flex-col max-w-xl ${reverse ? 'items-end' : 'items-start'}`}>
+                    <span className="text-xs md:text-sm font-medium tracking-wide mb-2 text-white/90">
                         {subtitle}
                     </span>
-                    <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic leading-[0.85] mb-6 text-white drop-shadow-2xl">
+                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 text-white leading-[1.1]">
                         {title}
                     </h2>
                     {description && (
-                        <p className="text-xs md:text-base font-bold leading-relaxed mb-10 max-w-[42ch] text-white/80 drop-shadow-md">
+                        <p className="text-xs md:text-base font-medium leading-relaxed mb-8 max-w-[40ch] text-white/70">
                             {description}
                         </p>
                     )}
                     <div className="mt-2">
                         <Link
                             to={ctaLink}
-                            className="inline-flex items-center gap-4 py-4 px-12 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest transition-all active:scale-95 shadow-[0_20px_50px_rgba(255,186,52,0.3)] bg-[#FFBA34] text-[#1A3620] hover:bg-white hover:scale-110 hover:shadow-white/20"
+                            className="inline-flex items-center gap-3 py-3.5 px-8 rounded-full font-bold text-sm transition-all active:scale-95 bg-[#1A3620] text-white hover:bg-white hover:text-[#1A3620]"
                         >
                             {ctaText}
-                            <ChevronRight size={20} strokeWidth={3} />
+                            <ChevronRight size={18} strokeWidth={2.5} />
                         </Link>
                     </div>
                 </div>
