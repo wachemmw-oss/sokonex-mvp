@@ -12,13 +12,13 @@ interface AdCardProps {
 const getConditionDetails = (condition: string) => {
     switch (condition?.toLowerCase()) {
         case 'new':
-            return { label: 'Neuf', bg: 'bg-[#EBF5EE]', text: 'text-[#214829]' };
+            return { label: 'Neuf', bg: 'bg-[#EBF5EE]', text: 'text-[#1A3620]' };
         case 'used':
-            return { label: 'Occasion', bg: 'bg-orange-100', text: 'text-orange-700' };
+            return { label: 'Occasion', bg: 'bg-[#FFF3D4]', text: 'text-[#E8A520]' };
         case 'refurbished':
-            return { label: 'Reconditionné', bg: 'bg-blue-100', text: 'text-blue-700' };
+            return { label: 'Reconditionné', bg: 'bg-blue-50', text: 'text-blue-600' };
         default:
-            return { label: condition, bg: 'bg-gray-100', text: 'text-gray-700' };
+            return { label: condition, bg: 'bg-gray-50', text: 'text-gray-500' };
     }
 };
 
@@ -42,11 +42,11 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
     return (
         <Link
             to={`/ad/${ad._id}`}
-            className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-3 gap-3' : 'flex-col h-full pb-2'}`}
+            className={`group bg-white flex transition-premium ${isList ? 'flex-row border-b border-gray-100 p-3 gap-3' : 'flex-col h-full pb-2 rounded-3xl hover:shadow-premium hover:-translate-y-1'}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <div className={`relative bg-gray-100 overflow-hidden rounded-sm shrink-0 ${isList ? 'w-28 h-28 md:w-36 md:h-36' : 'aspect-[3/4]'}`}>
+            <div className={`relative bg-slate-50 overflow-hidden rounded-[1.5rem] shrink-0 ${isList ? 'w-28 h-28 md:w-36 md:h-36' : 'aspect-[4/5]'}`}>
                 {ad.images?.[0] ? (
                     <img
                         src={ad.images[0].url}
@@ -58,43 +58,43 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Aucune image</div>
                 )}
                 {promoted && (
-                    <div className="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider z-10" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                        Promo
+                    <div className="absolute top-3 left-3 text-[9px] font-black px-2 py-0.5 rounded-lg uppercase tracking-widest z-10 shadow-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                        Premium
                     </div>
                 )}
                 <button
-                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur rounded-full p-1.5 text-gray-400 hover:text-[#FFBA34] transition-colors z-10 shadow-sm"
+                    className="absolute bottom-3 right-3 bg-white/90 backdrop-blur rounded-2xl p-2 text-slate-400 hover:text-[#FFBA34] transition-colors z-10 shadow-sm"
                     onClick={(e) => {
                         e.preventDefault();
                         // Wishlist logic here later
                     }}
                 >
-                    <Heart className="w-4 h-4" />
+                    <Heart className="w-4 h-4" strokeWidth={2.5} />
                 </button>
             </div>
 
-            <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
+            <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start px-2' : 'pt-4 px-3'}`}>
                 {/* 1. Price */}
-                <p className="font-extrabold text-base md:text-lg leading-none mb-1.5 text-black">
+                <p className="font-black text-lg md:text-xl tracking-tight mb-2 text-[#1A3620]">
                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
                         ? `$${ad.price?.toLocaleString()}`
                         : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                 </p>
 
                 {/* 2. Title (Max 2 lines) */}
-                <h3 className="text-[12px] md:text-[13px] text-gray-800 font-medium line-clamp-2 leading-tight group-hover:underline mb-1">
+                <h3 className="text-[12px] md:text-[13px] text-slate-500 font-bold uppercase tracking-widest line-clamp-2 leading-tight group-hover:text-[#1A3620] mb-2">
                     {ad.title}
                 </h3>
 
                 {/* 3 & 4. City and Condition */}
-                <div className="mt-auto pt-1 flex flex-wrap items-center gap-1.5">
+                <div className="mt-auto pt-2 flex flex-wrap items-center gap-2 border-t border-slate-50">
                     {ad.city && (
-                        <span className="text-[10px] md:text-xs text-gray-500 font-medium whitespace-nowrap">
+                        <span className="text-[10px] md:text-[11px] text-slate-400 font-black uppercase tracking-widest whitespace-nowrap">
                             {ad.city}
                         </span>
                     )}
                     {ad.condition && (
-                        <span className={`text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap ${getConditionDetails(ad.condition).bg} ${getConditionDetails(ad.condition).text}`}>
+                        <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg whitespace-nowrap ${getConditionDetails(ad.condition).bg} ${getConditionDetails(ad.condition).text}`}>
                             {getConditionDetails(ad.condition).label}
                         </span>
                     )}
