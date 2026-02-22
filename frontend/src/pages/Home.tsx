@@ -9,9 +9,6 @@ import AdCard from '../components/AdCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { getCategories } from '../services/category';
-import banner1 from '../assets/banner1.webp';
-import banner2 from '../assets/banner2.webp';
-import banner3 from '../assets/banner3.webp';
 
 // Icon mapping
 const iconMap: Record<string, any> = {
