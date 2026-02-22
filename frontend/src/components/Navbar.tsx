@@ -135,9 +135,9 @@ const Navbar = () => {
                                         )}
                                     </div>
                                 ) : (
-                                    <div className="flex items-center space-x-2">
-                                        <Link to="/login" className="text-gray-800 font-medium hover:text-black text-sm px-3 py-2 transition-colors">Connexion</Link>
-                                        <Link to="/register" className="font-medium text-sm px-4 py-2 rounded-sm transition hidden sm:inline-block" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                                    <div className="flex items-center space-x-4">
+                                        <Link to="/login" className="text-slate-600 font-black uppercase tracking-widest hover:text-[#1A3620] text-[11px] transition-colors">Connexion</Link>
+                                        <Link to="/register" className="btn-premium !py-2.5 !px-6 shadow-lg shadow-[#FFBA34]/20 hidden sm:inline-block">
                                             Inscription
                                         </Link>
                                     </div>
@@ -168,16 +168,16 @@ const Navbar = () => {
                         )}
 
                         {/* Search Bar */}
-                        <form onSubmit={handleSearch} className="flex-1 relative flex items-center h-[42px]">
+                        <form onSubmit={handleSearch} className="flex-1 relative flex items-center h-[46px]">
                             <input
                                 type="text"
-                                placeholder="Rechercher des articles..."
-                                className="w-full h-full bg-gray-100 border-none rounded-sm py-0 pl-3 pr-12 text-[13px] focus:ring-0 focus:outline-none placeholder-gray-500"
+                                placeholder="Rechercher..."
+                                className="w-full h-full bg-slate-50 border border-slate-100 rounded-[1.25rem] py-0 pl-4 pr-12 text-[13px] font-medium focus:ring-2 focus:ring-[#FFBA34]/20 focus:border-[#FFBA34] focus:outline-none placeholder-slate-400 group-hover:shadow-md transition-premium"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <button type="submit" className="absolute right-1 top-1 bottom-1 w-[46px] flex items-center justify-center rounded-sm transition-colors" style={{ backgroundColor: '#214829', color: 'white' }}>
-                                <Search className="w-5 h-5" />
+                            <button type="submit" className="absolute right-1 top-1 bottom-1 w-[44px] flex items-center justify-center rounded-[1rem] transition-colors shadow-sm" style={{ backgroundColor: '#1A3620', color: 'white' }}>
+                                <Search className="w-5 h-5" strokeWidth={2.5} />
                             </button>
                         </form>
 
