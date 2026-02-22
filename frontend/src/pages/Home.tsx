@@ -25,9 +25,6 @@ const iconMap: Record<string, any> = {
     MoreHorizontal: MoreHorizontal
 };
 
-const BANNERS = [
-    "/banners/Banner 1.jpg",
-];
 
 const Home = () => {
     const navigate = useNavigate();
@@ -173,8 +170,8 @@ const Home = () => {
                                 key={idx}
                                 onClick={() => setCurrentBanner(idx)}
                                 className={`h-1.5 transition-all duration-500 rounded-full ${currentBanner === idx
-                                        ? 'w-8 bg-[#FFBA34]'
-                                        : 'w-2 bg-white/40 hover:bg-white/60'
+                                    ? 'w-8 bg-[#FFBA34]'
+                                    : 'w-2 bg-white/40 hover:bg-white/60'
                                     }`}
                                 aria-label={`Go to banner ${idx + 1}`}
                             />
