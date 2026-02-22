@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useQuery } from '@tanstack/react-query';
+import { getCategories } from '../services/category';
 import {
     Search, User as UserIcon, LogOut, Menu, X, ChevronRight,
     Info, HelpCircle, ShieldCheck, FileText, Bell, SlidersHorizontal,
     LayoutDashboard, Settings, ShieldAlert, Heart, Grid
 } from 'lucide-react';
-import { CATEGORIES } from '../data/categories';
 import logo from '../assets/sokonex-best-logo.png';
 
 const Navbar = () => {
@@ -15,6 +16,14 @@ const Navbar = () => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);  // hamburger drawer
     const [searchQuery, setSearchQuery] = useState('');
+
+    // Fetch categories
+    const { data: categoriesData } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getCategories
+    });
+
+    const CATEGORIES_FROM_DB = categoriesData?.data || [];
 
     const handleLogout = () => {
         logout();
@@ -219,20 +228,19 @@ const Navbar = () => {
                             </div>
                         </div>
 
-                        {/* Categories */}
                         <div className="p-4 border-b">
                             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2">
                                 <Grid className="w-3.5 h-3.5" /> Catégories
                             </p>
                             <div className="space-y-0.5">
-                                {CATEGORIES.map((cat) => (
+                                {CATEGORIES_FROM_DB.map((cat: any) => (
                                     <Link
-                                        key={cat.id}
-                                        to={`/results?category=${cat.id}`}
+                                        key={cat.slug}
+                                        to={`/results?category=${cat.slug}`}
                                         onClick={() => setIsMenuOpen(false)}
                                         className="flex items-center justify-between py-2.5 px-2 rounded-sm hover:bg-gray-50 text-sm text-gray-700 font-medium"
                                     >
-                                        {cat.label}
+                                        {cat.name}
                                         <ChevronRight className="w-4 h-4 text-gray-400" />
                                     </Link>
                                 ))}

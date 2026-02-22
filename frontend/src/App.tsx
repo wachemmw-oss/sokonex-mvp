@@ -17,6 +17,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const AdminUsers = lazy(() => import('./pages/AdminUsers'));
 const AdminReports = lazy(() => import('./pages/AdminReports'));
+const AdminCategories = lazy(() => import('./pages/AdminCategories'));
 const AdminLayout = lazy(() => import('./components/AdminLayout'));
 const Aide = lazy(() => import('./pages/Aide'));
 const Legal = lazy(() => import('./pages/Legal'));
@@ -84,6 +85,7 @@ function AppContent() {
               <Route index element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="reports" element={<AdminReports />} />
+              <Route path="categories" element={<AdminCategories />} />
             </Route>
 
             <Route path="/aide" element={<Aide />} />

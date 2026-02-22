@@ -1,9 +1,10 @@
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
+import { getCategories } from '../services/category';
 import FilterSidebar from '../components/FilterSidebar';
 import AdCard from '../components/AdCard';
-import { useState, useEffect, useRef } from 'react';
 import { LayoutGrid, List, Filter, X, Loader2 } from 'lucide-react';
 
 const LIMIT = 12;
@@ -14,6 +15,14 @@ const Results = () => {
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     // Mobile Filter Drawer State
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    // Fetch categories
+    const { data: categoriesData } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getCategories
+    });
+
+    const CATEGORIES_FROM_DB = categoriesData?.data || [];
 
     // Listen for custom event from Navbar to open filters
     useEffect(() => {
@@ -107,7 +116,7 @@ const Results = () => {
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
                             style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
                         >
-                            {params.category}
+                            {CATEGORIES_FROM_DB.find((c: any) => c.slug === params.category)?.name || params.category}
                             <X className="w-3 h-3" />
                         </button>
                     )}

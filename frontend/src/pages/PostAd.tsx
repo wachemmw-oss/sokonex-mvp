@@ -5,7 +5,7 @@ import { createAd, updateAd, getAdById } from '../services/ads';
 import { uploadImage } from '../services/upload';
 import { useAuth } from '../context/AuthContext';
 
-import { CATEGORIES } from '../data/categories';
+import { getCategories } from '../services/category';
 import { LOCATIONS } from '../data/locations';
 
 const PostAd = () => {
@@ -13,6 +13,14 @@ const PostAd = () => {
     const navigate = useNavigate();
     const { id } = useParams(); // For edit mode
     const queryClient = useQueryClient();
+
+    // Fetch categories from DB
+    const { data: categoriesData, isLoading: isLoadingCats } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getCategories
+    });
+
+    const CATEGORIES_FROM_DB = categoriesData?.data || [];
 
     // Fetch ad if in edit mode
     const { data: adData, isLoading: isLoadingAd } = useQuery({
@@ -25,8 +33,8 @@ const PostAd = () => {
 
     const [formData, setFormData] = useState({
         title: '', description: '',
-        category: CATEGORIES[0].id,
-        subCategory: CATEGORIES[0].subCategories[0].id,
+        category: '',
+        subCategory: '',
         province: LOCATIONS[0].province, city: LOCATIONS[0].cities[0], priceType: 'fixed', price: '',
         delivery: { available: false, included: false, national: false },
         condition: 'used'
@@ -37,15 +45,26 @@ const PostAd = () => {
     const [error, setError] = useState('');
     const [attributes, setAttributes] = useState<Record<string, any>>({});
 
+    // Set default category when loaded
+    useEffect(() => {
+        if (!isEditMode && CATEGORIES_FROM_DB.length > 0 && !formData.category) {
+            setFormData(prev => ({
+                ...prev,
+                category: CATEGORIES_FROM_DB[0].slug,
+                subCategory: CATEGORIES_FROM_DB[0].subCategories[0]?.slug || ''
+            }));
+        }
+    }, [CATEGORIES_FROM_DB, isEditMode]);
+
     // Populate form data when editing
     useEffect(() => {
-        if (isEditMode && adData?.success) {
+        if (isEditMode && adData?.success && CATEGORIES_FROM_DB.length > 0) {
             const ad = adData.data;
             setFormData({
                 title: ad.title || '',
                 description: ad.description || '',
-                category: ad.category || CATEGORIES[0].id,
-                subCategory: ad.subCategory || CATEGORIES[0].subCategories[0].id,
+                category: ad.category || CATEGORIES_FROM_DB[0].slug,
+                subCategory: ad.subCategory || CATEGORIES_FROM_DB[0].subCategories[0]?.slug || '',
                 province: ad.province || LOCATIONS[0].province,
                 city: ad.city || LOCATIONS[0].cities[0],
                 priceType: ad.priceType || 'fixed',
@@ -56,7 +75,7 @@ const PostAd = () => {
             setAttributes(ad.attributes || {});
             setExistingImages(ad.images || []);
         }
-    }, [isEditMode, adData]);
+    }, [isEditMode, adData, CATEGORIES_FROM_DB]);
 
     const mutation = useMutation({
         mutationFn: isEditMode ? (data: any) => updateAd(id as string, data) : createAd,
@@ -72,7 +91,7 @@ const PostAd = () => {
     });
 
     // Derived state for current category attributes
-    const currentCategory = CATEGORIES.find(c => c.id === formData.category);
+    const currentCategory = CATEGORIES_FROM_DB.find((c: any) => c.slug === formData.category);
     const currentSubCategories = currentCategory?.subCategories || [];
     const currentAttributes = currentCategory?.attributes || [];
 
@@ -120,9 +139,9 @@ const PostAd = () => {
             const newData = { ...prev, [name]: value };
             // Reset subcategory and attributes if category changes
             if (name === 'category') {
-                const newCat = CATEGORIES.find(c => c.id === value);
+                const newCat = CATEGORIES_FROM_DB.find((c: any) => c.slug === value);
                 if (newCat && newCat.subCategories.length > 0) {
-                    newData.subCategory = newCat.subCategories[0].id;
+                    newData.subCategory = newCat.subCategories[0].slug;
                 }
                 setAttributes({}); // Reset attributes
             }
@@ -151,8 +170,8 @@ const PostAd = () => {
         setImages(prev => prev.filter((_, i) => i !== index));
     };
 
-    if (isEditMode && isLoadingAd) {
-        return <div className="p-8 text-center text-gray-500">Chargement de l'annonce...</div>;
+    if ((isEditMode && isLoadingAd) || isLoadingCats) {
+        return <div className="p-8 text-center text-gray-500">Chargement...</div>;
     }
 
     return (
@@ -174,16 +193,16 @@ const PostAd = () => {
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Catégorie</label>
                         <select name="category" value={formData.category} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-sm focus:ring-1 focus:ring-black focus:border-black outline-none bg-white">
-                            {CATEGORIES.map(cat => (
-                                <option key={cat.id} value={cat.id}>{cat.label}</option>
+                            {CATEGORIES_FROM_DB.map((cat: any) => (
+                                <option key={cat.slug} value={cat.slug}>{cat.name}</option>
                             ))}
                         </select>
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Sous-catégorie</label>
                         <select name="subCategory" value={formData.subCategory} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-sm focus:ring-1 focus:ring-black focus:border-black outline-none bg-white">
-                            {currentSubCategories.map(sub => (
-                                <option key={sub.id} value={sub.id}>{sub.label}</option>
+                            {currentSubCategories.map((sub: any) => (
+                                <option key={sub.slug} value={sub.slug}>{sub.name}</option>
                             ))}
                         </select>
                     </div>

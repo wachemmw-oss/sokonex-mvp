@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CATEGORIES } from '../data/categories';
-import { LOCATIONS } from '../data/locations';
 import { ChevronRight, ChevronLeft, ChevronDown, Search } from 'lucide-react';
+import { getCategories } from '../services/category';
+import { useQuery } from '@tanstack/react-query';
+import { LOCATIONS } from '../data/locations';
 
 const FilterSidebar = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +21,14 @@ const FilterSidebar = () => {
 
     const [drilldownCategory, setDrilldownCategory] = useState<string | null>(searchParams.get('category'));
     const [drilldownProvince, setDrilldownProvince] = useState<string | null>(searchParams.get('province'));
+
+    // Fetch categories
+    const { data: categoriesData } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getCategories
+    });
+
+    const CATEGORIES_FROM_DB = categoriesData?.data || [];
 
     // Update local state when URL params change
     useEffect(() => {
@@ -87,7 +96,7 @@ const FilterSidebar = () => {
         setDrilldownCategory(null);
     };
 
-    const currentSubCategories = CATEGORIES.find(c => c.id === filters.category)?.subCategories || [];
+    const currentSubCategories = CATEGORIES_FROM_DB.find((c: any) => c.slug === filters.category)?.subCategories || [];
 
     return (
         <div className="bg-white p-4 rounded-sm shadow-sm border border-gray-100">
@@ -122,18 +131,18 @@ const FilterSidebar = () => {
                                 <span>Toutes les catégories</span>
                                 {!filters.category && <div className="w-1.5 h-1.5 rounded-full bg-[#FFBA34]" />}
                             </button>
-                            {CATEGORIES.map(c => (
+                            {CATEGORIES_FROM_DB.map((c: any) => (
                                 <button
-                                    key={c.id}
+                                    key={c.slug}
                                     type="button"
-                                    onClick={() => setDrilldownCategory(c.id)}
-                                    className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${filters.category === c.id ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
+                                    onClick={() => setDrilldownCategory(c.slug)}
+                                    className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${filters.category === c.slug ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <span className="text-lg opacity-70 group-hover:opacity-100 transition-opacity">
                                             {/* We could add category-specific icons here if we had a map */}
                                         </span>
-                                        <span>{c.label}</span>
+                                        <span>{c.name}</span>
                                     </div>
                                     <ChevronRight className="w-4 h-4 text-gray-400" />
                                 </button>
@@ -153,7 +162,7 @@ const FilterSidebar = () => {
 
                             <div className="p-3 bg-gray-50 rounded-sm mb-2 border border-gray-100">
                                 <span className="text-xs text-gray-500 uppercase font-medium">Sélectionné : </span>
-                                <span className="text-sm font-bold text-gray-900 ml-1">{CATEGORIES.find(c => c.id === drilldownCategory)?.label}</span>
+                                <span className="text-sm font-bold text-gray-900 ml-1">{CATEGORIES_FROM_DB.find((c: any) => c.slug === drilldownCategory)?.name}</span>
                             </div>
 
                             <div className="space-y-1 ml-2 border-l border-gray-100 pl-4">
@@ -168,18 +177,18 @@ const FilterSidebar = () => {
                                 >
                                     Toutes les sous-catégories
                                 </button>
-                                {CATEGORIES.find(c => c.id === drilldownCategory)?.subCategories.map(sub => (
+                                {CATEGORIES_FROM_DB.find((c: any) => c.slug === drilldownCategory)?.subCategories.map((sub: any) => (
                                     <button
-                                        key={sub.id}
+                                        key={sub.slug}
                                         type="button"
                                         onClick={() => {
-                                            const newF = { ...filters, category: drilldownCategory, subCategory: sub.id };
+                                            const newF = { ...filters, category: drilldownCategory, subCategory: sub.slug };
                                             setFilters(newF);
                                             updateParams(newF);
                                         }}
-                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.subCategory === sub.id ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.subCategory === sub.slug ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
                                     >
-                                        {sub.label}
+                                        {sub.name}
                                     </button>
                                 ))}
                             </div>
@@ -313,7 +322,7 @@ const FilterSidebar = () => {
                 </div>
 
                 {/* Dynamic Attributes Filters */}
-                {filters.category && CATEGORIES.find(c => c.id === filters.category)?.attributes?.map(attr => (
+                {filters.category && CATEGORIES_FROM_DB.find((c: any) => c.slug === filters.category)?.attributes?.map((attr: any) => (
                     <div key={attr.id}>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">{attr.label}</label>
                         {attr.type === 'select' ? (

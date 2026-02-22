@@ -1,4 +1,11 @@
-export const CATEGORIES = [
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import path from 'path';
+import Category from '../models/Category';
+
+// Hardcoded categories from frontend/src/data/categories.ts
+// I'm reproducing them here for the seed script
+const CATEGORIES = [
     {
         id: 'immobilier',
         label: 'Immobilier',
@@ -35,7 +42,7 @@ export const CATEGORIES = [
             { id: 'bateaux-pirogues', label: 'Bateaux / Pirogues' },
         ],
         attributes: [
-            { id: 'brand', label: 'Marque', type: 'text' }, // Could be select in V2
+            { id: 'brand', label: 'Marque', type: 'text' },
             { id: 'model', label: 'Modèle', type: 'text' },
             { id: 'year', label: 'Année', type: 'number' },
             { id: 'mileage', label: 'Kilométrage', type: 'number' },
@@ -161,3 +168,40 @@ export const CATEGORIES = [
         ]
     },
 ];
+
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+
+const seed = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI!);
+        console.log('Connected to MongoDB');
+
+        // Clear existing categories
+        await Category.deleteMany({});
+        console.log('Cleared existing categories');
+
+        const formattedCategories = CATEGORIES.map((cat, index) => ({
+            name: cat.label,
+            slug: cat.id,
+            icon: cat.icon,
+            subCategories: cat.subCategories.map(sub => ({ name: sub.label, slug: sub.id })),
+            attributes: (cat as any).attributes?.map((attr: any) => ({
+                id: attr.id,
+                label: attr.label,
+                type: attr.type,
+                options: attr.options
+            })) || [],
+            order: index
+        }));
+
+        await Category.insertMany(formattedCategories);
+        console.log('Successfully seeded categories!');
+
+        process.exit(0);
+    } catch (error) {
+        console.error('Error seeding categories:', error);
+        process.exit(1);
+    }
+};
+
+seed();

@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import Report from '../models/Report';
 import Ad from '../models/Ad';
 import User from '../models/User';
+import Category from '../models/Category';
+
 
 
 // @desc    Get all reports
@@ -117,3 +119,58 @@ export const getUsers = async (req: Request, res: Response) => {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
     }
 };
+
+// @desc    Get all categories
+// @route   GET /api/categories
+// @access  Public
+export const getAllCategories = async (req: Request, res: Response) => {
+    try {
+        const categories = await Category.find().sort({ order: 1 });
+        res.json({ success: true, data: categories });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};
+
+// @desc    Create a category
+// @route   POST /api/admin/categories
+// @access  Private/Admin
+export const createCategory = async (req: Request, res: Response) => {
+    try {
+        const category = await Category.create(req.body);
+        res.status(201).json({ success: true, data: category });
+    } catch (error: any) {
+        res.status(400).json({ success: false, error: { code: 'BAD_REQUEST', message: error.message } });
+    }
+};
+
+// @desc    Update a category
+// @route   PATCH /api/admin/categories/:id
+// @access  Private/Admin
+export const updateCategory = async (req: Request, res: Response) => {
+    try {
+        const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!category) {
+            return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Category not found' } });
+        }
+        res.json({ success: true, data: category });
+    } catch (error: any) {
+        res.status(400).json({ success: false, error: { code: 'BAD_REQUEST', message: error.message } });
+    }
+};
+
+// @desc    Delete a category
+// @route   DELETE /api/admin/categories/:id
+// @access  Private/Admin
+export const deleteCategory = async (req: Request, res: Response) => {
+    try {
+        const category = await Category.findByIdAndDelete(req.params.id);
+        if (!category) {
+            return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Category not found' } });
+        }
+        res.json({ success: true, data: {}, message: 'Category deleted' });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};
+

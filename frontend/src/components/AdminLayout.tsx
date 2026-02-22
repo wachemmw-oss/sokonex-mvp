@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Users, Flag, Settings, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Users, Flag, Settings, ArrowLeft, ShieldAlert, Grid } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
     const menuItems = [
@@ -25,16 +25,42 @@ const AdminLayout: React.FC = () => {
                             to={item.path}
                             end={item.path === '/admin'}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${isActive
+                                `flex items - center gap - 3 px - 4 py - 3 rounded - lg transition - all duration - 200 group ${isActive
                                     ? 'bg-[#FFBA34] text-black font-bold shadow-lg'
                                     : 'text-white/70 hover:bg-white/10 hover:text-white'
-                                }`
+                                } `
                             }
                         >
                             <item.icon size={20} className="shrink-0" />
                             <span className="text-sm uppercase tracking-wide">{item.name}</span>
                         </NavLink>
                     ))}
+
+                    <div className="mt-8 pt-8 border-t border-white/5">
+                        <p className="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">MODÉRATION</p>
+                        <div className="space-y-1 px-2">
+                            <NavLink
+                                to="/admin/reports"
+                                className={({ isActive }) => `flex items - center gap - 3 px - 4 py - 3 rounded - xl transition - all duration - 300 ${isActive ? 'bg-[#FFBA34] text-black font-black shadow-lg shadow-[#FFBA34]/20 scale-105' : 'text-gray-400 hover:bg-white/5 hover:text-white'} `}
+                            >
+                                <ShieldAlert size={18} />
+                                <span className="text-sm">Signalements</span>
+                            </NavLink>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 pt-8 border-t border-white/5">
+                        <p className="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">STRUCTURES</p>
+                        <div className="space-y-1 px-2">
+                            <NavLink
+                                to="/admin/categories"
+                                className={({ isActive }) => `flex items - center gap - 3 px - 4 py - 3 rounded - xl transition - all duration - 300 ${isActive ? 'bg-[#FFBA34] text-black font-black shadow-lg shadow-[#FFBA34]/20 scale-105' : 'text-gray-400 hover:bg-white/5 hover:text-white'} `}
+                            >
+                                <Grid size={18} />
+                                <span className="text-sm">Catégories</span>
+                            </NavLink>
+                        </div>
+                    </div>
                 </nav>
 
                 <div className="p-4 border-t border-white/10">

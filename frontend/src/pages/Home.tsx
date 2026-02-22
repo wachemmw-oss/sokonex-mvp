@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+    Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike,
+    Briefcase, Building2, Baby, MoreHorizontal, ChevronRight,
+    Clock, LayoutGrid, List
+} from 'lucide-react';
+import AdCard from '../components/AdCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
-import { CATEGORIES } from '../data/categories';
-import { ChevronRight, Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike, Briefcase, Building2, Baby, MoreHorizontal, Search, Bell, Clock, LayoutGrid, List } from 'lucide-react';
-import AdCard from '../components/AdCard';
+import { getCategories } from '../services/category';
+import banner1 from '../assets/banner1.webp';
+import banner2 from '../assets/banner2.webp';
+import banner3 from '../assets/banner3.webp';
 
 // Icon mapping
 const iconMap: Record<string, any> = {
@@ -30,6 +37,14 @@ const Home = () => {
     const [activeTab, setActiveTab] = useState<'recommande' | 'nouveau' | 'tendance'>('recommande');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
+    // Fetch Categories
+    const { data: categoriesData, isLoading: isLoadingCats } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getCategories,
+        staleTime: 1000 * 60 * 10,
+    });
+
+    const CATEGORIES_FROM_DB = categoriesData?.data || [];
 
     // Fetch Promoted Ads (Used as Flash Deals)
     const { data: promotedAds } = useQuery({
@@ -86,19 +101,30 @@ const Home = () => {
             <div className="max-w-7xl mx-auto px-0 md:px-4">
                 {/* Category Slider */}
                 <div className="bg-white mt-2 md:mt-6 py-5 px-2 md:rounded-lg">
-                    <div className="flex gap-3 overflow-x-auto pb-2 px-3 scrollbar-hide snap-x">
-                        {CATEGORIES.map(cat => {
-                            const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
-                            return (
-                                <Link key={cat.id} to={`/results?category=${cat.id}`} className="flex flex-col items-center min-w-[80px] snap-start group">
-                                    <div className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center text-gray-800 mb-2 border border-gray-100 group-hover:border-black transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                                        <IconComponent className="w-7 h-7" strokeWidth={1.5} />
-                                    </div>
-                                    <span className="text-[11px] text-gray-600 font-bold max-w-[76px] text-center leading-[1.1] whitespace-normal group-hover:text-black">{cat.label}</span>
-                                </Link>
-                            );
-                        })}
-                    </div>
+                    {isLoadingCats ? (
+                        <div className="flex gap-4 overflow-x-auto pb-2 px-3 scrollbar-hide">
+                            {[1, 2, 3, 4, 5, 6].map(i => (
+                                <div key={i} className="min-w-[80px] flex flex-col items-center gap-2">
+                                    <div className="w-[72px] h-[72px] rounded-full bg-gray-100 animate-pulse" />
+                                    <div className="h-2 w-12 bg-gray-100 rounded animate-pulse" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex gap-3 overflow-x-auto pb-2 px-3 scrollbar-hide snap-x">
+                            {CATEGORIES_FROM_DB.map((cat: any) => {
+                                const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
+                                return (
+                                    <Link key={cat.slug} to={`/results?category=${cat.slug}`} className="flex flex-col items-center min-w-[80px] snap-start group">
+                                        <div className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center text-gray-800 mb-2 border border-gray-100 group-hover:border-black transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                            <IconComponent className="w-7 h-7" strokeWidth={1.5} />
+                                        </div>
+                                        <span className="text-[11px] text-gray-600 font-bold max-w-[76px] text-center leading-[1.1] whitespace-normal group-hover:text-black">{cat.name}</span>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 {/* Flash Deals (Promoted Ads) */}
