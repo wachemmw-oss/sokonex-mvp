@@ -233,13 +233,13 @@ const PostAd = () => {
                     <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                         <h3 className="font-semibold text-gray-700 mb-3 block">Détails spécifiques</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {currentAttributes.map(attr => (
+                            {currentAttributes.map((attr: any) => (
                                 <div key={attr.id}>
                                     <label className="block text-xs font-semibold text-gray-600 mb-1">{attr.label}</label>
                                     {attr.type === 'select' ? (
                                         <select name={attr.id} value={attributes[attr.id] || ''} onChange={handleAttributeChange} className="w-full border border-gray-200 p-2.5 rounded-sm text-sm bg-white focus:ring-1 focus:ring-black outline-none focus:border-black">
                                             <option value="">Sélectionner...</option>
-                                            {attr.options?.map(opt => (
+                                            {attr.options?.map((opt: string) => (
                                                 <option key={opt} value={opt}>{opt}</option>
                                             ))}
                                         </select>

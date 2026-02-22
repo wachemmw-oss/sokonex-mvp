@@ -338,7 +338,7 @@ const FilterSidebar = () => {
                                 className="w-full border p-2 rounded text-sm"
                             >
                                 <option value="">Tous</option>
-                                {attr.options?.map(opt => (
+                                {attr.options?.map((opt: string) => (
                                     <option key={opt} value={opt}>{opt}</option>
                                 ))}
                             </select>
