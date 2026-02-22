@@ -19,6 +19,7 @@ const AdminUsers = lazy(() => import('./pages/AdminUsers'));
 const AdminReports = lazy(() => import('./pages/AdminReports'));
 const AdminCategories = lazy(() => import('./pages/AdminCategories'));
 const AdminLayout = lazy(() => import('./components/AdminLayout'));
+const AdminSettings = lazy(() => import('./pages/AdminSettings'));
 const Aide = lazy(() => import('./pages/Aide'));
 const Legal = lazy(() => import('./pages/Legal'));
 
@@ -86,6 +87,7 @@ function AppContent() {
               <Route path="users" element={<AdminUsers />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="categories" element={<AdminCategories />} />
+              <Route path="settings" element={<AdminSettings />} />
             </Route>
 
             <Route path="/aide" element={<Aide />} />
