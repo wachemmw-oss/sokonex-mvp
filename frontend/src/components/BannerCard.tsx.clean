@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
@@ -26,19 +26,21 @@ const BannerCard: React.FC<BannerCardProps> = ({
     reverse = false,
 }) => {
     return (
-        <div className={`relative overflow-hidden rounded-3xl shadow-lg group min-h-[400px] md:min-h-[460px] ${bgColor}`}>
+        <div className={`relative overflow-hidden rounded-premium shadow-premium group min-h-[400px] md:min-h-[460px] ${bgColor}`}>
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
                 <img
                     src={image}
                     alt={title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[3000ms]"
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[3000ms] cubic-bezier(0.4, 0, 0.2, 1)"
                 />
                 {/* Advanced Gradient Scrim (Overlay) */}
-                <div className={`absolute inset-0 z-10 ${reverse
+                <div className={`absolute inset-0 z-10 transition-opacity duration-1000 ${reverse
                     ? 'bg-gradient-to-l from-black/80 via-black/40 to-transparent'
                     : 'bg-gradient-to-r from-black/80 via-black/40 to-transparent'
                     }`} />
+                {/* Secondary grain/texture overlay for premium feel */}
+                <div className="absolute inset-0 z-10 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
             </div>
 
             {/* Content Layer */}
@@ -59,7 +61,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
                     <div className="mt-2">
                         <Link
                             to={ctaLink}
-                            className="inline-flex items-center gap-3 py-3.5 px-10 rounded-xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 shadow-[0_15px_40px_rgba(255,186,52,0.25)] bg-[#FFBA34] text-[#1A3620] hover:bg-white hover:scale-110 hover:shadow-white/20"
+                            className="inline-flex items-center gap-3 py-3.5 px-10 rounded-xl font-black text-xs uppercase tracking-widest transition-premium active:scale-95 shadow-[0_15px_40px_rgba(255,186,52,0.25)] bg-[#FFBA34] text-[#1A3620] hover:bg-white hover:scale-110 hover:shadow-white/20"
                         >
                             {ctaText}
                             <ChevronRight size={16} strokeWidth={3} />
@@ -75,3 +77,4 @@ const BannerCard: React.FC<BannerCardProps> = ({
 };
 
 export default BannerCard;
+
