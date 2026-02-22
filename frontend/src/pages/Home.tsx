@@ -195,7 +195,7 @@ const Home = () => {
                             >
                                 Tous les produits
                             </Link>
-                            {CATEGORIES_FROM_DB.map((cat: any) => (
+                            {CATEGORIES_FROM_DB.slice(0, 5).map((cat: any) => (
                                 <Link
                                     key={cat.slug}
                                     to={`/results?category=${cat.slug}`}
@@ -204,6 +204,13 @@ const Home = () => {
                                     {cat.name}
                                 </Link>
                             ))}
+                            <Link
+                                to="/results"
+                                className="whitespace-nowrap text-xs md:text-sm font-bold px-3 py-1 bg-gray-100 rounded-full text-[#214829] hover:bg-[#FFBA34]/20 transition-all flex items-center gap-1"
+                            >
+                                Voir plus
+                                <ChevronRight size={14} strokeWidth={3} />
+                            </Link>
                         </div>
                     )}
                 </div>
