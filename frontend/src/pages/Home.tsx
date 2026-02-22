@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
     Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike,
@@ -149,13 +149,35 @@ const Home = () => {
 
             <div className="max-w-7xl mx-auto px-4">
 
-                {/* ─── Hero Banner Section (Premium Horizontal Flow) ─── */}
-                <div className="mt-4 mb-12">
-                    <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x h-full">
+                {/* ─── Hero Banner Section (Premium Auto-play Carousel) ─── */}
+                <div
+                    className="mt-4 mb-12 relative group"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
+                    <div
+                        ref={carouselRef}
+                        className="flex gap-0 overflow-x-auto pb-8 scrollbar-hide snap-x h-full no-scrollbar"
+                    >
                         {banners.map((b, idx) => (
-                            <div key={idx} className="min-w-full md:min-w-[85%] snap-center">
+                            <div key={idx} className="min-w-full snap-center px-0">
                                 <BannerCard {...b} />
                             </div>
+                        ))}
+                    </div>
+
+                    {/* Carousel Dots */}
+                    <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 z-30">
+                        {banners.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentBanner(idx)}
+                                className={`h-1.5 transition-all duration-500 rounded-full ${currentBanner === idx
+                                        ? 'w-8 bg-[#FFBA34]'
+                                        : 'w-2 bg-white/40 hover:bg-white/60'
+                                    }`}
+                                aria-label={`Go to banner ${idx + 1}`}
+                            />
                         ))}
                     </div>
                 </div>
