@@ -12,6 +12,7 @@ interface User {
     showPhone?: boolean;
     showWhatsApp?: boolean;
     isPhoneVerified?: boolean;
+    bio?: string;
     settings?: {
         showPhone: boolean;
         showWhatsApp: boolean;

@@ -11,6 +11,7 @@ const Settings = () => {
         phone: user?.phone || '',
         whatsapp: user?.whatsapp || '',
         avatar: user?.avatar || '',
+        bio: user?.bio || '',
         showPhone: user?.settings?.showPhone ?? true,
         showWhatsApp: user?.settings?.showWhatsApp ?? user?.showWhatsApp ?? true
     });
@@ -28,6 +29,7 @@ const Settings = () => {
                 phone: user.phone || '',
                 whatsapp: user.whatsapp || '',
                 avatar: user.avatar || '',
+                bio: user.bio || '',
                 showPhone: user.showPhone ?? true,
                 showWhatsApp: user.whatsapp ? true : false
             });
@@ -158,6 +160,18 @@ const Settings = () => {
                         value={formData.name}
                         onChange={handleChange}
                         className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
+                    />
+                </div>
+
+                {/* bio */}
+                <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Description de la boutique (Bio)</label>
+                    <textarea
+                        name="bio"
+                        value={formData.bio}
+                        onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                        className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors resize-none h-24"
+                        placeholder="Dites-en plus sur votre activité..."
                     />
                 </div>
 
