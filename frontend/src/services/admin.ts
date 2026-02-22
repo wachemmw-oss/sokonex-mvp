@@ -5,6 +5,17 @@ export const getReports = async () => {
     return response.data;
 };
 
+export const getStats = async () => {
+    const response = await client.get('/admin/stats');
+    return response.data;
+};
+
+export const getUsers = async () => {
+    const response = await client.get('/admin/users');
+    return response.data;
+};
+
+
 export const removeAd = async (id: string) => {
     const response = await client.patch(`/admin/ads/${id}/remove`);
     return response.data;

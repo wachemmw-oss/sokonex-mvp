@@ -1,9 +1,11 @@
 import express from 'express';
-import { getReports, removeAd, restoreAd, suspendUser } from '../controllers/adminController';
+import { getReports, removeAd, restoreAd, suspendUser, getStats, getUsers } from '../controllers/adminController';
 import { protect, admin } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
+router.get('/stats', protect, admin, getStats);
+router.get('/users', protect, admin, getUsers);
 router.get('/reports', protect, admin, getReports);
 router.patch('/ads/:id/remove', protect, admin, removeAd);
 router.patch('/ads/:id/restore', protect, admin, restoreAd);

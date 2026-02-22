@@ -3,6 +3,7 @@ import Report from '../models/Report';
 import Ad from '../models/Ad';
 import User from '../models/User';
 
+
 // @desc    Get all reports
 // @route   GET /api/admin/reports
 // @access  Private/Admin
@@ -76,6 +77,42 @@ export const suspendUser = async (req: Request, res: Response) => {
         } else {
             res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'User not found' } });
         }
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};
+// @desc    Get system statistics
+// @route   GET /api/admin/stats
+// @access  Private/Admin
+export const getStats = async (req: Request, res: Response) => {
+    try {
+        const totalAds = await Ad.countDocuments();
+        const totalUsers = await User.countDocuments();
+        const pendingReports = await Report.countDocuments({ status: { $ne: 'resolved' } });
+
+        res.json({
+            success: true,
+            data: {
+                totalAds,
+                totalUsers,
+                pendingReports
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};
+
+// @desc    Get all users list
+// @route   GET /api/admin/users
+// @access  Private/Admin
+export const getUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find()
+            .select('-passwordHash')
+            .sort({ createdAt: -1 });
+
+        res.json({ success: true, data: users });
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
     }

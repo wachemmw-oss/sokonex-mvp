@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -15,8 +15,12 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const AdminUsers = lazy(() => import('./pages/AdminUsers'));
+const AdminReports = lazy(() => import('./pages/AdminReports'));
+const AdminLayout = lazy(() => import('./components/AdminLayout'));
 const Aide = lazy(() => import('./pages/Aide'));
 const Legal = lazy(() => import('./pages/Legal'));
+
 
 // Global query client — stale cache: data considered fresh for 2 min
 const queryClient = new QueryClient({
@@ -46,31 +50,52 @@ function App() {
       <AuthProvider>
         <Router>
           <div className="min-h-screen bg-white text-gray-900 font-sans">
-            <Navbar />
-            <div className="pb-[60px] md:pb-0">
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/results" element={<Results />} />
-                  <Route path="/ad/:id" element={<AdDetails />} />
-                  <Route path="/post" element={<PostAd />} />
-                  <Route path="/edit-ad/:id" element={<PostAd />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/account/*" element={<Dashboard />} />
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/aide" element={<Aide />} />
-                  <Route path="/legal" element={<Legal />} />
-                </Routes>
-              </Suspense>
-            </div>
-            <Footer />
-            <BottomTab />
+            <AppContent />
           </div>
         </Router>
       </AuthProvider>
     </QueryClientProvider>
   );
 }
+
+function AppContent() {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin');
+  // Note: For better reactive behavior, we should use useLocation() from react-router-dom, 
+  // but App is the top-level. I'll move the Router content to a sub-component.
+
+  return (
+    <>
+      {!isAdminPage && <Navbar />}
+      <div className={!isAdminPage ? "pb-[60px] md:pb-0" : ""}>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/ad/:id" element={<AdDetails />} />
+            <Route path="/post" element={<PostAd />} />
+            <Route path="/edit-ad/:id" element={<PostAd />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/account/*" element={<Dashboard />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="reports" element={<AdminReports />} />
+            </Route>
+
+            <Route path="/aide" element={<Aide />} />
+            <Route path="/legal" element={<Legal />} />
+          </Routes>
+        </Suspense>
+      </div>
+      {!isAdminPage && <Footer />}
+      {!isAdminPage && <BottomTab />}
+    </>
+  );
+}
+
 
 export default App;

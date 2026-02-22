@@ -270,11 +270,26 @@ const Navbar = () => {
                         {/* Logout */}
                         {user && (
                             <div className="p-4 mt-auto">
+                                {user.role === 'admin' && (
+                                    <Link
+                                        to="/admin"
+                                        className="flex items-center gap-3 px-3 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        <ShieldAlert size={18} />
+                                        <span>ADMINISTRATION</span>
+                                    </Link>
+                                )}
+                                <div className="h-px bg-gray-100 my-1" />
                                 <button
-                                    onClick={handleLogout}
-                                    className="flex items-center gap-3 py-2.5 px-2 rounded-sm hover:bg-red-50 text-sm text-red-500 font-medium w-full"
+                                    onClick={() => {
+                                        logout();
+                                        setIsMenuOpen(false);
+                                    }}
+                                    className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg transition-all"
                                 >
-                                    <LogOut className="w-4 h-4" /> Se déconnecter
+                                    <LogOut size={18} />
+                                    <span>Se déconnecter</span>
                                 </button>
                             </div>
                         )}
