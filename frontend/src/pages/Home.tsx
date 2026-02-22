@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
     Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike,
     Briefcase, Building2, Baby, MoreHorizontal, ChevronRight,
-    Clock, LayoutGrid, List, Sparkles, TrendingUp
+    Clock, LayoutGrid, List
 } from 'lucide-react';
 import AdCard from '../components/AdCard';
-import BannerCard from '../components/BannerCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { getCategories } from '../services/category';
@@ -25,91 +24,15 @@ const iconMap: Record<string, any> = {
     MoreHorizontal: MoreHorizontal
 };
 
+const BANNERS = [
+    "/banners/Banner 1.jpg",
+];
+
 const Home = () => {
     const navigate = useNavigate();
+    const [currentBanner, setCurrentBanner] = useState(0);
     const [activeTab, setActiveTab] = useState<'recommande' | 'nouveau' | 'tendance'>('recommande');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-    const [currentBanner, setCurrentBanner] = useState(0);
-    const carouselRef = useRef<HTMLDivElement>(null);
-    const [isPaused, setIsPaused] = useState(false);
-
-    const banners = [
-        {
-            title: "Nouvelle Collection Gaming 2026",
-            subtitle: "Exclusivité SOKONEX",
-            description: "Découvrez les meilleures chaises et accessoires gaming pour une expérience immersive.",
-            ctaText: "Acheter maintenant",
-            ctaLink: "/results?q=gaming",
-            image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-slate-50",
-            dark: false
-        },
-        {
-            title: "Votre Maison, Votre Style",
-            subtitle: "Déco & Mobilier",
-            description: "Une large gamme de meubles d'occasion et neufs pour sublimer votre intérieur.",
-            ctaText: "Explorer",
-            ctaLink: "/results?category=maison-meubles",
-            image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-[#1A3620]",
-            dark: true,
-            reverse: true
-        },
-        {
-            title: "Électronique Haute Performance",
-            subtitle: "Tech & Gadgets",
-            description: "Smartphones, ordinateurs et accessoires tech aux meilleurs prix du marché.",
-            ctaText: "Découvrir",
-            ctaLink: "/results?category=electronique",
-            image: "https://images.unsplash.com/photo-1526738549149-8e07eca2c1b4?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-[#FFBA34]",
-            dark: false
-        },
-        {
-            title: "Vendez en un Eclair !",
-            subtitle: "Marketplace SOKONEX",
-            description: "Publiez votre annonce gratuitement et touchez des milliers d'acheteurs en RDC.",
-            ctaText: "Vendre maintenant",
-            ctaLink: "/post",
-            image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-slate-900",
-            dark: true,
-            reverse: true
-        },
-        {
-            title: "Vêtements & Accessoires",
-            subtitle: "Mode & Beauté",
-            description: "Rafraîchissez votre garde-robe avec les dernières tendances de notre communauté.",
-            ctaText: "Voir la mode",
-            ctaLink: "/results?category=mode",
-            image: "https://images.unsplash.com/photo-1445205174273-59396b299912?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-[#EBF5EE]",
-            dark: false
-        }
-    ];
-
-    // Banner Auto-play Logic
-    useEffect(() => {
-        if (isPaused) return;
-
-        const interval = setInterval(() => {
-            setCurrentBanner((prev) => (prev + 1) % banners.length);
-        }, 5000); // 5 seconds per banner
-
-        return () => clearInterval(interval);
-    }, [isPaused, banners.length]);
-
-    // Scroll to active banner
-    useEffect(() => {
-        if (carouselRef.current) {
-            const container = carouselRef.current;
-            const bannerWidth = container.offsetWidth;
-            container.scrollTo({
-                left: currentBanner * bannerWidth,
-                behavior: 'smooth'
-            });
-        }
-    }, [currentBanner]);
 
     // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCats } = useQuery({
@@ -139,68 +62,58 @@ const Home = () => {
     });
 
     return (
-        <div className="font-sans min-h-screen pb-20 bg-white">
-            {/* Desktop Spacer */}
-            <div className="hidden md:block h-6 bg-[#FAFAFA]"></div>
+        <div className="font-sans min-h-screen pb-20" style={{ backgroundColor: '#FAFAF8' }}>
+            {/* Desktop spacer */}
+            <div className="hidden md:block h-6 bg-gray-100"></div>
 
-            <div className="max-w-7xl mx-auto px-4">
-
-                {/* ─── Hero Banner Section (Premium Auto-play Carousel) ─── */}
-                <div
-                    className="mt-4 mb-12 relative group"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                >
-                    <div
-                        ref={carouselRef}
-                        className="flex gap-0 overflow-x-auto pb-8 scrollbar-hide snap-x h-full no-scrollbar"
+            {/* Hero Banners */}
+            <div className="relative w-full max-w-7xl mx-auto md:px-4 md:rounded-lg overflow-hidden aspect-[2/1] md:aspect-[3/1] bg-gray-200">
+                {BANNERS.map((banner: any, idx: number) => (
+                    <img
+                        key={idx}
+                        src={banner}
+                        alt={`Banner ${idx}`}
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${idx === currentBanner ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                ))}
+                {/* Explorer Button */}
+                <div className="absolute bottom-8 left-4 md:bottom-10 md:left-8 z-10">
+                    <Link
+                        to="/results"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm font-bold text-sm text-white shadow-lg transition hover:opacity-90 active:scale-95"
+                        style={{ backgroundColor: '#214829' }}
                     >
-                        {banners.map((b, idx) => (
-                            <div key={idx} className="min-w-full snap-center px-0">
-                                <BannerCard {...b} />
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Carousel Dots */}
-                    <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 z-30">
-                        {banners.map((_, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => setCurrentBanner(idx)}
-                                className={`h-1.5 transition-all duration-500 rounded-full ${currentBanner === idx
-                                    ? 'w-8 bg-[#FFBA34]'
-                                    : 'w-2 bg-white/40 hover:bg-white/60'
-                                    }`}
-                                aria-label={`Go to banner ${idx + 1}`}
-                            />
-                        ))}
-                    </div>
+                        Explorer
+                        <ChevronRight className="w-4 h-4" />
+                    </Link>
                 </div>
+                {/* Banner Indicators */}
+                <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+                    {BANNERS.map((_, idx: number) => (
+                        <div key={idx} className={`h-1.5 rounded-full transition-all ${idx === currentBanner ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`}></div>
+                    ))}
+                </div>
+            </div>
 
-                {/* ─── Categories Section (Standard Styling) ─── */}
-                <div className="mb-8">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-bold tracking-tight uppercase" style={{ color: '#214829' }}>Catégories</h2>
-                    </div>
-
+            <div className="max-w-7xl mx-auto px-0 md:px-4">
+                {/* Category Slider */}
+                <div className="bg-white mt-2 md:mt-6 py-5 px-2 md:rounded-lg">
                     {isLoadingCats ? (
-                        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                                <div key={i} className="min-w-[80px] h-24 bg-gray-100 rounded animate-pulse" />
+                        <div className="flex gap-4 overflow-x-auto pb-2 px-3 scrollbar-hide">
+                            {[1, 2, 3, 4, 5, 6].map((i: number) => (
+                                <div key={i} className="min-w-[80px] flex flex-col items-center gap-2">
+                                    <div className="w-[72px] h-[72px] rounded-full bg-gray-100 animate-pulse" />
+                                    <div className="h-2 w-12 bg-gray-100 rounded animate-pulse" />
+                                </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6">
+                        <div className="flex gap-3 overflow-x-auto pb-2 px-3 scrollbar-hide snap-x">
                             {CATEGORIES_FROM_DB.map((cat: any) => {
                                 const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
                                 return (
-                                    <Link
-                                        key={cat.slug}
-                                        to={`/results?category=${cat.slug}`}
-                                        className="flex flex-col items-center gap-2 group"
-                                    >
-                                        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-[#FFBA34]/10 group-hover:text-[#214829] transition-all">
+                                    <Link key={cat.slug} to={`/results?category=${cat.slug}`} className="flex flex-col items-center min-w-[80px] snap-start group">
+                                        <div className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center text-gray-800 mb-2 border border-gray-100 group-hover:border-black transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                             <IconComponent className="w-7 h-7" strokeWidth={1.5} />
                                         </div>
                                         <span className="text-[11px] text-gray-600 font-bold max-w-[76px] text-center leading-[1.1] whitespace-normal group-hover:text-black">{cat.name}</span>
