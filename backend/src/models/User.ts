@@ -13,6 +13,8 @@ export interface IUser extends Document {
     isPhoneVerified: boolean;
     status: 'active' | 'suspended';
     bio?: string;
+    createdAt: Date;
+    updatedAt: Date;
     matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
 

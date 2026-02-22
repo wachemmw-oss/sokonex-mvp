@@ -230,107 +230,105 @@ const AdDetails = () => {
                     <Flag className="w-3.5 h-3.5" /> Signaler cette annonce
                 </button>
             </div>
-        </div>
 
-            {/* ✨ Suggested Ads Section */ }
-    {
-        similarAds.length > 0 && (
-            <div className="max-w-5xl mx-auto mt-10 px-4">
-                <h2 className="text-base font-extrabold uppercase tracking-wide text-black mb-4">Suggéré pour vous</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {similarAds.slice(0, 8).map((a: any) => (
-                        <AdCard key={a._id} ad={a} />
-                    ))}
-                </div>
-            </div>
-        )
-    }
-
-    {/* Mobile Seller Info Block — visible uniquement sur mobile */ }
-    <div className="md:hidden px-4 pb-4 mt-6">
-        <Link to={`/store/${ad.sellerId?._id}`} className="p-4 rounded-sm flex items-center gap-3" style={{ backgroundColor: '#EBF5EE' }}>
-            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ backgroundColor: '#214829' }}>
-                {ad.sellerId?.avatar ? (
-                    <img src={ad.sellerId.avatar} alt="Vendeur" className="w-full h-full object-cover" />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
-                        {ad.sellerId?.name?.charAt(0)?.toUpperCase() || 'V'}
+            {/* ✨ Suggested Ads Section */}
+            {similarAds.length > 0 && (
+                <div className="max-w-5xl mx-auto mt-10 px-4">
+                    <h2 className="text-base font-extrabold uppercase tracking-wide text-black mb-4">Suggéré pour vous</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {similarAds.slice(0, 8).map((a: any) => (
+                            <AdCard key={a._id} ad={a} />
+                        ))}
                     </div>
+                </div>
+            )}
+
+            {/* Mobile Seller Info Block — visible uniquement sur mobile */}
+            <div className="md:hidden px-4 pb-4 mt-6">
+                <Link to={`/store/${ad.sellerId?._id}`} className="p-4 rounded-sm flex items-center gap-3" style={{ backgroundColor: '#EBF5EE' }}>
+                    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ backgroundColor: '#214829' }}>
+                        {ad.sellerId?.avatar ? (
+                            <img src={ad.sellerId.avatar} alt="Vendeur" className="w-full h-full object-cover" />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
+                                {ad.sellerId?.name?.charAt(0)?.toUpperCase() || 'V'}
+                            </div>
+                        )}
+                    </div>
+                    <div>
+                        <p className="font-bold text-sm" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
+                        <p className="text-xs text-gray-500">Membre vérifié</p>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Mobile Sticky Bottom Action Bar */}
+            <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+                {ad.sellerId?.showPhone && (
+                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                        <Phone className="w-4 h-4" /> Appeler
+                    </a>
+                )}
+                {ad.sellerId?.whatsapp ? (
+                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                        <MessageCircle className="w-4 h-4" /> WhatsApp
+                    </a>
+                ) : (
+                    <button className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                        Contacter
+                    </button>
                 )}
             </div>
-            <div>
-                <p className="font-bold text-sm" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
-                <p className="text-xs text-gray-500">Membre vérifié</p>
-            </div>
-        </Link>
-    </div>
 
-    {/* Mobile Sticky Bottom Action Bar */ }
-    <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-        {ad.sellerId?.showPhone && (
-            <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                <Phone className="w-4 h-4" /> Appeler
-            </a>
-        )}
-        {ad.sellerId?.whatsapp ? (
-            <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                <MessageCircle className="w-4 h-4" /> WhatsApp
-            </a>
-        ) : (
-            <button className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                Contacter
-            </button>
-        )}
-    </div>
-
-    {/* 🚩 Report Modal */ }
-    {
-        showReportModal && (
-            <div className="fixed inset-0 bg-black/60 z-[100] flex items-end md:items-center justify-center p-4" onClick={() => setShowReportModal(false)}>
-                <div className="bg-white w-full max-w-md rounded-t-2xl md:rounded-xl p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-                    {reportSent ? (
-                        <div className="text-center py-6">
-                            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <ShieldCheck className="w-8 h-8 text-green-600" />
+            {/* 🚩 Report Modal */}
+            {showReportModal && (
+                <div className="fixed inset-0 bg-black/60 z-[100] flex items-end md:items-center justify-center p-4" onClick={() => setShowReportModal(false)}>
+                    <div className="bg-white w-full max-w-md rounded-t-2xl md:rounded-xl p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        {reportSent ? (
+                            <div className="text-center py-6">
+                                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <ShieldCheck className="w-8 h-8 text-green-600" />
+                                </div>
+                                <h3 className="font-bold text-lg mb-2">Signalement envoyé</h3>
+                                <p className="text-sm text-gray-500 mb-4">Merci. Notre équipe va examiner cette annonce dans les plus brefs délais.</p>
+                                <button onClick={() => { setShowReportModal(false); setReportSent(false); setReportReason(''); setReportNote(''); }} className="bg-black text-white px-6 py-2 rounded-sm text-sm font-bold">Fermer</button>
                             </div>
-                            <h3 className="font-bold text-lg mb-2">Signalement envoyé</h3>
-                            <p className="text-sm text-gray-500 mb-4">Merci. Notre équipe va examiner cette annonce dans les plus brefs délais.</p>
-                            <button onClick={() => { setShowReportModal(false); setReportSent(false); setReportReason(''); setReportNote(''); }} className="bg-black text-white px-6 py-2 rounded-sm text-sm font-bold">Fermer</button>
-                        </div>
-                    ) : (
-                        <>
-                            <h3 className="font-bold text-lg mb-1">Signaler cette annonce</h3>
-                            <p className="text-xs text-gray-500 mb-4">Choisissez la raison qui correspond le mieux à votre signalement.</p>
-                            <div className="space-y-2 mb-4">
-                                {REPORT_REASONS.map(r => (
-                                    <label key={r.value} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition ${reportReason === r.value ? 'border-black bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}>
-                                        <input type="radio" name="reason" value={r.value} checked={reportReason === r.value} onChange={e => setReportReason(e.target.value)} className="accent-black" />
-                                        <span className="text-sm font-medium">{r.label}</span>
-                                    </label>
-                                ))}
-                            </div>
-                            <textarea
-                                placeholder="Détails supplémentaires (optionnel)..."
-                                value={reportNote}
-                                onChange={e => setReportNote(e.target.value)}
-                                className="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:border-black resize-none mb-4"
-                                rows={2}
-                            />
-                            <div className="flex gap-3">
-                                <button onClick={() => setShowReportModal(false)} className="flex-1 border border-gray-200 py-3 rounded-sm text-sm font-bold text-gray-600 hover:border-gray-400 transition">Annuler</button>
-                                <button
-                                    onClick={handleReport}
-                                    disabled={!reportReason || reportMutation.isPending}
-                                    className="flex-1 bg-red-600 text-white py-3 rounded-sm text-sm font-bold hover:bg-red-700 transition disabled:opacity-50"
-                                >
-                                    {reportMutation.isPending ? 'Envoi...' : 'Signaler'}
-                                </button>
-                            </div>
-                        </>
-                    )}
+                        ) : (
+                            <>
+                                <h3 className="font-bold text-lg mb-1">Signaler cette annonce</h3>
+                                <p className="text-xs text-gray-500 mb-4">Choisissez la raison qui correspond le mieux à votre signalement.</p>
+                                <div className="space-y-2 mb-4">
+                                    {REPORT_REASONS.map(r => (
+                                        <label key={r.value} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition ${reportReason === r.value ? 'border-black bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                                            <input type="radio" name="reason" value={r.value} checked={reportReason === r.value} onChange={e => setReportReason(e.target.value)} className="accent-black" />
+                                            <span className="text-sm font-medium">{r.label}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                                <textarea
+                                    placeholder="Détails supplémentaires (optionnel)..."
+                                    value={reportNote}
+                                    onChange={e => setReportNote(e.target.value)}
+                                    className="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:border-black resize-none mb-4"
+                                    rows={2}
+                                />
+                                <div className="flex gap-3">
+                                    <button onClick={() => setShowReportModal(false)} className="flex-1 border border-gray-200 py-3 rounded-sm text-sm font-bold text-gray-600 hover:border-gray-400 transition">Annuler</button>
+                                    <button
+                                        onClick={handleReport}
+                                        disabled={!reportReason || reportMutation.isPending}
+                                        className="flex-1 bg-red-600 text-white py-3 rounded-sm text-sm font-bold hover:bg-red-700 transition disabled:opacity-50"
+                                    >
+                                        {reportMutation.isPending ? 'Envoi...' : 'Signaler'}
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
-        );
-    };
+            )}
+        </div>
+    );
+};
 
-    export default AdDetails;
+export default AdDetails;
