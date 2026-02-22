@@ -11,19 +11,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { getCategories } from '../services/category';
 
-// Icon mapping
-const iconMap: Record<string, any> = {
-    Home: HomeIcon,
-    Car: Car,
-    Smartphone: Smartphone,
-    Sofa: Sofa,
-    Shirt: Shirt,
-    Bike: Bike,
-    Briefcase: Briefcase,
-    Building2: Building2,
-    Baby: Baby,
-    MoreHorizontal: MoreHorizontal
-};
 
 const Home = () => {
     const navigate = useNavigate();
@@ -192,35 +179,31 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* ─── Categories Section (Standard Styling) ─── */}
-                <div className="mb-8">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-bold tracking-tight uppercase" style={{ color: '#214829' }}>Catégories</h2>
-                    </div>
-
+                {/* ─── Categories Section (Text Pills style) ─── */}
+                <div className="mb-6 -mt-2">
                     {isLoadingCats ? (
-                        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide py-2">
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                                <div key={i} className="min-w-[80px] h-24 bg-gray-100 rounded animate-pulse" />
+                                <div key={i} className="min-w-[100px] h-8 bg-gray-100 rounded-full animate-pulse" />
                             ))}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6">
-                            {CATEGORIES_FROM_DB.map((cat: any) => {
-                                const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
-                                return (
-                                    <Link
-                                        key={cat.slug}
-                                        to={`/results?category=${cat.slug}`}
-                                        className="flex flex-col items-center gap-2 group"
-                                    >
-                                        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-[#FFBA34]/10 group-hover:text-[#214829] transition-all">
-                                            <IconComponent className="w-7 h-7" strokeWidth={1.5} />
-                                        </div>
-                                        <span className="text-[11px] text-gray-600 font-bold max-w-[76px] text-center leading-[1.1] whitespace-normal group-hover:text-black">{cat.name}</span>
-                                    </Link>
-                                );
-                            })}
+                        <div className="flex gap-4 overflow-x-auto py-4 scrollbar-hide border-b border-gray-100 px-1">
+                            <Link
+                                to="/results"
+                                className="whitespace-nowrap text-xs md:text-sm font-bold text-gray-800 hover:text-[#214829] transition-colors"
+                            >
+                                Tous les produits
+                            </Link>
+                            {CATEGORIES_FROM_DB.map((cat: any) => (
+                                <Link
+                                    key={cat.slug}
+                                    to={`/results?category=${cat.slug}`}
+                                    className="whitespace-nowrap text-xs md:text-sm font-bold text-gray-500 hover:text-black transition-colors"
+                                >
+                                    {cat.name}
+                                </Link>
+                            ))}
                         </div>
                     )}
                 </div>
