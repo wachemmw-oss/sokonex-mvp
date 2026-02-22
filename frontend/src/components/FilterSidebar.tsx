@@ -236,7 +236,7 @@ const FilterSidebar = () => {
                                 >
                                     Toute la RDC
                                 </button>
-                                {LOCATIONS.map(p => (
+                                {LOCATIONS.map((p: any) => (
                                     <button
                                         key={p.province}
                                         type="button"
@@ -276,7 +276,7 @@ const FilterSidebar = () => {
                                 >
                                     Toute la province
                                 </button>
-                                {LOCATIONS.find(l => l.province === drilldownProvince)?.cities.map(c => (
+                                {LOCATIONS.find((l: any) => l.province === drilldownProvince)?.cities.map((c: any) => (
                                     <button
                                         key={c}
                                         type="button"
@@ -305,7 +305,7 @@ const FilterSidebar = () => {
                     </div>
                     {/* Budget Tranches */}
                     <div className="flex flex-wrap gap-1">
-                        {['0-50', '50-100', '100-300', '300-1000', '1000+'].map(range => (
+                        {['0-50', '50-100', '100-300', '300-1000', '1000+'].map((range: string) => (
                             <button
                                 key={range}
                                 type="button"

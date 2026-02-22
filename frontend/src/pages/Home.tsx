@@ -71,7 +71,7 @@ const Home = () => {
 
             {/* Hero Banners */}
             <div className="relative w-full max-w-7xl mx-auto md:px-4 md:rounded-lg overflow-hidden aspect-[2/1] md:aspect-[3/1] bg-gray-200">
-                {BANNERS.map((banner, idx) => (
+                {BANNERS.map((banner: any, idx: number) => (
                     <img
                         key={idx}
                         src={banner}
@@ -92,7 +92,7 @@ const Home = () => {
                 </div>
                 {/* Banner Indicators */}
                 <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-                    {BANNERS.map((_, idx) => (
+                    {BANNERS.map((_, idx: number) => (
                         <div key={idx} className={`h-1.5 rounded-full transition-all ${idx === currentBanner ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`}></div>
                     ))}
                 </div>
@@ -103,7 +103,7 @@ const Home = () => {
                 <div className="bg-white mt-2 md:mt-6 py-5 px-2 md:rounded-lg">
                     {isLoadingCats ? (
                         <div className="flex gap-4 overflow-x-auto pb-2 px-3 scrollbar-hide">
-                            {[1, 2, 3, 4, 5, 6].map(i => (
+                            {[1, 2, 3, 4, 5, 6].map((i: number) => (
                                 <div key={i} className="min-w-[80px] flex flex-col items-center gap-2">
                                     <div className="w-[72px] h-[72px] rounded-full bg-gray-100 animate-pulse" />
                                     <div className="h-2 w-12 bg-gray-100 rounded animate-pulse" />
@@ -190,7 +190,7 @@ const Home = () => {
                     {feedLoading ? (
                         /* Skeleton — s'affiche pendant la requête */
                         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0">
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => (
                                 <div key={i} className="rounded-sm overflow-hidden bg-white">
                                     <div className="aspect-square bg-gray-200 animate-pulse" />
                                     <div className="p-2 space-y-1.5">

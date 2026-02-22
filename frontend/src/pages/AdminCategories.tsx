@@ -322,7 +322,7 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
                                                 value={attr.options?.join(', ') || ''}
                                                 onChange={e => {
                                                     const attrs = [...catData.attributes];
-                                                    attrs[i].options = e.target.value.split(',').map(s => s.trim()).filter(s => s !== '');
+                                                    attrs[i].options = e.target.value.split(',').map((s: string) => s.trim()).filter((s: string) => s !== '');
                                                     setCatData({ ...catData, attributes: attrs });
                                                 }}
                                             />

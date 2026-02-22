@@ -213,7 +213,7 @@ const PostAd = () => {
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Province</label>
                         <select name="province" value={formData.province} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-sm focus:ring-1 focus:ring-black focus:border-black outline-none bg-white">
-                            {LOCATIONS.map(p => (
+                            {LOCATIONS.map((p: any) => (
                                 <option key={p.province} value={p.province}>{p.province}</option>
                             ))}
                         </select>
@@ -221,7 +221,7 @@ const PostAd = () => {
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Ville / Commune</label>
                         <select name="city" value={formData.city} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-sm focus:ring-1 focus:ring-black focus:border-black outline-none bg-white">
-                            {LOCATIONS.find(l => l.province === formData.province)?.cities.map(c => (
+                            {LOCATIONS.find((l: any) => l.province === formData.province)?.cities.map((c: any) => (
                                 <option key={c} value={c}>{c}</option>
                             ))}
                         </select>
@@ -310,7 +310,7 @@ const PostAd = () => {
                     {/* Display existing images */}
                     {existingImages.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-4 justify-center">
-                            {existingImages.map((img, idx) => (
+                            {existingImages.map((img: any, idx: number) => (
                                 <div key={idx} className="relative w-16 h-16 bg-white border border-gray-200 rounded-sm overflow-hidden">
                                     <img src={img.url} alt={`Existing ${idx}`} className="w-full h-full object-cover" />
                                     <button
@@ -328,7 +328,7 @@ const PostAd = () => {
                     {/* Display new files */}
                     {images.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                            {images.map((img, idx) => (
+                            {images.map((img: any, idx: number) => (
                                 <div key={idx} className="flex items-center gap-1 bg-black text-white text-xs pl-2 pr-1 py-1 rounded-sm">
                                     <span className="max-w-[100px] truncate">{img.name}</span>
                                     <button

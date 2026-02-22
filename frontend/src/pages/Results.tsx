@@ -280,7 +280,7 @@ const Results = () => {
                 <div className="lg:col-span-3">
                     {isLoading ? (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {[1, 2, 3, 4, 5, 6].map(i => (
+                            {[1, 2, 3, 4, 5, 6].map((i: number) => (
                                 <div key={i} className="h-64 bg-gray-200 rounded animate-pulse" />
                             ))}
                         </div>
