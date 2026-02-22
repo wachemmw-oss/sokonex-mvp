@@ -12,7 +12,8 @@ import {
     QuestionMarkCircleIcon,
     PencilSquareIcon,
     TrashIcon,
-    ArrowRightOnRectangleIcon
+    ArrowRightOnRectangleIcon,
+    BuildingStorefrontIcon
 } from '@heroicons/react/24/outline';
 import Settings from './Settings';
 
@@ -239,6 +240,7 @@ const Dashboard = () => {
 
                         {/* Navigation Links */}
                         <div className="py-2 flex flex-col">
+                            <SidebarLink to={`/store/${user?._id}`} icon={BuildingStorefrontIcon} text="Ma Boutique" active={false} />
                             <SidebarLink to="/account/my-ads" icon={DocumentTextIcon} text="Mes Annonces" active={isActive('/account/my-ads') || isActive('/account')} />
                             <SidebarLink to="/account/earn" icon={CurrencyDollarIcon} text="Comment faire de l'argent" active={isActive('/account/earn')} />
                             <SidebarLink to="/account/settings" icon={Cog8ToothIcon} text="Paramètres" active={isActive('/account/settings')} />

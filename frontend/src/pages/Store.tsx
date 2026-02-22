@@ -71,7 +71,7 @@ const Store: React.FC = () => {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Package size={16} className="text-[#FFBA34]" />
-                                    {ads.length} Annonces en ligne
+                                    {adsData?.data?.total || ads.length} Annonces en ligne
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ const Store: React.FC = () => {
                     {/* Main Products Grid */}
                     <div className="lg:col-span-3 space-y-8">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-2xl font-black text-slate-800 tracking-tighter uppercase italic">Les Annonces <span className="text-[#FFBA34] not-italic">({ads.length})</span></h2>
+                            <h2 className="text-2xl font-black text-slate-800 tracking-tighter uppercase italic">Les Annonces <span className="text-[#FFBA34] not-italic">({adsData?.data?.total || ads.length})</span></h2>
                         </div>
 
                         {ads.length > 0 ? (
