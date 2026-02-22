@@ -134,7 +134,7 @@ const Home = () => {
 
                 {/* ─── Hero Banner Section (Premium Auto-play Carousel) ─── */}
                 <div
-                    className="relative w-full max-w-7xl mx-auto md:rounded-[2rem] overflow-hidden group mb-8 shadow-2xl"
+                    className="relative w-full max-w-7xl mx-auto md:rounded-[2rem] overflow-hidden group mb-8"
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
                 >
