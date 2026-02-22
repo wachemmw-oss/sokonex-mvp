@@ -12,6 +12,7 @@ export interface IUser extends Document {
     showPhone: boolean;
     isPhoneVerified: boolean;
     status: 'active' | 'suspended';
+    bio?: string;
     matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
 
@@ -27,6 +28,7 @@ const UserSchema: Schema = new Schema(
         showPhone: { type: Boolean, default: true },
         isPhoneVerified: { type: Boolean, default: false },
         status: { type: String, enum: ['active', 'suspended'], default: 'active' },
+        bio: { type: String, default: '' },
     },
     { timestamps: true }
 );

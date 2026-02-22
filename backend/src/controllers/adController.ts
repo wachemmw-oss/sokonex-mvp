@@ -85,6 +85,7 @@ export const getAds = async (req: Request, res: Response) => {
         }
 
         // Filters
+        if (req.query.sellerId) query.sellerId = req.query.sellerId;
         if (category) query.category = category;
         if (subCategory) query.subCategory = subCategory;
         if (province) query.province = province;

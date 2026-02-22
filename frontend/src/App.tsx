@@ -22,6 +22,7 @@ const AdminLayout = lazy(() => import('./components/AdminLayout'));
 const AdminSettings = lazy(() => import('./pages/AdminSettings'));
 const Aide = lazy(() => import('./pages/Aide'));
 const Legal = lazy(() => import('./pages/Legal'));
+const Store = lazy(() => import('./pages/Store'));
 
 
 // Global query client — stale cache: data considered fresh for 2 min
@@ -80,6 +81,7 @@ function AppContent() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/account/*" element={<Dashboard />} />
+            <Route path="/store/:id" element={<Store />} />
 
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>

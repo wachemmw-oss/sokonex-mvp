@@ -25,6 +25,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
             if (req.body.whatsapp !== undefined) user.whatsapp = req.body.whatsapp;
             if (req.body.avatar !== undefined) (user as any).avatar = req.body.avatar; // Handle TS issue smoothly
             if (req.body.showPhone !== undefined) user.showPhone = req.body.showPhone;
+            if (req.body.bio !== undefined) (user as any).bio = req.body.bio;
 
             const updatedUser = await user.save();
 
@@ -40,6 +41,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
                     avatar: (updatedUser as any).avatar,
                     showPhone: updatedUser.showPhone,
                     isPhoneVerified: updatedUser.isPhoneVerified,
+                    bio: (updatedUser as any).bio,
                 },
             });
         } else {
@@ -79,6 +81,37 @@ export const verifyPhone = async (req: Request, res: Response) => {
             return res.status(400).json({ success: false, error: { code: 'OTP_REQUIRED', message: 'OTP verification is required' } });
         }
 
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};
+
+/**
+ * @desc    Get public profile
+ * @route   GET /api/users/:id
+ * @access  Public
+ */
+export const getPublicProfile = async (req: Request, res: Response) => {
+    try {
+        const user = await User.findById(req.params.id).select('name avatar bio phone whatsapp showPhone isPhoneVerified role createdAt');
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: { code: 'USER_NOT_FOUND', message: 'User not found' } });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                _id: user._id,
+                name: user.name,
+                avatar: user.avatar,
+                bio: (user as any).bio,
+                phone: user.showPhone && user.isPhoneVerified ? user.phone : null,
+                whatsapp: user.showPhone && user.isPhoneVerified ? user.whatsapp : null,
+                role: user.role,
+                createdAt: user.createdAt,
+            },
+        });
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
     }
