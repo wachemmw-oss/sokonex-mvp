@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
     Home as HomeIcon, Car, Smartphone, Sofa, Shirt, Bike,
     Briefcase, Building2, Baby, MoreHorizontal, ChevronRight,
-    Clock, LayoutGrid, List
+    Clock, LayoutGrid, List, Sparkles, TrendingUp
 } from 'lucide-react';
 import AdCard from '../components/AdCard';
+import BannerCard from '../components/BannerCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAds } from '../services/ads';
 import { getCategories } from '../services/category';
@@ -30,9 +31,63 @@ const BANNERS = [
 
 const Home = () => {
     const navigate = useNavigate();
-    const [currentBanner, setCurrentBanner] = useState(0);
     const [activeTab, setActiveTab] = useState<'recommande' | 'nouveau' | 'tendance'>('recommande');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+    const banners = [
+        {
+            title: "Nouvelle Collection Gaming 2026",
+            subtitle: "Exclusivité SOKONEX",
+            description: "Découvrez les meilleures chaises et accessoires gaming pour une expérience immersive.",
+            ctaText: "Acheter maintenant",
+            ctaLink: "/results?q=gaming",
+            image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop",
+            bgColor: "bg-slate-50",
+            dark: false
+        },
+        {
+            title: "Votre Maison, Votre Style",
+            subtitle: "Déco & Mobilier",
+            description: "Une large gamme de meubles d'occasion et neufs pour sublimer votre intérieur.",
+            ctaText: "Explorer",
+            ctaLink: "/results?category=maison-meubles",
+            image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop",
+            bgColor: "bg-[#1A3620]",
+            dark: true,
+            reverse: true
+        },
+        {
+            title: "Électronique Haute Performance",
+            subtitle: "Tech & Gadgets",
+            description: "Smartphones, ordinateurs et accessoires tech aux meilleurs prix du marché.",
+            ctaText: "Découvrir",
+            ctaLink: "/results?category=electronique",
+            image: "https://images.unsplash.com/photo-1526738549149-8e07eca2c1b4?q=80&w=1000&auto=format&fit=crop",
+            bgColor: "bg-[#FFBA34]",
+            dark: false
+        },
+        {
+            title: "Vendez en un Eclair !",
+            subtitle: "Marketplace SOKONEX",
+            description: "Publiez votre annonce gratuitement et touchez des milliers d'acheteurs en RDC.",
+            ctaText: "Vendre maintenant",
+            ctaLink: "/post",
+            image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=1000&auto=format&fit=crop",
+            bgColor: "bg-slate-900",
+            dark: true,
+            reverse: true
+        },
+        {
+            title: "Vêtements & Accessoires",
+            subtitle: "Mode & Beauté",
+            description: "Rafraîchissez votre garde-robe avec les dernières tendances de notre communauté.",
+            ctaText: "Voir la mode",
+            ctaLink: "/results?category=mode",
+            image: "https://images.unsplash.com/photo-1445205174273-59396b299912?q=80&w=1000&auto=format&fit=crop",
+            bgColor: "bg-[#EBF5EE]",
+            dark: false
+        }
+    ];
 
     // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCats } = useQuery({
@@ -62,122 +117,145 @@ const Home = () => {
     });
 
     return (
-        <div className="font-sans min-h-screen pb-20" style={{ backgroundColor: '#FAFAF8' }}>
-            {/* Desktop spacer */}
-            <div className="hidden md:block h-6 bg-gray-100"></div>
+        <div className="font-sans min-h-screen pb-20 bg-white">
+            {/* Desktop Spacer */}
+            <div className="hidden md:block h-6 bg-[#FAFAFA]"></div>
 
-            {/* Hero Banners */}
-            <div className="relative w-full max-w-7xl mx-auto md:px-4 md:rounded-lg overflow-hidden aspect-[2/1] md:aspect-[3/1] bg-gray-200">
-                {BANNERS.map((banner: any, idx: number) => (
-                    <img
-                        key={idx}
-                        src={banner}
-                        alt={`Banner ${idx}`}
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${idx === currentBanner ? 'opacity-100' : 'opacity-0'}`}
-                    />
-                ))}
-                {/* Explorer Button */}
-                <div className="absolute bottom-8 left-4 md:bottom-10 md:left-8 z-10">
-                    <Link
-                        to="/results"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm font-bold text-sm text-white shadow-lg transition hover:opacity-90 active:scale-95"
-                        style={{ backgroundColor: '#214829' }}
-                    >
-                        Explorer
-                        <ChevronRight className="w-4 h-4" />
-                    </Link>
-                </div>
-                {/* Banner Indicators */}
-                <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-                    {BANNERS.map((_, idx: number) => (
-                        <div key={idx} className={`h-1.5 rounded-full transition-all ${idx === currentBanner ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`}></div>
-                    ))}
-                </div>
-            </div>
+            <div className="max-w-7xl mx-auto px-4">
 
-            <div className="max-w-7xl mx-auto px-0 md:px-4">
-                {/* Category Slider */}
-                <div className="bg-white mt-2 md:mt-6 py-5 px-2 md:rounded-lg">
-                    {isLoadingCats ? (
-                        <div className="flex gap-4 overflow-x-auto pb-2 px-3 scrollbar-hide">
-                            {[1, 2, 3, 4, 5, 6].map((i: number) => (
-                                <div key={i} className="min-w-[80px] flex flex-col items-center gap-2">
-                                    <div className="w-[72px] h-[72px] rounded-full bg-gray-100 animate-pulse" />
-                                    <div className="h-2 w-12 bg-gray-100 rounded animate-pulse" />
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="flex gap-3 overflow-x-auto pb-2 px-3 scrollbar-hide snap-x">
-                            {CATEGORIES_FROM_DB.map((cat: any) => {
-                                const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
-                                return (
-                                    <Link key={cat.slug} to={`/results?category=${cat.slug}`} className="flex flex-col items-center min-w-[80px] snap-start group">
-                                        <div className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center text-gray-800 mb-2 border border-gray-100 group-hover:border-black transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                                            <IconComponent className="w-7 h-7" strokeWidth={1.5} />
-                                        </div>
-                                        <span className="text-[11px] text-gray-600 font-bold max-w-[76px] text-center leading-[1.1] whitespace-normal group-hover:text-black">{cat.name}</span>
-                                    </Link>
-                                );
-                            })}
-                        </div>
-                    )}
-                </div>
-
-                {/* Flash Deals (Promoted Ads) */}
-                {promotedAds?.data?.items?.length > 0 && (
-                    <div className="mt-2 md:mt-6 bg-white p-4 md:rounded-lg">
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex items-center gap-2">
-                                <h2 className="text-lg font-bold tracking-tight uppercase" style={{ color: '#FFBA34' }}>Ventes Flash</h2>
-                                <div className="flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: '#214829', color: '#FFBA34' }}>
-                                    <Clock className="w-3 h-3" />
-                                    <span>23:59:59</span>
-                                </div>
+                {/* ─── Hero Banner Section (Premium Horizontal Flow) ─── */}
+                <div className="mt-4 mb-12">
+                    <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x h-full">
+                        {banners.map((b, idx) => (
+                            <div key={idx} className="min-w-full md:min-w-[85%] snap-center">
+                                <BannerCard {...b} />
                             </div>
-                            <Link to="/results?promoted=true" className="text-sm text-gray-500 font-medium flex items-center">
-                                Tout voir <ChevronRight className="w-4 h-4" />
-                            </Link>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            {promotedAds.data.items.slice(0, 4).map((ad: any) => (
-                                <AdCard key={ad._id} ad={ad} />
-                            ))}
+                        ))}
+                    </div>
+                </div>
+
+                {/* ─── Premium Categories Section ─── */}
+                <section className="mb-16">
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-2xl bg-[#EBF5EE] flex items-center justify-center text-[#1A3620]">
+                                <LayoutGrid size={20} strokeWidth={2.5} />
+                            </div>
+                            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter italic">Catégories <span className="text-[#FFBA34]">Populaires</span></h2>
                         </div>
                     </div>
-                )}
 
-                {/* Main Feed */}
-                <div className="mt-2 md:mt-6">
-                    <div className="bg-white py-4 px-4 mb-2 sticky top-[62px] md:top-[80px] z-30 md:rounded-t-lg shadow-sm">
-                        <div className="flex items-center justify-between gap-3">
-                            <div className="flex gap-4 overflow-x-auto scrollbar-hide flex-1">
-                                <button
-                                    onClick={() => setActiveTab('recommande')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'recommande' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-                                >
-                                    Recommandé pour vous
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('nouveau')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'nouveau' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-                                >
-                                    Nouveau
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('tendance')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'tendance' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-                                >
-                                    Tendance
-                                </button>
+                    <div className="relative group">
+                        {isLoadingCats ? (
+                            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                                    <div key={i} className="min-w-[120px] flex flex-col items-center gap-4">
+                                        <div className="w-24 h-24 rounded-[2rem] bg-slate-50 border border-slate-100 animate-pulse" />
+                                        <div className="h-2 w-16 bg-slate-100 rounded animate-pulse" />
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="flex gap-5 overflow-x-auto pb-6 scrollbar-hide snap-x px-2">
+                                {CATEGORIES_FROM_DB.map((cat: any) => {
+                                    const IconComponent = iconMap[cat.icon as string] || MoreHorizontal;
+                                    return (
+                                        <Link
+                                            key={cat.slug}
+                                            to={`/results?category=${cat.slug}`}
+                                            className="flex flex-col items-center min-w-[100px] snap-start group/cat transition-premium hover:-translate-y-1"
+                                        >
+                                            <div className="w-20 h-20 md:w-24 md:h-24 rounded-[2rem] bg-white flex items-center justify-center text-[#1A3620] mb-4 border border-slate-100 group-hover/cat:border-[#FFBA34] group-hover/cat:shadow-premium transition-premium shadow-sm">
+                                                <IconComponent className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} />
+                                            </div>
+                                            <span className="text-[11px] md:text-xs text-slate-500 font-black uppercase tracking-[0.1em] text-center max-w-[90px] group-hover/cat:text-[#1A3620]">{cat.name}</span>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                {/* ─── Flash Deals (Ventes de Confiance) ─── */}
+                {promotedAds?.data?.items?.length > 0 && (
+                    <section className="mb-20">
+                        <div className="bg-[#1A3620] rounded-premium p-8 md:p-12 relative overflow-hidden shadow-premium">
+                            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFBA34]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+
+                            <div className="flex flex-col md:flex-row justify-between items-center mb-10 relative z-10 gap-6">
+                                <div className="text-center md:text-left">
+                                    <div className="flex items-center gap-3 justify-center md:justify-start mb-2">
+                                        <div className="p-2 bg-[#FFBA34] rounded-lg text-[#1A3620]">
+                                            <TrendingUp size={20} strokeWidth={3} />
+                                        </div>
+                                        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter italic">Ventes <span className="text-[#FFBA34]">de Confiance</span></h2>
+                                    </div>
+                                    <p className="text-white/60 text-sm font-bold uppercase tracking-widest">Les affaires du moment vérifiées par SOKONEX</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white font-black text-xs uppercase tracking-widest">
+                                        <Clock size={16} className="text-[#FFBA34]" />
+                                        <span>Expire dans: <span className="text-[#FFBA34]">23:59:59</span></span>
+                                    </div>
+                                    <Link to="/results?promoted=true" className="hidden md:flex items-center gap-2 text-white/80 hover:text-white font-black text-[10px] uppercase tracking-widest transition-colors">
+                                        Tout voir <ChevronRight size={14} />
+                                    </Link>
+                                </div>
                             </div>
 
-                            <div className="flex gap-1 shrink-0 bg-gray-100 p-0.5 rounded-sm">
-                                <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-sm transition-all shadow-none ${viewMode === 'grid' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-black' : 'text-gray-400 hover:text-gray-600'}`}>
-                                    <LayoutGrid className="w-4 h-4" />
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 relative z-10">
+                                {promotedAds.data.items.slice(0, 4).map((ad: any) => (
+                                    <AdCard key={ad._id} ad={ad} promoted />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
+                {/* ─── Main Discovery Feed ─── */}
+                <section>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                        <div>
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-10 h-10 rounded-2xl bg-[#FFF3D4] flex items-center justify-center text-[#FFBA34]">
+                                    <Sparkles size={20} strokeWidth={2.5} />
+                                </div>
+                                <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter italic text-[#1A3620]">Découvrez <span className="text-[#FFBA34]">vos coups de cœur</span></h2>
+                            </div>
+                            <p className="text-slate-400 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Explorez des milliers d'annonces locales basées sur vos préférences.</p>
+                        </div>
+                    </div>
+
+                    <div className="bg-white py-6 mb-8 sticky top-[62px] md:top-[80px] z-30 border-b border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex gap-8 overflow-x-auto scrollbar-hide w-full md:w-auto">
+                            {[
+                                { id: 'recommande', label: 'Recommandé' },
+                                { id: 'nouveau', label: 'Nouveautés' },
+                                { id: 'tendance', label: 'Tendances' }
+                            ].map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id as any)}
+                                    className={`relative py-2 text-[11px] md:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab.id ? 'text-[#1A3620]' : 'text-slate-400 hover:text-slate-600'
+                                        }`}
+                                >
+                                    {tab.label}
+                                    {activeTab === tab.id && (
+                                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#FFBA34] rounded-full" />
+                                    )}
                                 </button>
-                                <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-sm transition-all shadow-none ${viewMode === 'list' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-black' : 'text-gray-400 hover:text-gray-600'}`}>
-                                    <List className="w-4 h-4" />
+                            ))}
+                        </div>
+
+                        <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                            <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest hidden lg:block">Affichage</span>
+                            <div className="flex gap-1 bg-slate-100 p-1 rounded-xl">
+                                <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-premium ${viewMode === 'grid' ? 'bg-white shadow-sm text-[#1A3620]' : 'text-slate-400 hover:text-slate-600'}`}>
+                                    <LayoutGrid size={18} strokeWidth={2.5} />
+                                </button>
+                                <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-premium ${viewMode === 'list' ? 'bg-white shadow-sm text-[#1A3620]' : 'text-slate-400 hover:text-slate-600'}`}>
+                                    <List size={18} strokeWidth={2.5} />
                                 </button>
                             </div>
                         </div>
@@ -207,14 +285,13 @@ const Home = () => {
                             </div>
 
                             {/* Bouton Voir plus */}
-                            <div className="flex justify-center mt-6 mb-2 px-2">
+                            <div className="flex justify-center mt-12 mb-2 px-2">
                                 <Link
                                     to="/results"
-                                    className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-3 font-bold text-sm rounded-sm border-2 transition hover:opacity-80 active:scale-95"
-                                    style={{ borderColor: '#214829', color: '#214829' }}
+                                    className="w-full md:w-auto flex items-center justify-center gap-3 px-12 py-4 font-black text-xs rounded-xl bg-[#1A3620] text-white uppercase tracking-widest transition-premium hover:scale-[1.02] shadow-lg shadow-[#1A3620]/20 active:scale-95"
                                 >
                                     Voir plus d'annonces
-                                    <ChevronRight className="w-4 h-4" />
+                                    <ChevronRight size={16} strokeWidth={3} />
                                 </Link>
                             </div>
                         </>
@@ -227,9 +304,9 @@ const Home = () => {
                             </Link>
                         </div>
                     )}
-                </div>
             </div>
         </div>
+        </div >
     );
 };
 
