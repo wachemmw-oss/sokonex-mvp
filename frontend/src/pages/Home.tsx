@@ -147,30 +147,44 @@ const Home = () => {
 
                 {/* ─── Hero Banner Section (Premium Auto-play Carousel) ─── */}
                 <div
-                    className="relative w-full max-w-7xl mx-auto md:px-4 md:rounded-lg overflow-hidden group mb-4"
+                    className="relative w-full max-w-7xl mx-auto md:rounded-[2rem] overflow-hidden group mb-8 shadow-2xl"
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
                 >
                     <div
                         ref={carouselRef}
-                        className="flex gap-0 overflow-x-auto pb-8 scrollbar-hide snap-x h-full no-scrollbar"
+                        className="flex gap-0 overflow-x-auto scrollbar-hide snap-x h-full no-scrollbar"
                     >
                         {banners.map((b, idx) => (
-                            <div key={idx} className="min-w-full snap-center px-0">
+                            <div key={idx} className="min-w-full snap-center">
                                 <BannerCard {...b} />
                             </div>
                         ))}
                     </div>
 
+                    {/* Navigation Arrows (PC only) */}
+                    <button
+                        onClick={() => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length)}
+                        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all hover:bg-[#FFBA34] hover:text-[#1A3620] hover:scale-110 hidden md:flex"
+                    >
+                        <ChevronRight className="rotate-180" size={24} strokeWidth={3} />
+                    </button>
+                    <button
+                        onClick={() => setCurrentBanner((prev) => (prev + 1) % banners.length)}
+                        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all hover:bg-[#FFBA34] hover:text-[#1A3620] hover:scale-110 hidden md:flex"
+                    >
+                        <ChevronRight size={24} strokeWidth={3} />
+                    </button>
+
                     {/* Carousel Dots */}
-                    <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-30">
+                    <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-30">
                         {banners.map((_, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setCurrentBanner(idx)}
-                                className={`h-1.5 transition-all duration-500 rounded-full ${currentBanner === idx
-                                    ? 'w-8 bg-[#FFBA34]'
-                                    : 'w-2 bg-white/40 hover:bg-white/60'
+                                className={`h-2 transition-all duration-500 rounded-full ${currentBanner === idx
+                                    ? 'w-10 bg-[#FFBA34]'
+                                    : 'w-2 bg-white/30 hover:bg-white/60'
                                     }`}
                                 aria-label={`Go to banner ${idx + 1}`}
                             />
