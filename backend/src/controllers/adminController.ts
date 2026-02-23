@@ -174,3 +174,27 @@ export const deleteCategory = async (req: Request, res: Response) => {
     }
 };
 
+// @desc    Update user badge
+// @route   PATCH /api/admin/users/:id/badge
+// @access  Private/Admin
+export const updateUserBadge = async (req: Request, res: Response) => {
+    try {
+        const { badge } = req.body;
+
+        if (!['none', 'founder', 'pro'].includes(badge)) {
+            return res.status(400).json({ success: false, error: { code: 'INVALID_BADGE', message: 'Invalid badge type' } });
+        }
+
+        const user = await User.findById(req.params.id);
+
+        if (user) {
+            user.badge = badge;
+            await user.save();
+            res.json({ success: true, data: user, message: `User badge updated to ${badge}` });
+        } else {
+            res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'User not found' } });
+        }
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    }
+};
