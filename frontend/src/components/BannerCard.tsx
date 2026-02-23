@@ -26,50 +26,63 @@ const BannerCard: React.FC<BannerCardProps> = ({
     reverse = false,
 }) => {
     return (
-        <div className={`relative overflow-hidden rounded-3xl shadow-lg group min-h-[400px] md:min-h-[460px] ${bgColor}`}>
+        <div className={`relative overflow-hidden rounded-3xl group min-h-[420px] md:min-h-[520px] ${bgColor}`}>
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
                 <img
                     src={image}
                     alt={title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[3000ms]"
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[4000ms]"
                 />
-                {/* Advanced Gradient Scrim (Overlay) */}
-                <div className={`absolute inset-0 z-10 ${reverse
-                    ? 'bg-gradient-to-l from-black/80 via-black/40 to-transparent'
-                    : 'bg-gradient-to-r from-black/80 via-black/40 to-transparent'
-                    }`} />
+                {/* Cinema Overlay: Darker radial overlay for centered focus */}
+                <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/70" />
+                <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]" />
             </div>
 
-            {/* Content Layer */}
-            <div className={`relative z-20 h-full w-full flex flex-col justify-center p-8 md:p-20 ${reverse ? 'items-end text-right' : 'items-start text-left'}`}>
-                {/* Text Content */}
-                <div className={`flex flex-col max-w-lg ${reverse ? 'items-end' : 'items-start'}`}>
-                    <span className="text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase mb-2 text-[#FFBA34]">
+            {/* Content Layer - Centered for impact */}
+            <div className="relative z-20 h-full w-full flex flex-col items-center justify-center text-center p-8 md:p-20">
+                <div className="flex flex-col items-center max-w-2xl">
+                    <span
+                        className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 text-[#FFBA34] drop-shadow-lg"
+                        style={{ fontFamily: 'Outfit, sans-serif' }}
+                    >
                         {subtitle}
                     </span>
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3 text-white leading-[1.15]">
-                        {title}
+
+                    <h2
+                        className="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 text-white leading-[1.05]"
+                        style={{ fontFamily: 'Outfit, sans-serif' }}
+                    >
+                        {title.split(' ').map((word, i) => (
+                            <span key={i} className={i % 3 === 2 ? 'text-[#FFBA34]' : ''}>
+                                {word}{' '}
+                            </span>
+                        ))}
                     </h2>
+
                     {description && (
-                        <p className="text-[11px] md:text-sm font-medium leading-relaxed mb-6 max-w-[36ch] text-white/80">
+                        <p
+                            className="text-sm md:text-lg font-medium leading-relaxed mb-10 max-w-[45ch] text-white/90 drop-shadow-md"
+                        >
                             {description}
                         </p>
                     )}
-                    <div className="mt-1">
+
+                    <div className="mt-2">
                         <Link
                             to={ctaLink}
-                            className="inline-flex items-center gap-2 py-3 px-8 rounded-full font-bold text-xs md:text-sm transition-all active:scale-95 bg-[#FFBA34] text-[#1A3620] hover:bg-white hover:text-[#1A3620] shadow-lg shadow-black/20"
+                            className="group/btn relative inline-flex items-center gap-3 py-4 px-10 rounded-full font-extrabold text-sm md:text-base transition-all active:scale-95 bg-gradient-to-r from-[#FFBA34] to-[#f39c12] text-white shadow-[0_10px_30px_rgba(255,186,52,0.4)] hover:shadow-[0_15px_40px_rgba(255,186,52,0.6)] hover:scale-105"
+                            style={{ fontFamily: 'Outfit, sans-serif' }}
                         >
                             {ctaText}
-                            <ChevronRight size={16} strokeWidth={3} />
+                            <ChevronRight className="group-hover/btn:translate-x-1 transition-transform" size={20} strokeWidth={3} />
                         </Link>
                     </div>
                 </div>
             </div>
 
-            {/* Subtle interactive light effect */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 z-10 pointer-events-none"></div>
+            {/* Subtle light leak for extra premium feel */}
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-[#FFBA34]/5 to-transparent pointer-events-none z-15"></div>
         </div>
     );
 };

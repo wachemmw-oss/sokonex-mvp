@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getAdById, getSimilarAds, reportAd } from '../services/ads';
-import { Heart, Share2, ChevronLeft, ChevronRight, MessageCircle, Phone, Flag, ShieldCheck } from 'lucide-react';
+import { Heart, Share2, ChevronLeft, ChevronRight, MessageCircle, Phone, Flag, ShieldCheck, Star, Briefcase } from 'lucide-react';
 import AdCard from '../components/AdCard';
 
 const REPORT_REASONS = [
@@ -204,7 +204,11 @@ const AdDetails = () => {
                             {ad.sellerId?.avatar ? <img src={ad.sellerId.avatar} className="w-full h-full object-cover rounded-full" alt="" /> : ad.sellerId?.name?.charAt(0) || 'V'}
                         </div>
                         <div>
-                            <p className="font-bold group-hover:text-[#FFBA34] transition-colors" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
+                            <div className="flex items-center gap-1.5">
+                                <p className="font-bold group-hover:text-[#FFBA34] transition-colors" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
+                                {ad.sellerId?.badge === 'founder' && <Star size={14} className="fill-[#FFBA34] text-[#FFBA34]" />}
+                                {ad.sellerId?.badge === 'pro' && <Briefcase size={14} className="text-[#214829]" />}
+                            </div>
                             <p className="text-xs text-gray-500">Membre vérifié</p>
                         </div>
                     </Link>
@@ -256,7 +260,11 @@ const AdDetails = () => {
                         )}
                     </div>
                     <div>
-                        <p className="font-bold text-sm" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
+                        <div className="flex items-center gap-1.5">
+                            <p className="font-bold text-sm" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
+                            {ad.sellerId?.badge === 'founder' && <Star size={12} className="fill-[#FFBA34] text-[#FFBA34]" />}
+                            {ad.sellerId?.badge === 'pro' && <Briefcase size={12} className="text-[#214829]" />}
+                        </div>
                         <p className="text-xs text-gray-500">Membre vérifié</p>
                     </div>
                 </Link>

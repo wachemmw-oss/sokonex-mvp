@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getPublicProfile } from '../services/user';
 import { getAds } from '../services/ads';
-import { Phone, MessageCircle, Calendar, ShieldCheck, Package, MapPin, Share2 } from 'lucide-react';
+import { Phone, MessageCircle, Calendar, ShieldCheck, Package, MapPin, Share2, Star, Briefcase } from 'lucide-react';
 import AdCard from '../components/AdCard';
 
 const Store: React.FC = () => {
@@ -58,7 +58,11 @@ const Store: React.FC = () => {
                         {/* Name & Info */}
                         <div className="flex-1 text-center md:text-left">
                             <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
-                                <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic">{seller?.name}</h1>
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic">{seller?.name}</h1>
+                                    {seller?.badge === 'founder' && <Star size={24} className="fill-[#FFBA34] text-[#FFBA34]" />}
+                                    {seller?.badge === 'pro' && <Briefcase size={24} className="text-[#FFBA34]" />}
+                                </div>
                                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFBA34] text-black rounded-full text-[10px] font-black uppercase tracking-widest self-center md:self-auto shadow-lg shadow-[#FFBA34]/20">
                                     <ShieldCheck size={14} strokeWidth={3} />
                                     Vendeur Vérifié

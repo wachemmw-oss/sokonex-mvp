@@ -30,3 +30,8 @@ export const suspendUser = async (id: string) => {
     const response = await client.patch(`/admin/users/${id}/suspend`);
     return response.data;
 };
+
+export const updateUserBadge = async (id: string, badge: string) => {
+    const response = await client.patch(`/admin/users/${id}/badge`, { badge });
+    return response.data;
+};

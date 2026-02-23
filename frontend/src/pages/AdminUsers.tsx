@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUsers, suspendUser } from '../services/admin';
-import { Shield, Search, UserCheck, UserX, Mail, Calendar, Hash } from 'lucide-react';
+import { getUsers, suspendUser, updateUserBadge } from '../services/admin';
+import { Shield, Search, UserCheck, UserX, Mail, Calendar, Hash, Award, Briefcase, Star } from 'lucide-react';
 
 const AdminUsers: React.FC = () => {
     const queryClient = useQueryClient();
@@ -14,6 +14,13 @@ const AdminUsers: React.FC = () => {
 
     const suspendMutation = useMutation({
         mutationFn: suspendUser,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+        },
+    });
+
+    const badgeMutation = useMutation({
+        mutationFn: ({ id, badge }: { id: string, badge: string }) => updateUserBadge(id, badge),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-users'] });
         },
@@ -62,6 +69,7 @@ const AdminUsers: React.FC = () => {
                                 <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Membre</th>
                                 <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Accès</th>
                                 <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Statut</th>
+                                <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Badge</th>
                                 <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Arrivée</th>
                                 <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Actions</th>
                             </tr>
@@ -93,6 +101,17 @@ const AdminUsers: React.FC = () => {
                                             <div className={`w-1.5 h-1.5 rounded-full ${user.status === 'active' ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></div>
                                             {user.status === 'active' ? 'Actif' : 'Suspendu'}
                                         </div>
+                                    </td>
+                                    <td className="px-8 py-6 whitespace-nowrap">
+                                        <select
+                                            value={user.badge || 'none'}
+                                            onChange={(e) => badgeMutation.mutate({ id: user._id, badge: e.target.value })}
+                                            className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-widest rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-[#FFBA34] outline-none transition-all cursor-pointer"
+                                        >
+                                            <option value="none">Aucun Badge</option>
+                                            <option value="founder">⭐ Fondateur</option>
+                                            <option value="pro">💼 Vendeur Pro</option>
+                                        </select>
                                     </td>
                                     <td className="px-8 py-6 whitespace-nowrap">
                                         <div className="text-xs font-bold text-slate-500 flex items-center gap-1.5">

@@ -12,6 +12,7 @@ export interface IUser extends Document {
     showPhone: boolean;
     isPhoneVerified: boolean;
     status: 'active' | 'suspended';
+    badge: 'none' | 'founder' | 'pro';
     bio?: string;
     createdAt: Date;
     updatedAt: Date;
@@ -30,6 +31,7 @@ const UserSchema: Schema = new Schema(
         showPhone: { type: Boolean, default: true },
         isPhoneVerified: { type: Boolean, default: false },
         status: { type: String, enum: ['active', 'suspended'], default: 'active' },
+        badge: { type: String, enum: ['none', 'founder', 'pro'], default: 'none' },
         bio: { type: String, default: '' },
     },
     { timestamps: true }

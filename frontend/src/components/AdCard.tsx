@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import { Heart, Star, Briefcase } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getAdById } from '../services/ads';
 
@@ -75,11 +75,22 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
 
             <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
                 {/* 1. Price */}
-                <p className="font-extrabold text-base md:text-lg leading-none mb-1.5 text-black">
-                    {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
-                        ? `$${ad.price?.toLocaleString()}`
-                        : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
-                </p>
+                <div className="flex items-center justify-between mb-1.5">
+                    <p className="font-extrabold text-base md:text-lg leading-none text-black">
+                        {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
+                            ? `$${ad.price?.toLocaleString()}`
+                            : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
+                    </p>
+                    {ad.sellerId?.badge && ad.sellerId.badge !== 'none' && (
+                        <div className="flex items-center" title={ad.sellerId.badge === 'founder' ? 'Vendeur Fondateur' : 'Vendeur Pro'}>
+                            {ad.sellerId.badge === 'founder' ? (
+                                <Star size={14} className="fill-[#FFBA34] text-[#FFBA34]" />
+                            ) : (
+                                <Briefcase size={14} className="text-[#214829]" />
+                            )}
+                        </div>
+                    )}
+                </div>
 
                 {/* 2. Title (Max 2 lines) */}
                 <h3 className="text-[12px] md:text-[13px] text-gray-800 font-medium line-clamp-2 leading-tight group-hover:underline mb-1">

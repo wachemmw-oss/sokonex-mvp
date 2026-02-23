@@ -149,29 +149,29 @@ const Home = () => {
                         ))}
                     </div>
 
-                    {/* Navigation Arrows (PC only) */}
+                    {/* Premium Navigation Arrows (PC only) */}
                     <button
                         onClick={() => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length)}
-                        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all hover:bg-[#FFBA34] hover:text-[#1A3620] hover:scale-110 hidden md:flex"
+                        className="absolute left-10 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/5 backdrop-blur-sm text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-black hover:scale-110 hidden lg:flex"
                     >
-                        <ChevronRight className="rotate-180" size={24} strokeWidth={3} />
+                        <ChevronRight className="rotate-180" size={20} strokeWidth={2.5} />
                     </button>
                     <button
                         onClick={() => setCurrentBanner((prev) => (prev + 1) % banners.length)}
-                        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all hover:bg-[#FFBA34] hover:text-[#1A3620] hover:scale-110 hidden md:flex"
+                        className="absolute right-10 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/5 backdrop-blur-sm text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-black hover:scale-110 hidden lg:flex"
                     >
-                        <ChevronRight size={24} strokeWidth={3} />
+                        <ChevronRight size={20} strokeWidth={2.5} />
                     </button>
 
-                    {/* Carousel Dots */}
-                    <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-30">
+                    {/* Premium Carousel Dots */}
+                    <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-2.5 z-30">
                         {banners.map((_, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setCurrentBanner(idx)}
-                                className={`h-2 transition-all duration-500 rounded-full ${currentBanner === idx
-                                    ? 'w-10 bg-[#FFBA34]'
-                                    : 'w-2 bg-white/30 hover:bg-white/60'
+                                className={`h-1.5 transition-all duration-700 rounded-full ${currentBanner === idx
+                                    ? 'w-10 bg-[#FFBA34] shadow-[0_0_15px_rgba(255,186,52,0.6)]'
+                                    : 'w-1.5 bg-white/20 hover:bg-white/50'
                                     }`}
                                 aria-label={`Go to banner ${idx + 1}`}
                             />
