@@ -14,7 +14,19 @@ const BottomTab = () => {
         `flex flex-col items-center justify-center flex-1 h-full transition-all duration-300 ${active ? 'text-[#D32F2F]' : 'text-gray-400 hover:text-gray-600'}`;
 
     return (
-        <div className="fixed bottom-6 left-6 right-6 z-[100] md:hidden font-sans">
+        <div
+            className="md:hidden font-sans"
+            style={{
+                position: 'fixed',
+                bottom: '16px',
+                left: '16px',
+                right: '16px',
+                zIndex: 100,
+                transform: 'translateZ(0)',
+                WebkitTransform: 'translateZ(0)',
+                willChange: 'transform',
+            }}
+        >
             <div className="bg-white/95 backdrop-blur-md border border-gray-100 h-16 rounded-full shadow-2xl flex items-center justify-around px-4">
                 <Link to="/" className={tabClass(isHome)}>
                     <Home className="w-[24px] h-[24px]" strokeWidth={isHome ? 2.5 : 2} />

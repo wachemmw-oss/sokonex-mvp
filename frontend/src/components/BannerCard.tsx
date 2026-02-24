@@ -62,7 +62,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
                         style={{ fontFamily: 'Outfit, sans-serif' }}
                     >
                         {title.split(' ').map((word, i) => (
-                            <span key={i} className={i % 3 === 2 ? 'text-[#D32F2F]' : ''}>
+                            <span key={i} className={i % 3 === 2 ? 'text-[#f7711c]' : ''}>
                                 {word}{' '}
                             </span>
                         ))}

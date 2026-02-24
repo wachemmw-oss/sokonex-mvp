@@ -119,6 +119,11 @@ const Navbar = () => {
                                             <Link to="/account/settings" className="flex items-center px-5 py-3 text-sm text-gray-600 hover:bg-gray-50 transition" onClick={() => setIsUserMenuOpen(false)}>
                                                 <Settings className="w-4 h-4 mr-3" /> Paramètres
                                             </Link>
+                                            {user?.role === 'admin' && (
+                                                <Link to="/admin" className="flex items-center px-5 py-3 text-sm font-bold text-[#D32F2F] hover:bg-red-50 transition" onClick={() => setIsUserMenuOpen(false)}>
+                                                    <ShieldAlert className="w-4 h-4 mr-3" /> Admin Panel
+                                                </Link>
+                                            )}
                                         </div>
                                         <div className="border-t border-gray-50 mt-1 pt-1">
                                             {user ? (
