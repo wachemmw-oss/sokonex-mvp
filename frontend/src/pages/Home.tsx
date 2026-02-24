@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ChevronRight, Sparkles, Plane, TrendingUp, Shirt, Sparkle, ShieldCheck
+    ChevronRight, Sparkles, Plane, TrendingUp, Shirt, Sparkle, ShieldCheck, Zap
 } from 'lucide-react';
 import BannerCard from '../components/BannerCard';
 import { useQuery } from '@tanstack/react-query';
 import { getHomeSection } from '../services/ads';
 import SectionBlock from '../components/SectionBlock';
-import ServiceGrid from '../components/ServiceGrid';
-import EditorialGrid from '../components/EditorialGrid';
+import FlashCountdown from '../components/FlashCountdown';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -100,37 +99,33 @@ const Home = () => {
                 </div>
 
                 <div className="space-y-16">
-                    {/* 1. New Products */}
+                    {/* 1. Flash Deals Section */}
                     <SectionBlock
-                        title="Nouveautés"
-                        Icon={Sparkles}
-                        seeMorePath="/results?sort=newest"
-                        items={flashData?.data?.items || []}
+                        title="Offres Flash (argent direct)"
+                        Icon={Zap}
+                        seeMorePath="/results?sort=flash"
+                        items={flashData?.data?.items?.map((item: any) => ({ ...item, variant: 'flash' })) || []}
                         loading={flashLoading}
+                        iconBgColor="bg-red-100"
+                        iconColor="text-red-600"
+                    >
+                        <FlashCountdown />
+                    </SectionBlock>
+
+                    {/* 2. Exclusive Selection */}
+                    <SectionBlock
+                        title="Sélection Exclusive"
+                        Icon={Sparkles}
+                        seeMorePath="/results?sort=exclusive"
+                        items={exclusiveData?.data?.items || []}
+                        loading={exclusiveLoading}
                         iconBgColor="bg-blue-100"
                         iconColor="text-blue-600"
                     />
 
-                    {/* 2. Import Sections */}
+                    {/* 3. Trending Section */}
                     <SectionBlock
-                        title="Import - Prix imbattables"
-                        Icon={Plane}
-                        seeMorePath="/results?q=import"
-                        items={exclusiveData?.data?.items?.map((item: any) => ({ ...item, importFrom: 'Chine', discount: 15 })) || []}
-                        loading={exclusiveLoading}
-                        iconBgColor="bg-blue-50"
-                        iconColor="text-blue-500"
-                    />
-
-                    {/* 3. Editorial Section */}
-                    <EditorialGrid />
-
-                    {/* 4. Service Grid (Security) */}
-                    <ServiceGrid />
-
-                    {/* 5. Trending Section */}
-                    <SectionBlock
-                        title="Trending Products"
+                        title="Ça cartonne à Lushi"
                         Icon={TrendingUp}
                         seeMorePath="/results?sort=popular"
                         items={trendingData?.data?.items || []}
@@ -139,7 +134,7 @@ const Home = () => {
                         iconColor="text-orange-500"
                     />
 
-                    {/* 6. Universe Sections */}
+                    {/* 4. Universe Sections */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <SectionBlock
                             title="Univers Mode"

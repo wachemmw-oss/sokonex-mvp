@@ -12,6 +12,7 @@ interface SectionBlockProps {
     loading: boolean;
     iconBgColor?: string;
     iconColor?: string;
+    children?: React.ReactNode;
 }
 
 const SectionSkeleton = () => (
@@ -33,7 +34,8 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
     items,
     loading,
     iconBgColor,
-    iconColor
+    iconColor,
+    children
 }) => {
     const scrollRef = React.useRef<HTMLDivElement>(null);
 
@@ -55,6 +57,8 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
                     iconBgColor={iconBgColor}
                     iconColor={iconColor}
                 />
+
+                {children}
 
                 {/* ─── Carousel Container ─── */}
                 <div className="relative group/carousel">

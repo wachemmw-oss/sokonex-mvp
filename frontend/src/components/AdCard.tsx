@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart, Star, Briefcase, MapPin, User, Search, ShoppingCart } from 'lucide-react';
+import { Heart, Star, Briefcase, MapPin, User, Search, ShoppingCart, Sparkles } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getAdById } from '../services/ads';
 
@@ -7,6 +7,7 @@ interface AdCardProps {
     ad: any;
     promoted?: boolean;
     viewMode?: 'grid' | 'list';
+    variant?: 'default' | 'flash';
 }
 
 const getConditionDetails = (condition: string) => {
@@ -34,7 +35,8 @@ const formatRelativeDate = (dateString: string) => {
     return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 };
 
-const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
+const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }: AdCardProps) => {
+    const isFlash = variant === 'flash';
     const isList = viewMode === 'list';
     const queryClient = useQueryClient();
 
@@ -69,7 +71,13 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Aucune image</div>
                 )}
-                {ad.promoted && (
+                {isFlash && (
+                    <div className="absolute top-2 left-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] border border-red-400 flex items-center gap-1 animate-pulse">
+                        <Sparkles size={10} className="fill-white" />
+                        PROMO
+                    </div>
+                )}
+                {ad.promoted && !isFlash && (
                     <div className="absolute top-2 right-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-[var(--color-accent-pink)] text-white shadow-sm">
                         Deal Spécial
                     </div>
