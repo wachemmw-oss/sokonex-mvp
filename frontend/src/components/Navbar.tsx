@@ -6,7 +6,7 @@ import { getCategories } from '../services/category';
 import {
     Search, User as UserIcon, LogOut, Menu, X, ChevronRight,
     Info, HelpCircle, ShieldCheck, FileText, Bell, SlidersHorizontal,
-    LayoutDashboard, Settings, ShieldAlert, Heart, Grid
+    LayoutDashboard, Settings, ShieldAlert, Heart, Grid, ShoppingCart
 } from 'lucide-react';
 import logo from '../assets/sokonex-best-logo.png';
 
@@ -181,9 +181,9 @@ const Navbar = () => {
                             </button>
                         </form>
 
-                        {/* Notification Bell */}
+                        {/* Shopping Cart Icon (Mobile) */}
                         <button className="text-gray-800 p-1 shrink-0 flex items-center justify-center h-[42px]">
-                            <Bell className="w-[26px] h-[26px]" strokeWidth={1.5} />
+                            <ShoppingCart className="w-[26px] h-[26px]" strokeWidth={1.5} />
                         </button>
                     </div>
                 )}
