@@ -49,10 +49,10 @@ const MyAds = () => {
 
     return (
         <div className="bg-white shadow-sm border border-gray-100 rounded-sm overflow-hidden font-sans">
-            <div className="p-6 border-b border-white/10 flex justify-between items-center">
-                <h2 className="text-xl font-bold uppercase tracking-tight" style={{ color: '#1A3620' }}>Mes Annonces ({ads.length})</h2>
-                <Link to="/post" className="text-sm font-bold px-4 py-2 rounded-sm transition-colors hover:opacity-90" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                    Nouvelle Annonce
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h2 className="text-xl font-black tracking-tight text-gray-900">Mes Annonces ({ads.length})</h2>
+                <Link to="/post" className="text-sm font-bold px-4 py-2 rounded-xl bg-[#D32F2F] text-white hover:bg-[#B71C1C] transition-colors shadow-sm">
+                    + Nouvelle
                 </Link>
             </div>
 
@@ -165,8 +165,8 @@ const BecomePro = () => (
 const EarnMoney = () => (
     <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-sm">
         <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-[#FFBA34] rounded-full flex items-center justify-center">
-                <CurrencyDollarIcon className="w-7 h-7 text-[#1A3620]" />
+            <div className="w-12 h-12 bg-[#D32F2F]/10 rounded-full flex items-center justify-center">
+                <CurrencyDollarIcon className="w-7 h-7 text-[#D32F2F]" />
             </div>
             <h2 className="text-xl md:text-2xl font-bold text-black uppercase tracking-tight">Comment faire de l'argent ?</h2>
         </div>
@@ -187,16 +187,16 @@ const EarnMoney = () => (
                 </div>
             </div>
 
-            <div className="p-5" style={{ backgroundColor: '#EBF5EE', borderLeft: '4px solid #214829' }}>
-                <h3 className="font-bold text-sm mb-3 text-[#1A3620]">Conseils de pro :</h3>
-                <ul className="text-xs space-y-2 text-[#2D6138]">
+            <div className="p-5 bg-red-50 border-l-4 border-red-400 rounded-r-xl">
+                <h3 className="font-bold text-sm mb-3 text-[#D32F2F]">Conseils de pro :</h3>
+                <ul className="text-xs space-y-2 text-red-800">
                     <li className="flex items-center gap-2">• Soyez réactif sur WhatsApp ou par appel.</li>
                     <li className="flex items-center gap-2">• Partagez vos annonces sur vos réseaux sociaux.</li>
                     <li className="flex items-center gap-2">• Demandez à vos clients de vous recommander.</li>
                 </ul>
             </div>
 
-            <Link to="/post" className="inline-block w-full text-center py-3 font-bold rounded-sm transition-opacity hover:opacity-90" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+            <Link to="/post" className="inline-block w-full text-center py-3 font-bold rounded-xl transition-opacity hover:opacity-90 bg-[#D32F2F] text-white shadow-md shadow-red-200">
                 Publier une nouvelle annonce
             </Link>
         </div>
@@ -236,8 +236,8 @@ const FAQ = () => (
 const SidebarLink = ({ to, icon: Icon, text, active }: { to: string, icon: any, text: string, active: boolean }) => (
     <Link
         to={to}
-        className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${active
-            ? 'bg-[#FFBA34] text-[#1A3620] font-bold border-r-4 border-[#1A3620]'
+        className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all rounded-lg mx-2 my-0.5 ${active
+            ? 'bg-[#D32F2F] text-white font-bold shadow-sm'
             : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
     >
@@ -270,11 +270,11 @@ const Dashboard = () => {
 
                 {/* Sidebar */}
                 <div className="w-full md:w-72 shrink-0">
-                    <div className="shadow-sm rounded-sm overflow-hidden sticky top-24" style={{ backgroundColor: '#214829' }}>
+                    <div className="shadow-xl rounded-2xl overflow-hidden sticky top-24" style={{ backgroundColor: '#1F1F2E' }}>
 
                         {/* Vendor Profile Summary Block */}
                         <div className="p-6 text-center border-b border-white/10">
-                            <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-white/30" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                            <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-white/30" style={{ backgroundColor: 'rgba(211,47,47,0.15)' }}>
                                 {user?.avatar ? (
                                     <img src={user.avatar} alt="Profil" loading="lazy" className="w-full h-full rounded-full object-cover" />
                                 ) : (
@@ -302,7 +302,7 @@ const Dashboard = () => {
                             )}
 
                             {user?.whatsapp && (
-                                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-sm text-xs font-bold font-mono" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold font-mono bg-[#D32F2F]/20 text-red-300">
                                     WA: {user.whatsapp}
                                 </div>
                             )}

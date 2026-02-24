@@ -108,8 +108,8 @@ const Settings = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto bg-white shadow-sm border border-gray-100 rounded-sm p-8 mt-8 font-sans">
-            <h2 className="text-2xl font-extrabold mb-8 text-black tracking-tight uppercase">Paramètres du profil</h2>
+        <div className="max-w-2xl mx-auto bg-white shadow-sm border border-gray-100 rounded-2xl p-8 mt-8 font-sans">
+            <h2 className="text-2xl font-black mb-8 text-gray-900 tracking-tight">Paramètres du profil</h2>
 
             {message.text && (
                 <div className={`p-4 rounded-sm mb-6 text-sm font-medium ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : message.type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-gray-50 text-gray-700 border border-gray-200'
@@ -159,7 +159,7 @@ const Settings = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors bg-gray-50 focus:bg-white"
                     />
                 </div>
 
@@ -170,7 +170,7 @@ const Settings = () => {
                         name="bio"
                         value={formData.bio}
                         onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors resize-none h-24"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors resize-none h-24 bg-gray-50 focus:bg-white"
                         placeholder="Dites-en plus sur votre activité..."
                     />
                 </div>
@@ -184,7 +184,7 @@ const Settings = () => {
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
+                            className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors bg-gray-50 focus:bg-white"
                             placeholder="Ex: +243 000 000 000"
                         />
                     </div>
@@ -196,7 +196,7 @@ const Settings = () => {
                                 type="button"
                                 onClick={handleVerifyPhone}
                                 disabled={verifying}
-                                className="text-xs font-bold uppercase tracking-wide bg-black text-white px-3 py-1.5 rounded-sm hover:bg-gray-800 transition-colors disabled:opacity-50"
+                                className="text-xs font-bold uppercase tracking-wide bg-[#D32F2F] text-white px-3 py-1.5 rounded-xl hover:bg-[#B71C1C] transition-colors disabled:opacity-50"
                             >
                                 {verifying ? 'Vérification...' : 'Vérifier maintenant'}
                             </button>
@@ -215,7 +215,7 @@ const Settings = () => {
                         name="whatsapp"
                         value={formData.whatsapp}
                         onChange={handleChange}
-                        className="w-full border border-gray-200 rounded-sm px-3 py-2 focus:ring-1 focus:ring-black focus:border-black outline-none transition-colors"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors bg-gray-50 focus:bg-white"
                         placeholder="Ex: +243 000 000 000"
                     />
                 </div>
@@ -239,7 +239,7 @@ const Settings = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-black text-white py-3 px-4 rounded-sm font-bold tracking-wide hover:bg-gray-800 focus:outline-none transition-colors active:scale-95 disabled:opacity-50"
+                        className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white py-3 px-4 rounded-xl font-bold tracking-wide focus:outline-none transition-colors active:scale-95 disabled:opacity-50 shadow-md shadow-red-200"
                     >
                         {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
                     </button>

@@ -25,7 +25,7 @@ const Store: React.FC = () => {
         return (
             <div className="min-h-screen bg-slate-50 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-slate-200 border-t-[#214829] rounded-full animate-spin"></div>
+                    <div className="w-12 h-12 border-4 border-slate-200 border-t-[#D32F2F] rounded-full animate-spin"></div>
                     <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Chargement de la boutique...</p>
                 </div>
             </div>
@@ -36,11 +36,11 @@ const Store: React.FC = () => {
     const ads = adsData?.data?.items || [];
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans selection:bg-[#FFBA34] selection:text-black">
+        <div className="min-h-screen bg-[#FAFAF8] font-sans">
             {/* Store Header / Hero Section */}
-            <div className="bg-[#1A3620] text-white pt-12 pb-24 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFBA34]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            <div className="bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] text-white pt-12 pb-24 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-[#D32F2F]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#D32F2F]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
                 <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
                     <div className="flex flex-col md:flex-row items-center md:items-end gap-8">
@@ -59,7 +59,7 @@ const Store: React.FC = () => {
                         <div className="flex-1 text-center md:text-left">
                             <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
                                 <div className="flex items-center gap-2">
-                                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic">{seller?.name}</h1>
+                                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{seller?.name}</h1>
                                     {seller?.badge === 'founder' && (
                                         <div className="flex items-center gap-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-4 py-1 rounded-xl shadow-lg border border-white/20">
                                             <Star size={20} className="fill-white" />
@@ -73,7 +73,7 @@ const Store: React.FC = () => {
                                         </div>
                                     )}
                                 </div>
-                                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFBA34] text-black rounded-full text-[10px] font-black uppercase tracking-widest self-center md:self-auto shadow-lg shadow-[#FFBA34]/20">
+                                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#D32F2F] text-white rounded-full text-[10px] font-black uppercase tracking-widest self-center md:self-auto shadow-lg">
                                     <ShieldCheck size={14} strokeWidth={3} />
                                     Vendeur Vérifié
                                 </div>

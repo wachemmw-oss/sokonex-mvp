@@ -183,13 +183,13 @@ const AdDetails = () => {
                         <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{ad.description}</p>
                     </div>
 
-                    {/* 🛡️ Security Warning Card */}
-                    <div className="mb-6 rounded-sm p-4" style={{ backgroundColor: '#EBF5EE', borderWidth: 1, borderStyle: 'solid', borderColor: 'rgba(33,72,41,0.2)' }}>
+                    {/* Security Warning Card */}
+                    <div className="mb-6 rounded-xl p-4 bg-red-50 border border-red-100">
                         <div className="flex items-center gap-2 mb-2">
-                            <ShieldCheck className="w-5 h-5 shrink-0" style={{ color: '#214829' }} />
-                            <h3 className="font-bold text-sm uppercase tracking-wide" style={{ color: '#214829' }}>Conseils de sécurité</h3>
+                            <ShieldCheck className="w-5 h-5 shrink-0 text-[#D32F2F]" />
+                            <h3 className="font-bold text-sm uppercase tracking-wide text-[#D32F2F]">Conseils de sécurité</h3>
                         </div>
-                        <ul className="text-xs space-y-1.5 list-disc list-inside" style={{ color: '#2D6138' }}>
+                        <ul className="text-xs space-y-1.5 list-disc list-inside text-red-700">
                             <li>Ne payez jamais à l'avance sans avoir vu l'article.</li>
                             <li>Rencontrez le vendeur dans un endroit public et sûr.</li>
                             <li>Vérifiez l'article avant de payer.</li>
@@ -200,7 +200,7 @@ const AdDetails = () => {
 
                     {/* Seller Summary (Desktop only) */}
                     <Link to={`/store/${ad.sellerId?._id}`} className="flex items-center gap-4 mb-4 group">
-                        <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl group-hover:scale-105 transition-transform" style={{ backgroundColor: '#214829' }}>
+                        <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl group-hover:scale-105 transition-transform bg-[#D32F2F]">
                             {ad.sellerId?.avatar ? <img src={ad.sellerId.avatar} className="w-full h-full object-cover rounded-full" alt="" /> : ad.sellerId?.name?.charAt(0) || 'V'}
                         </div>
                         <div>
@@ -224,12 +224,12 @@ const AdDetails = () => {
                     </Link>
                     <div className="flex gap-3">
                         {ad.sellerId?.showPhone && (
-                            <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                            <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90 rounded-xl bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm">
                                 <Phone className="w-4 h-4" /> Appeler
                             </a>
                         )}
                         {ad.sellerId?.whatsapp && (
-                            <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                            <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 transition hover:opacity-90 rounded-xl bg-[#25D366] hover:bg-[#22bf5b] text-white shadow-sm">
                                 <MessageCircle className="w-4 h-4" /> WhatsApp
                             </a>
                         )}
@@ -259,8 +259,8 @@ const AdDetails = () => {
 
             {/* Mobile Seller Info Block — visible uniquement sur mobile */}
             <div className="md:hidden px-4 pb-4 mt-6">
-                <Link to={`/store/${ad.sellerId?._id}`} className="p-4 rounded-sm flex items-center gap-3" style={{ backgroundColor: '#EBF5EE' }}>
-                    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ backgroundColor: '#214829' }}>
+                <Link to={`/store/${ad.sellerId?._id}`} className="p-4 rounded-xl flex items-center gap-3 bg-gray-50 border border-gray-100">
+                    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-[#D32F2F]">
                         {ad.sellerId?.avatar ? (
                             <img src={ad.sellerId.avatar} alt="Vendeur" className="w-full h-full object-cover" />
                         ) : (
@@ -290,19 +290,18 @@ const AdDetails = () => {
                 </Link>
             </div>
 
-            {/* Mobile Sticky Bottom Action Bar */}
-            <div className="md:hidden fixed bottom-16 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <div className="md:hidden fixed bottom-28 left-0 right-0 bg-white border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 {ad.sellerId?.showPhone && (
-                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                    <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] hover:bg-[#B71C1C] text-white transition-colors">
                         <Phone className="w-4 h-4" /> Appeler
                     </a>
                 )}
                 {ad.sellerId?.whatsapp ? (
-                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                    <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#22bf5b] text-white transition-colors">
                         <MessageCircle className="w-4 h-4" /> WhatsApp
                     </a>
                 ) : (
-                    <button className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
+                    <button className="flex-1 text-center py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] text-white">
                         Contacter
                     </button>
                 )}

@@ -12,8 +12,8 @@ const Aide = () => {
             {/* Comment gagner de l'argent section */}
             <section className="mb-16">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-[#FFBA34] rounded-full flex items-center justify-center">
-                        <DollarSign className="w-6 h-6 text-[#1A3620]" />
+                    <div className="w-10 h-10 bg-[#D32F2F] rounded-full flex items-center justify-center">
+                        <DollarSign className="w-6 h-6 text-white" />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-800">Comment gagner de l'argent sur SOKONEX ?</h2>
                 </div>

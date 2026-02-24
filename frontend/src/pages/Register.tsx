@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/sokonex-best-logo.png';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -20,23 +21,60 @@ const Register = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-8 bg-white border border-gray-100 rounded-sm shadow-sm font-sans">
-            <h2 className="text-2xl font-extrabold mb-8 text-center uppercase tracking-tight">Inscription</h2>
-            {error && <div className="text-red-500 mb-4 text-sm text-center">{error}</div>}
-            <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-[#214829] focus:ring-1 focus:ring-[#214829] transition-colors" required />
-                </div>
-                <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">Mot de passe</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border border-gray-200 p-2.5 rounded-sm focus:outline-none focus:border-[#214829] focus:ring-1 focus:ring-[#214829] transition-colors" required />
-                </div>
-                <button type="submit" className="w-full font-bold py-3 rounded-sm transition active:scale-95" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>S'inscrire</button>
-            </form>
-            <p className="mt-6 text-center text-sm text-gray-600">
-                Déjà un compte ? <Link to="/login" className="font-bold underline" style={{ color: '#214829' }}>Se connecter</Link>
-            </p>
+        <div className="min-h-screen bg-[#FAFAF8] flex flex-col items-center justify-center px-4 font-sans">
+            {/* Logo */}
+            <Link to="/" className="mb-8">
+                <img src={logo} alt="SOKONEX" className="h-12 w-auto" />
+            </Link>
+
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-black/5 border border-gray-100 p-8">
+                <h2 className="text-2xl font-black mb-2 text-center tracking-tight text-gray-900">Créer un compte</h2>
+                <p className="text-sm text-gray-500 text-center mb-8">Rejoignez la marketplace SOKONEX gratuitement</p>
+
+                {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl mb-6 text-center font-medium">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Email</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full border border-gray-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] transition-all bg-gray-50 focus:bg-white"
+                            placeholder="votre@email.com"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Mot de passe</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full border border-gray-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] transition-all bg-gray-50 focus:bg-white"
+                            placeholder="••••••••"
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-bold py-3.5 rounded-xl transition-all active:scale-95 shadow-md shadow-red-200 mt-2"
+                    >
+                        S'inscrire
+                    </button>
+                </form>
+
+                <p className="mt-6 text-center text-sm text-gray-500">
+                    Déjà un compte ?{' '}
+                    <Link to="/login" className="font-bold text-[#D32F2F] hover:underline">
+                        Se connecter
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 };

@@ -92,7 +92,7 @@ const Results = () => {
                         onClick={() => setIsFilterOpen(true)}
                         className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full border text-sm font-medium transition"
                         style={Object.keys(params).some(k => ['category', 'city', 'condition', 'sort'].includes(k))
-                            ? { backgroundColor: '#214829', color: 'white', borderColor: '#214829' }
+                            ? { backgroundColor: '#D32F2F', color: 'white', borderColor: '#D32F2F' }
                             : { backgroundColor: 'white', color: '#333', borderColor: '#ccc' }}
                     >
                         <Filter className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('sort'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
                         >
                             {params.sort === 'price_asc' ? 'Prix ↑' : 'Prix ↓'}
                             <X className="w-3 h-3" />
@@ -114,7 +114,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('category'); p.delete('subCategory'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
                         >
                             {CATEGORIES_FROM_DB.find((c: any) => c.slug === params.category)?.name || params.category}
                             <X className="w-3 h-3" />
@@ -124,7 +124,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('city'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
                         >
                             {params.city}
                             <X className="w-3 h-3" />
@@ -134,7 +134,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('condition'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
                         >
                             {params.condition === 'new' ? 'Neuf' : params.condition === 'used' ? 'Occasion' : 'Reconditionné'}
                             <X className="w-3 h-3" />
@@ -144,7 +144,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('delivery'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#EBF5EE', color: '#214829', borderColor: '#214829' }}
+                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
                         >
                             Livraison <X className="w-3 h-3" />
                         </button>
@@ -191,8 +191,7 @@ const Results = () => {
                                     if (form) form.requestSubmit();
                                     setIsFilterOpen(false);
                                 }}
-                                className="w-full font-bold py-3 rounded-sm active:scale-95 transition"
-                                style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}
+                                className="w-full font-bold py-3 rounded-xl active:scale-95 transition bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm"
                             >
                                 Afficher les résultats
                             </button>
@@ -322,7 +321,7 @@ const Results = () => {
                             <div ref={loaderRef} className="flex justify-center py-8">
                                 {isFetchingNextPage && (
                                     <div className="flex items-center gap-2 text-gray-400 text-sm">
-                                        <Loader2 className="w-5 h-5 animate-spin" style={{ color: '#214829' }} />
+                                        <Loader2 className="w-5 h-5 animate-spin text-[#D32F2F]" />
                                         <span>Chargement...</span>
                                     </div>
                                 )}
@@ -338,7 +337,7 @@ const Results = () => {
                             </div>
                             <p className="text-black text-lg font-medium">Aucune annonce trouvée.</p>
                             <p className="text-gray-500 text-sm mt-1">Essayez de modifier vos filtres ou effectuez une nouvelle recherche.</p>
-                            <button onClick={() => window.location.href = '/results'} className="mt-4 text-black font-bold underline hover:text-gray-700 transition">
+                            <button onClick={() => window.location.href = '/results'} className="mt-4 text-[#D32F2F] font-bold hover:underline transition">
                                 Voir toutes les annonces
                             </button>
                         </div>

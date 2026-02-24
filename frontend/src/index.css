@@ -3,24 +3,24 @@
 :root {
   font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* ─── SOKONEX Color System ─── */
-  --color-primary: #FFBA34;
-  /* Ambre / CTA */
-  --color-primary-dark: #E8A520;
-  /* Ambre hover */
-  --color-primary-light: #FFF3D4;
-  /* Ambre très clair (backgrounds) */
-  --color-secondary: #214829;
-  /* Vert forêt / Navigation */
-  --color-secondary-dark: #172f1b;
-  /* Vert foncé hover */
-  --color-secondary-light: #EBF5EE;
-  /* Vert très clair (backgrounds) */
-  --color-text-main: #1A3620;
-  /* Texte principal (vert nuit) */
+  /* ─── SOKONEX Color System (Rouge Premium) ─── */
+  --color-primary: #D32F2F;
+  /* Rouge premium / CTA */
+  --color-primary-dark: #B71C1C;
+  /* Rouge foncé hover */
+  --color-primary-light: #FFEBEE;
+  /* Rouge très clair (backgrounds) */
+  --color-secondary: #1F1F2E;
+  /* Bleu nuit / Sidebar */
+  --color-secondary-dark: #15152b;
+  /* Bleu nuit foncé */
+  --color-secondary-light: #F1F0FF;
+  /* Bleu nuit très clair */
+  --color-text-main: #1a1a2e;
+  /* Texte principal */
   --color-bg: #FAFAF8;
   /* Fond page */
-  --color-border: #E8EDE5;
+  --color-border: #E5E7EB;
   /* Séparateurs */
 
   /* ─── Section Backgrounds (Subtle/Premium) ─── */
@@ -36,8 +36,8 @@
   /* Lavande doux */
 
   /* ─── Accent Colors ─── */
-  --color-accent-pink: #E91E63;
-  /* Rose magenta comme sur le modèle */
+  --color-accent-whatsapp: #25D366;
+  /* WhatsApp vert */
 }
 
 body {
@@ -55,11 +55,12 @@ body {
     box-shadow: 0 4px 12px rgba(33, 72, 41, 0.14);
   }
 
-  /* Primary button: Ambre #FFBA34 */
+  /* Primary button: Rouge Premium #D32F2F */
   .btn-primary {
     background-color: var(--color-primary);
-    color: var(--color-text-main);
+    color: white;
     font-weight: 700;
+    border-radius: 0.75rem;
     transition: background-color 0.2s;
   }
 
@@ -67,16 +68,24 @@ body {
     background-color: var(--color-primary-dark);
   }
 
-  /* Secondary button: Vert #214829 */
+  /* Secondary button: Bleu nuit #1F1F2E */
   .btn-secondary {
     background-color: var(--color-secondary);
     color: #ffffff;
     font-weight: 700;
+    border-radius: 0.75rem;
     transition: background-color 0.2s;
   }
 
   .btn-secondary:hover {
     background-color: var(--color-secondary-dark);
+  }
+
+  /* Input focus rouge */
+  .input-primary:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+    outline: none;
   }
 
   /* ─── Drill-down Animations ─── */
