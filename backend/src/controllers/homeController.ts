@@ -27,23 +27,22 @@ const getAdsByCriteria = async (req: Request, res: Response, criteria: any, limi
 };
 
 // Home Endpoints (limit=8)
-export const getHomeFlash = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'Offres Flash' }, 8);
-export const getHomeExclusive = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'Sélection Exclusive' }, 8);
+export const getHomeFlash = (req: Request, res: Response) => getAdsByCriteria(req, res, {}, 8); // Fallback to all for MVP
+export const getHomeExclusive = (req: Request, res: Response) => getAdsByCriteria(req, res, { promoted: true }, 8);
 export const getHomeTrending = (req: Request, res: Response) => getAdsByCriteria(req, res, {}, 8);
-export const getHomeMode = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'Mode' }, 8);
-export const getHomeBeaute = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'Beauté' }, 8);
+export const getHomeMode = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'mode' }, 8);
+export const getHomeBeaute = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'mode' }, 8); // Assuming beauty is in mode category
 
-// List Endpoints (limit=24, pagination)
 export const getListFlash = (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 24;
     const page = Number(req.query.page) || 1;
-    getAdsByCriteria(req, res, { category: 'Offres Flash' }, limit, (page - 1) * limit);
+    getAdsByCriteria(req, res, {}, limit, (page - 1) * limit);
 };
 
 export const getListExclusive = (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 24;
     const page = Number(req.query.page) || 1;
-    getAdsByCriteria(req, res, { category: 'Sélection Exclusive' }, limit, (page - 1) * limit);
+    getAdsByCriteria(req, res, { promoted: true }, limit, (page - 1) * limit);
 };
 
 export const getListTrending = (req: Request, res: Response) => {
@@ -55,11 +54,11 @@ export const getListTrending = (req: Request, res: Response) => {
 export const getListMode = (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 24;
     const page = Number(req.query.page) || 1;
-    getAdsByCriteria(req, res, { category: 'Mode' }, limit, (page - 1) * limit);
+    getAdsByCriteria(req, res, { category: 'mode' }, limit, (page - 1) * limit);
 };
 
 export const getListBeaute = (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 24;
     const page = Number(req.query.page) || 1;
-    getAdsByCriteria(req, res, { category: 'Beauté' }, limit, (page - 1) * limit);
+    getAdsByCriteria(req, res, { category: 'mode' }, limit, (page - 1) * limit);
 };
