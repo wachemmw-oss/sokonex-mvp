@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AdCard from './AdCard';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Search } from 'lucide-react';
 
 interface SectionBlockProps {
     title: string;
@@ -35,42 +35,70 @@ const SectionSkeleton = () => (
 );
 
 const SectionBlock: React.FC<SectionBlockProps> = ({ title, seeMorePath, items, loading, variant }) => {
-    const bgClass = getVariantStyles(variant);
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollRef.current) {
+            const { scrollLeft, clientWidth } = scrollRef.current;
+            const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+            scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+        }
+    };
 
     return (
-        <section className={`py-12 md:py-20 ${bgClass} transition-colors duration-500`}>
+        <section className="py-8 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-6">
-                    <div className="space-y-2">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter uppercase italic text-[#1A3620] leading-none flex items-center gap-4">
-                            <span className="w-2 h-10 md:h-14 bg-[#FFBA34] rounded-full inline-block shadow-[0_0_15px_rgba(255,186,52,0.3)]"></span>
-                            {title}
-                        </h2>
-                        <div className="h-1 w-24 bg-[#FFBA34]/20 rounded-full ml-6"></div>
-                    </div>
-
+                {/* ─── Dark Header Bar ─── */}
+                <div className="bg-[#0F172A] rounded-lg p-3 md:p-4 flex items-center justify-between mb-6 shadow-md border border-white/5">
+                    <h2 className="text-white text-sm md:text-xl font-bold flex items-center gap-3">
+                        <span className="w-1.5 h-6 bg-white/20 rounded-full"></span>
+                        {title}
+                    </h2>
                     <Link
                         to={seeMorePath}
-                        className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-[#1A3620] rounded-full text-xs font-black uppercase tracking-[0.2em] border border-[#1A3620]/10 hover:bg-[#1A3620] hover:text-white hover:border-[#1A3620] transition-all duration-500 shadow-sm hover:shadow-xl"
+                        className="text-white/80 hover:text-white flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors"
                     >
-                        Explorer la sélection
-                        <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+                        Voir Plus
+                        <Search size={14} strokeWidth={3} />
                     </Link>
                 </div>
 
-                {loading ? (
-                    <SectionSkeleton />
-                ) : items.length > 0 ? (
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-                        {items.map((ad) => (
-                            <AdCard key={ad._id} ad={ad} />
-                        ))}
+                {/* ─── Carousel Container ─── */}
+                <div className="relative group/carousel">
+                    {/* Navigation Arrows (Desktop) */}
+                    <button
+                        onClick={() => scroll('left')}
+                        className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-white shadow-xl border border-gray-100 rounded-full p-2 z-10 hidden md:group-hover/carousel:flex items-center justify-center hover:bg-gray-50 transition-all text-gray-400 hover:text-black"
+                    >
+                        <ChevronLeft size={24} strokeWidth={2.5} />
+                    </button>
+                    <button
+                        onClick={() => scroll('right')}
+                        className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-white shadow-xl border border-gray-100 rounded-full p-2 z-10 hidden md:group-hover/carousel:flex items-center justify-center hover:bg-gray-50 transition-all text-gray-400 hover:text-black"
+                    >
+                        <ChevronRight size={24} strokeWidth={2.5} />
+                    </button>
+
+                    {/* Horizontal Scroll Element */}
+                    <div
+                        ref={scrollRef}
+                        className="flex overflow-x-auto gap-3 md:gap-4 scrollbar-hide snap-x snap-mandatory pb-4"
+                    >
+                        {loading ? (
+                            <SectionSkeleton />
+                        ) : items.length > 0 ? (
+                            items.map((ad) => (
+                                <div key={ad._id} className="min-w-[170px] md:min-w-[220px] lg:min-w-[240px] snap-start">
+                                    <AdCard ad={ad} />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="w-full py-12 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                                <p className="text-gray-400 font-bold text-xs uppercase tracking-widest italic">Aucune annonce pour le moment</p>
+                            </div>
+                        )}
                     </div>
-                ) : (
-                    <div className="py-24 text-center bg-white/40 backdrop-blur-sm rounded-[40px] border border-dashed border-gray-200">
-                        <p className="text-gray-400 font-black text-sm uppercase tracking-widest italic">Aucune annonce pour le moment</p>
-                    </div>
-                )}
+                </div>
             </div>
         </section>
     );

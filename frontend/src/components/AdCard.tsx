@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart, Star, Briefcase } from 'lucide-react';
+import { Heart, Star, Briefcase, MapPin, User, Search } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getAdById } from '../services/ads';
 
@@ -69,9 +69,9 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Aucune image</div>
                 )}
-                {promoted && (
-                    <div className="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider z-10" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                        Promo
+                {ad.promoted && (
+                    <div className="absolute top-2 right-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-[var(--color-accent-pink)] text-white shadow-sm">
+                        Deal Spécial
                     </div>
                 )}
                 <button
@@ -87,25 +87,23 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
 
             <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
                 {/* 1. Price & Badge */}
-                <div className="flex flex-col gap-2 mb-2">
+                <div className="flex flex-col gap-1 mb-1">
                     <div className="flex items-center justify-between">
-                        <p className="font-black text-xl md:text-2xl tracking-tighter text-[#1A3620] leading-none">
+                        <p className="font-black text-lg md:text-xl tracking-tighter text-[var(--color-accent-pink)] leading-none">
                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
-                                ? `$${ad.price?.toLocaleString()}`
+                                ? `$ ${ad.price?.toLocaleString()}`
                                 : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                         </p>
 
                         {ad.sellerId?.badge && ad.sellerId.badge !== 'none' && (
-                            <div className="flex items-center translate-y-[-2px]">
+                            <div className="flex items-center">
                                 {ad.sellerId.badge === 'founder' ? (
-                                    <div className="flex items-center gap-1.5 bg-gradient-to-br from-[#FFD700] via-[#FFBA34] to-[#E8A520] text-white px-2.5 py-1 rounded-full shadow-[0_2px_8px_rgba(255,186,52,0.4)] border border-white/20">
-                                        <Star size={12} className="fill-white" />
-                                        <span className="text-[10px] font-black tracking-widest uppercase">FONDATEUR</span>
+                                    <div className="bg-gradient-to-br from-[#FFD700] to-[#E8A520] text-white p-1 rounded-full border border-white/20">
+                                        <Star size={10} className="fill-white" />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center gap-1.5 bg-gradient-to-br from-[#10B981] to-[#047857] text-white px-2.5 py-1 rounded-full shadow-[0_2px_8px_rgba(16,185,129,0.3)] border border-white/20">
-                                        <Briefcase size={12} className="fill-white" />
-                                        <span className="text-[10px] font-black tracking-widest uppercase">PRO</span>
+                                    <div className="bg-gradient-to-br from-[#10B981] to-[#047857] text-white p-1 rounded-full border border-white/20">
+                                        <Briefcase size={10} className="fill-white" />
                                     </div>
                                 )}
                             </div>
@@ -114,21 +112,22 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                 </div>
 
                 {/* 2. Title (Max 2 lines) */}
-                <h3 className="text-sm md:text-base text-gray-900 font-bold line-clamp-2 leading-snug group-hover:text-[#214829] transition-colors mb-2 min-h-[2.5rem]">
+                <h3 className="text-[13px] md:text-[14px] text-gray-700 font-medium line-clamp-2 leading-snug hover:text-[#214829] transition-colors mb-2 min-h-[2.2rem]">
                     {ad.title}
                 </h3>
 
                 {/* 3 & 4. City and Condition */}
-                <div className="mt-auto pt-3 border-t border-gray-50 flex items-center justify-between gap-1.5">
-                    <div className="flex items-center gap-1.5 overflow-hidden">
-                        {ad.city && (
-                            <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
-                                {ad.city}
-                            </span>
-                        )}
-                        <span className="w-1 h-1 bg-gray-200 rounded-full shrink-0"></span>
-                        <span className="text-[11px] text-gray-400 font-bold">
-                            {formatRelativeDate(ad.createdAt)}
+                <div className="mt-auto pt-2 border-t border-gray-100 flex items-center justify-between gap-2 overflow-hidden">
+                    <div className="flex items-center gap-1 min-w-0">
+                        <User size={10} className="text-gray-400 shrink-0" />
+                        <span className="text-[10px] text-gray-500 font-semibold truncate leading-none">
+                            {ad.sellerId?.businessName || (ad.sellerId?.firstName + ' ' + ad.sellerId?.lastName) || 'Vendeur'}
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-1 shrink-0">
+                        <MapPin size={10} className="text-[var(--color-accent-pink)] shrink-0" />
+                        <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-tighter leading-none">
+                            {ad.city || 'RDC'}
                         </span>
                     </div>
                 </div>
