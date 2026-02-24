@@ -42,7 +42,7 @@ const queryClient = new QueryClient({
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
     <div className="flex flex-col items-center gap-3">
-      <div className="w-10 h-10 border-4 border-gray-200 border-t-[#214829] rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-gray-200 border-t-[#D32F2F] rounded-full animate-spin" />
       <span className="text-sm text-gray-400 font-medium">Chargement...</span>
     </div>
   </div>
@@ -71,7 +71,7 @@ function AppContent() {
   return (
     <>
       {!isAdminPage && <Navbar />}
-      <div className={!isAdminPage ? "pb-[60px] md:pb-0" : ""}>
+      <div className={!isAdminPage ? "pb-[80px] md:pb-0" : ""}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Home />} />
