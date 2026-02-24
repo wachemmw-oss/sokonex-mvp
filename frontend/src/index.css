@@ -38,6 +38,8 @@
   /* ─── Accent Colors ─── */
   --color-accent-whatsapp: #25D366;
   /* WhatsApp vert */
+  --color-price: #f7711c;
+  /* Prix orange vif */
 }
 
 body {

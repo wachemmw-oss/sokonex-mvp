@@ -83,7 +83,7 @@ const MyAds = () => {
                                     <span className="text-xs text-gray-500">{new Date(ad.createdAt).toLocaleDateString('fr-FR')}</span>
                                 </div>
                                 <h3 className="font-bold text-black text-base truncate mb-1">{ad.title}</h3>
-                                <p className="text-base font-bold text-black mb-1">
+                                <p className="text-base font-bold mb-1" style={{ color: '#f7711c' }}>
                                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate">{ad.category} • {ad.city}</p>

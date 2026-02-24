@@ -146,7 +146,7 @@ const AdDetails = () => {
                     {/* Price and Title */}
                     <div className="mb-4">
                         <div className="flex items-baseline gap-2 mb-2">
-                            <h2 className="text-4xl font-extrabold tracking-tight text-black">
+                            <h2 className="text-4xl font-extrabold tracking-tight leading-none" style={{ color: '#f7711c' }}>
                                 {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` :
                                     ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                             </h2>

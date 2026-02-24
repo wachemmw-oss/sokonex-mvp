@@ -305,7 +305,7 @@ const Results = () => {
                                                 </div>
                                                 <div className="flex justify-between items-end">
                                                     <div>
-                                                        <p className="font-bold text-black">
+                                                        <p className="font-bold" style={{ color: '#f7711c' }}>
                                                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                                         </p>
                                                         <p className="text-xs text-gray-400 mt-1">{ad.city} • {new Date(ad.createdAt).toLocaleDateString()}</p>

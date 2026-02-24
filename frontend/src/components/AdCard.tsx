@@ -106,7 +106,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                 {/* 1. Price & Badge */}
                 <div className="flex flex-col gap-1 mb-1">
                     <div className="flex items-center justify-between">
-                        <p className="font-black text-lg md:text-xl tracking-tighter text-[var(--color-accent-pink)] leading-none">
+                        <p className="font-black text-lg md:text-xl tracking-tighter leading-none" style={{ color: '#f7711c' }}>
                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
                                 ? `$ ${ad.price?.toLocaleString()}`
                                 : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
