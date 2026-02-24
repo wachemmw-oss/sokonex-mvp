@@ -43,7 +43,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
             <div className="relative z-20 h-full w-full flex flex-col items-center justify-center text-center p-8 md:p-20">
                 <div className="flex flex-col items-center max-w-2xl">
                     <span
-                        className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 text-[#FFBA34] drop-shadow-lg"
+                        className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 text-[#D32F2F] drop-shadow-lg"
                         style={{ fontFamily: 'Outfit, sans-serif' }}
                     >
                         {subtitle}
@@ -71,7 +71,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
                     <div className="mt-2">
                         <Link
                             to={ctaLink}
-                            className="group/btn relative inline-flex items-center gap-3 py-4 px-10 rounded-full font-extrabold text-sm md:text-base transition-all active:scale-95 bg-gradient-to-r from-[#FFBA34] to-[#f39c12] text-white shadow-[0_10px_30px_rgba(255,186,52,0.4)] hover:shadow-[0_15px_40px_rgba(255,186,52,0.6)] hover:scale-105"
+                            className="group/btn relative inline-flex items-center gap-3 py-4 px-10 rounded-full font-extrabold text-sm md:text-base transition-all active:scale-95 bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-[0_10px_30px_rgba(211,47,47,0.4)] hover:shadow-[0_15px_40px_rgba(211,47,47,0.6)] hover:scale-105"
                             style={{ fontFamily: 'Outfit, sans-serif' }}
                         >
                             {ctaText}
@@ -82,7 +82,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
             </div>
 
             {/* Subtle light leak for extra premium feel */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-[#FFBA34]/5 to-transparent pointer-events-none z-15"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-[#D32F2F]/5 to-transparent pointer-events-none z-15"></div>
         </div>
     );
 };

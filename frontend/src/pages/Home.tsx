@@ -17,25 +17,35 @@ const Home = () => {
 
     const banners = [
         {
-            title: "Nouvelle Collection Gaming 2026",
-            subtitle: "Exclusivité SOKONEX",
-            description: "Découvrez les meilleures chaises et accessoires gaming pour une expérience immersive.",
-            ctaText: "Acheter maintenant",
-            ctaLink: "/results?q=gaming",
-            image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-slate-50",
-            dark: false
+            title: "Shopping Malin, Style Garanti",
+            subtitle: "✨ Nouveautés du Moment",
+            description: "Les meilleures offres sélectionnées pour vous. Électronique, Mode, Maison — tout à portée de clic.",
+            ctaText: "Découvrir les offres",
+            ctaLink: "/results",
+            image: "/banners/eid-shopping-trolley-laptop-right-side.jpg",
+            bgColor: "bg-[#1a1a2e]",
+            dark: true
         },
         {
-            title: "Votre Maison, Votre Style",
-            subtitle: "Déco & Mobilier",
-            description: "Une large gamme de meubles d'occasion et neufs pour sublimer votre intérieur.",
-            ctaText: "Explorer",
-            ctaLink: "/results?category=maison-meubles",
-            image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop",
-            bgColor: "bg-[#1A3620]",
+            title: "La Vie est Belle à Lushi",
+            subtitle: "🎉 SOKONEX Community",
+            description: "Rejoignez des milliers de Kinois qui achètent et vendent sur la plus grande marketplace de RDC.",
+            ctaText: "Rejoindre SOKONEX",
+            ctaLink: "/register",
+            image: "/banners/group-friends-dancing-outside-city.jpg",
+            bgColor: "bg-[#D32F2F]",
             dark: true,
             reverse: true
+        },
+        {
+            title: "Mode & Style African Chic",
+            subtitle: "👗 Univers Mode",
+            description: "Vêtements, accessoires et bien plus. Exprimez votre style avec les meilleures boutiques de Kinshasa.",
+            ctaText: "Explorer la mode",
+            ctaLink: "/results?category=mode-beaute",
+            image: "/banners/portrait-beautiful-young-black-women-with-shopping-bags.jpg",
+            bgColor: "bg-[#1a1a2e]",
+            dark: true
         }
     ];
 
