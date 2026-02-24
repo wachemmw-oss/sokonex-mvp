@@ -1,32 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import AdCard from './AdCard';
-import { ChevronRight, ChevronLeft, Search } from 'lucide-react';
+import SectionHeader from './SectionHeader';
+import type { LucideIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SectionBlockProps {
     title: string;
+    Icon: LucideIcon;
     seeMorePath: string;
     items: any[];
     loading: boolean;
-    variant?: 'flash' | 'exclusive' | 'trending' | 'mode' | 'beaute' | 'default';
+    iconBgColor?: string;
+    iconColor?: string;
 }
 
-const getVariantStyles = (variant?: string) => {
-    switch (variant) {
-        case 'flash': return 'bg-[var(--bg-section-flash)]';
-        case 'exclusive': return 'bg-[var(--bg-section-exclusive)]';
-        case 'trending': return 'bg-[var(--bg-section-trending)]';
-        case 'mode': return 'bg-[var(--bg-section-mode)]';
-        case 'beaute': return 'bg-[var(--bg-section-beaute)]';
-        default: return 'bg-transparent';
-    }
-};
-
 const SectionSkeleton = () => (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 animate-pulse">
-        {[...Array(8)].map((_, i) => (
-            <div key={i} className="space-y-4">
-                <div className="aspect-[4/5] bg-gray-100 rounded-2xl w-full"></div>
+    <div className="flex gap-4 overflow-hidden animate-pulse">
+        {[...Array(4)].map((_, i) => (
+            <div key={i} className="min-w-[170px] md:min-w-[240px] space-y-4">
+                <div className="aspect-[3/4] bg-gray-100 rounded-2xl w-full"></div>
                 <div className="h-4 bg-gray-100 rounded-full w-3/4"></div>
                 <div className="h-4 bg-gray-100 rounded-full w-1/2"></div>
             </div>
@@ -34,7 +26,15 @@ const SectionSkeleton = () => (
     </div>
 );
 
-const SectionBlock: React.FC<SectionBlockProps> = ({ title, seeMorePath, items, loading, variant }) => {
+const SectionBlock: React.FC<SectionBlockProps> = ({
+    title,
+    Icon,
+    seeMorePath,
+    items,
+    loading,
+    iconBgColor,
+    iconColor
+}) => {
     const scrollRef = React.useRef<HTMLDivElement>(null);
 
     const scroll = (direction: 'left' | 'right') => {
@@ -46,22 +46,15 @@ const SectionBlock: React.FC<SectionBlockProps> = ({ title, seeMorePath, items, 
     };
 
     return (
-        <section className="py-8 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 md:px-6">
-                {/* ─── Dark Header Bar ─── */}
-                <div className="bg-[#0F172A] rounded-lg p-3 md:p-4 flex items-center justify-between mb-6 shadow-md border border-white/5">
-                    <h2 className="text-white text-sm md:text-xl font-bold flex items-center gap-3">
-                        <span className="w-1.5 h-6 bg-white/20 rounded-full"></span>
-                        {title}
-                    </h2>
-                    <Link
-                        to={seeMorePath}
-                        className="text-white/80 hover:text-white flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors"
-                    >
-                        Voir Plus
-                        <Search size={14} strokeWidth={3} />
-                    </Link>
-                </div>
+        <section className="py-8 bg-white">
+            <div className="max-w-7xl mx-auto px-4 md:px-0">
+                <SectionHeader
+                    title={title}
+                    Icon={Icon}
+                    seeMorePath={seeMorePath}
+                    iconBgColor={iconBgColor}
+                    iconColor={iconColor}
+                />
 
                 {/* ─── Carousel Container ─── */}
                 <div className="relative group/carousel">
@@ -88,7 +81,7 @@ const SectionBlock: React.FC<SectionBlockProps> = ({ title, seeMorePath, items, 
                             <SectionSkeleton />
                         ) : items.length > 0 ? (
                             items.map((ad) => (
-                                <div key={ad._id} className="min-w-[170px] md:min-w-[220px] lg:min-w-[240px] snap-start">
+                                <div key={ad._id} className="min-w-[175px] md:min-w-[220px] lg:min-w-[245px] snap-start">
                                     <AdCard ad={ad} />
                                 </div>
                             ))

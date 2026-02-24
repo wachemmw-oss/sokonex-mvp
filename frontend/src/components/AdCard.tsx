@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart, Star, Briefcase, MapPin, User, Search } from 'lucide-react';
+import { Heart, Star, Briefcase, MapPin, User, Search, ShoppingCart } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getAdById } from '../services/ads';
 
@@ -83,6 +83,14 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                 >
                     <Heart className="w-4 h-4" />
                 </button>
+
+                {/* Import Badge (Dynamic/Mock for now) */}
+                {ad.importFrom && (
+                    <div className="absolute bottom-2 left-2 flex items-center gap-1.5 bg-white/95 backdrop-blur px-2 py-1 rounded-sm shadow-sm border border-gray-100/50">
+                        <span className="text-[10px]">🇨🇳</span>
+                        <span className="text-[9px] font-bold text-gray-600 uppercase tracking-tight">Import de {ad.importFrom}</span>
+                    </div>
+                )}
             </div>
 
             <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
@@ -111,25 +119,62 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                     </div>
                 </div>
 
-                {/* 2. Title (Max 2 lines) */}
-                <h3 className="text-[13px] md:text-[14px] text-gray-700 font-medium line-clamp-2 leading-snug hover:text-[#214829] transition-colors mb-2 min-h-[2.2rem]">
+                {/* 2. Title & Specific Badges */}
+                <div className="flex items-center gap-1.5 mb-1.5 scale-90 origin-left">
+                    {ad.condition === 'new' && (
+                        <div className="bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase">NEW</div>
+                    )}
+                    {ad.discount && (
+                        <div className="bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase">-{ad.discount}%</div>
+                    )}
+                </div>
+
+                <h3 className="text-[13px] md:text-[14px] text-gray-700 font-medium line-clamp-1 leading-snug hover:text-blue-600 transition-colors mb-2">
                     {ad.title}
                 </h3>
 
+                {/* 3. Stock Progress Bar (Optional) */}
+                {ad.stockTotal && (
+                    <div className="mb-3">
+                        <div className="flex justify-between text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                            <span>Stock restant</span>
+                            <span>{ad.stockCurrent}/{ad.stockTotal}</span>
+                        </div>
+                        <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-orange-400 rounded-full"
+                                style={{ width: `${(ad.stockCurrent / ad.stockTotal) * 100}%` }}
+                            ></div>
+                        </div>
+                    </div>
+                )}
+
                 {/* 3 & 4. City and Condition */}
                 <div className="mt-auto pt-2 border-t border-gray-100 flex items-center justify-between gap-2 overflow-hidden">
-                    <div className="flex items-center gap-1 min-w-0">
-                        <User size={10} className="text-gray-400 shrink-0" />
-                        <span className="text-[10px] text-gray-500 font-semibold truncate leading-none">
-                            {ad.sellerId?.businessName || (ad.sellerId?.firstName + ' ' + ad.sellerId?.lastName) || 'Vendeur'}
-                        </span>
+                    <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1">
+                            <User size={10} className="text-gray-400 shrink-0" />
+                            <span className="text-[10px] text-gray-400 font-bold truncate leading-none">
+                                {ad.sellerId?.businessName ||
+                                    (ad.sellerId?.firstName ? `${ad.sellerId.firstName} ${ad.sellerId.lastName || ''}` : 'Vendeur')}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-1 mt-1">
+                            <MapPin size={9} className="text-gray-300 shrink-0" />
+                            <span className="text-[9px] text-gray-400 font-medium uppercase tracking-tighter leading-none">
+                                {ad.city || 'RDC'}
+                            </span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-1 shrink-0">
-                        <MapPin size={10} className="text-[var(--color-accent-pink)] shrink-0" />
-                        <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-tighter leading-none">
-                            {ad.city || 'RDC'}
-                        </span>
-                    </div>
+                    <button
+                        className="bg-gray-50 hover:bg-blue-600 hover:text-white p-2 rounded-lg border border-gray-100 transition-all shadow-sm"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            // Cart logic
+                        }}
+                    >
+                        <ShoppingCart size={14} />
+                    </button>
                 </div>
             </div>
         </Link>
