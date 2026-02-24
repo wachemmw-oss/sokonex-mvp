@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart, Star, Briefcase, MapPin, User, Search, ShoppingCart, Sparkles } from 'lucide-react';
+import { Heart, Star, Briefcase, MapPin, User, Search, ShoppingCart, Sparkles, Zap } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getAdById } from '../services/ads';
 
@@ -72,7 +72,14 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Aucune image</div>
                 )}
                 {isFlash && (
-                    <div className="absolute top-2 left-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] border border-red-400 flex items-center gap-1 animate-pulse">
+                    <div className="absolute top-1.5 left-1.5 z-20">
+                        <div className="bg-white p-1 rounded-full shadow-lg border border-red-100/50">
+                            <Zap size={14} className="text-red-600 fill-red-600 animate-pulse" />
+                        </div>
+                    </div>
+                )}
+                {isFlash && (
+                    <div className="absolute top-8 left-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] border border-red-400 flex items-center gap-1 animate-pulse">
                         <Sparkles size={10} className="fill-white" />
                         PROMO
                     </div>
@@ -137,7 +144,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                     )}
                 </div>
 
-                <h3 className="text-[13px] md:text-[14px] text-gray-700 font-medium line-clamp-1 leading-snug hover:text-blue-600 transition-colors mb-2">
+                <h3 className="text-[13px] md:text-[14px] text-gray-700 font-black line-clamp-1 leading-snug hover:text-blue-600 transition-colors mb-2 Outfit">
                     {ad.title}
                 </h3>
 
@@ -162,7 +169,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                     <div className="flex flex-col min-w-0">
                         <div className="flex items-center gap-1">
                             <User size={10} className="text-gray-400 shrink-0" />
-                            <span className="text-[10px] text-gray-400 font-bold truncate leading-none">
+                            <span className="text-[10px] text-gray-400 font-bold truncate leading-none Outfit">
                                 {ad.sellerId?.businessName ||
                                     (ad.sellerId?.firstName ? `${ad.sellerId.firstName} ${ad.sellerId.lastName || ''}` : 'Vendeur')}
                             </span>

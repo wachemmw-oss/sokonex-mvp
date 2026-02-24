@@ -24,7 +24,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
                 <div className={`p-2 rounded-full ${iconBgColor} ${iconColor} flex items-center justify-center shadow-sm`}>
                     <Icon size={20} strokeWidth={2.5} />
                 </div>
-                <h2 className="text-xl md:text-2xl font-black tracking-tight text-[#0F172A] Outfit">
+                <h2 className="text-xl md:text-3xl font-black tracking-tight text-[#0F172A] Outfit">
                     {title}
                 </h2>
             </div>

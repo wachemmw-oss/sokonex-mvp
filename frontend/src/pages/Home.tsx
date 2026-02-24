@@ -79,7 +79,7 @@ const Home = () => {
     });
 
     return (
-        <div className="font-sans min-h-screen pb-20 bg-white Outfit">
+        <div className="font-sans min-h-screen pb-20 bg-white Outfit select-none">
             <div className="hidden md:block h-6 bg-[#FAFAFA]"></div>
 
             <div className="max-w-7xl mx-auto px-4 md:px-0">
@@ -104,10 +104,11 @@ const Home = () => {
                         title="Offres Flash (argent direct)"
                         Icon={Zap}
                         seeMorePath="/results?sort=flash"
-                        items={flashData?.data?.items?.map((item: any) => ({ ...item, variant: 'flash' })) || []}
+                        items={flashData?.data?.items || []}
                         loading={flashLoading}
                         iconBgColor="bg-red-100"
                         iconColor="text-red-600"
+                        itemVariant="flash"
                     >
                         <FlashCountdown />
                     </SectionBlock>

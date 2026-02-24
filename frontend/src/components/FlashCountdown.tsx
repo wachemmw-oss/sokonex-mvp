@@ -26,24 +26,24 @@ const FlashCountdown = () => {
     );
 
     return (
-        <div className="bg-gradient-to-r from-[#F97316] to-[#EF4444] rounded-2xl md:rounded-3xl p-4 md:p-6 mb-8 shadow-xl shadow-orange-500/20 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative group">
+        <div className="bg-gradient-to-r from-[#F97316] to-[#EF4444] rounded-xl md:rounded-3xl p-3 md:p-6 mb-8 shadow-xl shadow-orange-500/20 flex flex-row items-center justify-between gap-2 md:gap-6 overflow-hidden relative group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform duration-700"></div>
 
-            <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">
-                <div className="bg-white/20 p-3 rounded-full text-white animate-pulse">
-                    <Clock size={24} strokeWidth={2.5} />
+            <div className="flex items-center gap-2 md:gap-4 relative z-10">
+                <div className="bg-white/20 p-2 md:p-3 rounded-full text-white animate-pulse">
+                    <Clock size={20} className="md:w-6 md:h-6" strokeWidth={2.5} />
                 </div>
                 <div>
-                    <h3 className="text-white text-base md:text-xl font-black uppercase tracking-tight leading-none italic">Offres limitées</h3>
-                    <p className="text-white/80 text-[10px] md:text-xs font-bold mt-1">Dépêchez-vous ! Les offres se terminent bientôt.</p>
+                    <h3 className="text-white text-xs md:text-xl font-black uppercase tracking-tight leading-none">Offres limitées</h3>
+                    <p className="text-white/80 text-[8px] md:text-xs font-bold mt-1 hidden md:block">Les offres se terminent bientôt.</p>
                 </div>
             </div>
 
-            <div className="flex items-center gap-3 relative z-10">
+            <div className="flex items-center gap-2 md:gap-3 relative z-10 shrink-0">
                 <TimeUnit value={timeLeft.hrs} label="hrs" />
-                <span className="text-white font-black text-xl mb-4">:</span>
+                <span className="text-white font-black text-sm md:text-xl mb-3 md:mb-4">:</span>
                 <TimeUnit value={timeLeft.min} label="min" />
-                <span className="text-white font-black text-xl mb-4">:</span>
+                <span className="text-white font-black text-sm md:text-xl mb-3 md:mb-4">:</span>
                 <TimeUnit value={timeLeft.sec} label="sec" />
             </div>
         </div>

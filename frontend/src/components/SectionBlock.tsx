@@ -12,6 +12,7 @@ interface SectionBlockProps {
     loading: boolean;
     iconBgColor?: string;
     iconColor?: string;
+    itemVariant?: 'default' | 'flash';
     children?: React.ReactNode;
 }
 
@@ -35,6 +36,7 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
     loading,
     iconBgColor,
     iconColor,
+    itemVariant = 'default',
     children
 }) => {
     const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -86,12 +88,12 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
                         ) : items.length > 0 ? (
                             items.map((ad) => (
                                 <div key={ad._id} className="min-w-[175px] md:min-w-[220px] lg:min-w-[245px] snap-start">
-                                    <AdCard ad={ad} />
+                                    <AdCard ad={ad} variant={itemVariant} />
                                 </div>
                             ))
                         ) : (
                             <div className="w-full py-12 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                                <p className="text-gray-400 font-bold text-xs uppercase tracking-widest italic">Aucune annonce pour le moment</p>
+                                <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Aucune annonce pour le moment</p>
                             </div>
                         )}
                     </div>
