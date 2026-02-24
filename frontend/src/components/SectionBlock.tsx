@@ -13,6 +13,7 @@ interface SectionBlockProps {
     iconBgColor?: string;
     iconColor?: string;
     itemVariant?: 'default' | 'flash';
+    layout?: 'carousel' | 'grid';
     children?: React.ReactNode;
 }
 
@@ -37,6 +38,7 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
     iconBgColor,
     iconColor,
     itemVariant = 'default',
+    layout = 'carousel',
     children
 }) => {
     const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -62,37 +64,44 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
 
                 {children}
 
-                {/* ─── Carousel Container ─── */}
+                {/* ─── Carousel/Grid Container ─── */}
                 <div className="relative group/carousel">
-                    {/* Navigation Arrows (Desktop) */}
-                    <button
-                        onClick={() => scroll('left')}
-                        className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-white shadow-xl border border-gray-100 rounded-full p-2 z-10 hidden md:group-hover/carousel:flex items-center justify-center hover:bg-gray-50 transition-all text-gray-400 hover:text-black"
-                    >
-                        <ChevronLeft size={24} strokeWidth={2.5} />
-                    </button>
-                    <button
-                        onClick={() => scroll('right')}
-                        className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-white shadow-xl border border-gray-100 rounded-full p-2 z-10 hidden md:group-hover/carousel:flex items-center justify-center hover:bg-gray-50 transition-all text-gray-400 hover:text-black"
-                    >
-                        <ChevronRight size={24} strokeWidth={2.5} />
-                    </button>
+                    {layout === 'carousel' && (
+                        <>
+                            {/* Navigation Arrows (Desktop) */}
+                            <button
+                                onClick={() => scroll('left')}
+                                className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-white shadow-xl border border-gray-100 rounded-full p-2 z-10 hidden md:group-hover/carousel:flex items-center justify-center hover:bg-gray-50 transition-all text-gray-400 hover:text-black"
+                            >
+                                <ChevronLeft size={24} strokeWidth={2.5} />
+                            </button>
+                            <button
+                                onClick={() => scroll('right')}
+                                className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-white shadow-xl border border-gray-100 rounded-full p-2 z-10 hidden md:group-hover/carousel:flex items-center justify-center hover:bg-gray-50 transition-all text-gray-400 hover:text-black"
+                            >
+                                <ChevronRight size={24} strokeWidth={2.5} />
+                            </button>
+                        </>
+                    )}
 
-                    {/* Horizontal Scroll Element */}
+                    {/* Content Area */}
                     <div
                         ref={scrollRef}
-                        className="flex overflow-x-auto gap-3 md:gap-4 scrollbar-hide snap-x snap-mandatory pb-4"
+                        className={layout === 'grid'
+                            ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4"
+                            : "flex overflow-x-auto gap-3 md:gap-4 scrollbar-hide snap-x snap-mandatory pb-4"
+                        }
                     >
                         {loading ? (
                             <SectionSkeleton />
                         ) : items.length > 0 ? (
                             items.map((ad) => (
-                                <div key={ad._id} className="min-w-[175px] md:min-w-[220px] lg:min-w-[245px] snap-start">
+                                <div key={ad._id} className={layout === 'grid' ? "" : "min-w-[175px] md:min-w-[220px] lg:min-w-[245px] snap-start"}>
                                     <AdCard ad={ad} variant={itemVariant} />
                                 </div>
                             ))
                         ) : (
-                            <div className="w-full py-12 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                            <div className="w-full py-12 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200 col-span-full">
                                 <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Aucune annonce pour le moment</p>
                             </div>
                         )}

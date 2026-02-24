@@ -109,6 +109,7 @@ const Home = () => {
                         iconBgColor="bg-red-100"
                         iconColor="text-red-600"
                         itemVariant="flash"
+                        layout="grid"
                     >
                         <FlashCountdown />
                     </SectionBlock>
