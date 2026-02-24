@@ -161,14 +161,8 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                 {/* 3 & 4. City and Condition */}
                 <div className="mt-auto pt-2 border-t border-gray-100 flex items-center justify-between gap-2 overflow-hidden">
                     <div className="flex flex-col min-w-0">
+                        {/* Seller removed to avoid duplication on mobile as requested */}
                         <div className="flex items-center gap-1">
-                            <User size={10} className="text-gray-400 shrink-0" />
-                            <span className="text-[10px] text-gray-400 font-bold truncate leading-none Outfit">
-                                {ad.sellerId?.businessName ||
-                                    (ad.sellerId?.firstName ? `${ad.sellerId.firstName} ${ad.sellerId.lastName || ''}` : 'Vendeur')}
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-1 mt-1">
                             <MapPin size={9} className="text-gray-300 shrink-0" />
                             <span className="text-[9px] text-gray-400 font-medium uppercase tracking-tighter leading-none">
                                 {ad.city || 'RDC'}
