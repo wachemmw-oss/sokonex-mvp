@@ -49,100 +49,99 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="bg-white sticky top-0 z-50 font-sans transition-all duration-300">
+            <div className="bg-[#D32F2F] h-10 w-full md:h-12" /> {/* Red Top Bar - show on mobile too now */}
+            <nav className="sticky top-0 z-50 font-sans transition-all duration-300 -mt-5 md:-mt-6">
                 {/* Desktop Navbar */}
-                <div className="hidden md:block border-b border-gray-100 h-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-                        <div className="flex justify-between items-center h-full gap-4">
-                            {/* Logo */}
-                            <Link to="/" className="flex-shrink-0 flex items-center h-full group">
-                                <img
-                                    src={logo}
-                                    alt="SOKONEX Logo"
-                                    className="h-9 md:h-11 w-auto object-contain transform group-hover:scale-105 transition-transform"
-                                />
-                            </Link>
+                <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-white rounded-full shadow-lg border border-gray-100 h-20 px-8 flex items-center justify-between gap-8 translate-y-[-10px]">
+                        {/* Logo */}
+                        <Link to="/" className="flex-shrink-0 flex items-center h-full group">
+                            <img
+                                src={logo}
+                                alt="SOKONEX Logo"
+                                className="h-10 w-auto object-contain transform group-hover:scale-105 transition-transform"
+                            />
+                        </Link>
 
-                            {/* Integrated Search Bar (Desktop) */}
-                            {!hideSearch && (
-                                <div className="hidden md:flex flex-1 max-w-2xl mx-8">
-                                    <form onSubmit={handleSearch} className="w-full relative group flex items-center">
-                                        <input
-                                            type="text"
-                                            placeholder="Rechercher des articles..."
-                                            className="w-full bg-gray-100 border-none rounded-sm py-2 px-4 text-sm focus:ring-0 focus:outline-none focus:bg-gray-200 transition-colors placeholder-gray-500"
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                        />
-                                        <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-600 hover:text-black transition">
-                                            <Search className="w-4 h-4" />
-                                        </button>
-                                    </form>
+                        {/* Integrated Search Bar (Desktop) */}
+                        <div className="flex-1 max-w-xl">
+                            <form onSubmit={handleSearch} className="relative group flex items-center">
+                                <div className="absolute left-4 text-gray-400">
+                                    <Search className="w-5 h-5" />
                                 </div>
-                            )}
-                            {isAdDetails && <div className="hidden md:block flex-1" />}
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher à Lubumbashi..."
+                                    className="w-full bg-gray-50 border border-gray-100 rounded-full py-3.5 pl-12 pr-16 text-sm focus:ring-2 focus:ring-[#D32F2F]/10 focus:outline-none focus:bg-white transition-all placeholder-gray-400"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <button type="submit" className="absolute right-1.5 p-2.5 rounded-full bg-[#D32F2F] text-white hover:bg-black transition-colors shadow-sm">
+                                    <Search className="w-5 h-5" />
+                                </button>
+                            </form>
+                        </div>
 
-                            {/* Right Side Actions */}
-                            <div className="flex items-center space-x-4">
-                                <Link
-                                    to={user ? "/post" : "/login"}
-                                    onClick={(e) => {
-                                        if (!user) {
-                                            e.preventDefault();
-                                            navigate('/login', { state: { message: "Vous devez être connecté pour publier une annonce." } });
-                                        }
-                                    }}
-                                    className="hidden md:inline-flex font-semibold text-sm transition items-center gap-2 px-6 py-2 rounded-sm" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}
+                        {/* Right Side Actions */}
+                        <div className="flex items-center space-x-6">
+                            {/* Shopping Cart with Badge */}
+                            <button className="relative text-gray-500 hover:text-[#D32F2F] transition-colors p-2">
+                                <ShoppingCart className="w-6 h-6" strokeWidth={2} />
+                                <span className="absolute top-1 right-1 bg-[#D32F2F] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                            </button>
+
+                            {/* Wishlist */}
+                            <button className="text-gray-500 hover:text-[#D32F2F] transition-colors p-2">
+                                <Heart className="w-6 h-6" strokeWidth={2} />
+                            </button>
+
+                            {/* User Menu Trigger */}
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 hover:text-black transition-all border border-gray-100"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-                                    Publier
-                                </Link>
-
-                                {user ? (
-                                    <div className="relative">
-                                        <button
-                                            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                            className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 text-gray-800 hover:text-black transition focus:outline-none"
-                                        >
-                                            <UserIcon className="w-5 h-5" />
-                                        </button>
-                                        {isUserMenuOpen && (
-                                            <div
-                                                className="origin-top-right absolute right-0 mt-2 w-60 rounded-xl shadow-xl shadow-slate-200/50 py-2 bg-white ring-1 ring-black ring-opacity-5 z-50 border border-slate-50"
-                                                onMouseLeave={() => setIsUserMenuOpen(false)}
-                                            >
-                                                <div className="px-4 py-3 border-b border-gray-50 bg-gray-50/50">
-                                                    <p className="text-sm font-bold text-slate-800 truncate">{user.name}</p>
-                                                    <p className="text-xs text-slate-500 truncate">{user.email}</p>
-                                                </div>
-                                                <Link to="/account" className="flex items-center px-4 py-2.5 text-sm text-slate-600 hover:bg-[#EBF5EE] hover:text-[#214829] transition" onClick={() => setIsUserMenuOpen(false)}>
-                                                    <LayoutDashboard className="w-4 h-4 mr-3" /> Tableau de bord
+                                    <UserIcon className="w-5 h-5" />
+                                </button>
+                                {isUserMenuOpen && (
+                                    <div
+                                        className="origin-top-right absolute right-0 mt-3 w-64 rounded-2xl shadow-2xl border border-gray-50 py-2 bg-white z-[100]"
+                                        onMouseLeave={() => setIsUserMenuOpen(false)}
+                                    >
+                                        <div className="px-5 py-4 border-b border-gray-50">
+                                            <p className="text-sm font-bold text-gray-800">{user?.name || 'Visiteur'}</p>
+                                            <p className="text-xs text-gray-500">{user?.email || 'Connectez-vous'}</p>
+                                        </div>
+                                        <div className="py-1">
+                                            <Link to="/account" className="flex items-center px-5 py-3 text-sm text-gray-600 hover:bg-gray-50 transition" onClick={() => setIsUserMenuOpen(false)}>
+                                                <LayoutDashboard className="w-4 h-4 mr-3" /> Tableau de bord
+                                            </Link>
+                                            <Link to="/account/settings" className="flex items-center px-5 py-3 text-sm text-gray-600 hover:bg-gray-50 transition" onClick={() => setIsUserMenuOpen(false)}>
+                                                <Settings className="w-4 h-4 mr-3" /> Paramètres
+                                            </Link>
+                                        </div>
+                                        <div className="border-t border-gray-50 mt-1 pt-1">
+                                            {user ? (
+                                                <button onClick={handleLogout} className="flex w-full items-center px-5 py-3 text-sm text-red-600 hover:bg-red-50 transition font-medium">
+                                                    <LogOut className="w-4 h-4 mr-3" /> Déconnexion
+                                                </button>
+                                            ) : (
+                                                <Link to="/login" className="flex items-center px-5 py-3 text-sm text-blue-600 hover:bg-blue-50 transition font-medium">
+                                                    <UserIcon className="w-4 h-4 mr-3" /> Connexion
                                                 </Link>
-                                                <Link to="/account/settings" className="flex items-center px-4 py-2.5 text-sm text-slate-600 hover:bg-[#EBF5EE] hover:text-[#214829] transition" onClick={() => setIsUserMenuOpen(false)}>
-                                                    <Settings className="w-4 h-4 mr-3" /> Paramètres
-                                                </Link>
-                                                {user.role === 'admin' && (
-                                                    <Link to="/admin" className="flex items-center px-4 py-2.5 text-sm text-red-600 font-bold hover:bg-red-50 transition" onClick={() => setIsUserMenuOpen(false)}>
-                                                        <ShieldAlert className="w-4 h-4 mr-3" /> Administration
-                                                    </Link>
-                                                )}
-                                                <div className="border-t border-gray-50 mt-1">
-                                                    <button onClick={handleLogout} className="flex w-full items-center px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-red-500 transition text-left">
-                                                        <LogOut className="w-4 h-4 mr-3" /> Déconnexion
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center space-x-2">
-                                        <Link to="/login" className="text-gray-800 font-medium hover:text-black text-sm px-3 py-2 transition-colors">Connexion</Link>
-                                        <Link to="/register" className="font-medium text-sm px-4 py-2 rounded-sm transition hidden sm:inline-block" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
-                                            Inscription
-                                        </Link>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>
+
+                            {/* Menu / Drawer Trigger */}
+                            <button
+                                onClick={() => setIsMenuOpen(true)}
+                                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition-all"
+                            >
+                                <Menu className="w-6 h-6" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -171,19 +170,20 @@ const Navbar = () => {
                         <form onSubmit={handleSearch} className="flex-1 relative flex items-center h-[42px]">
                             <input
                                 type="text"
-                                placeholder="Rechercher des articles..."
-                                className="w-full h-full bg-gray-100 border-none rounded-sm py-0 pl-3 pr-12 text-[13px] focus:ring-0 focus:outline-none placeholder-gray-500"
+                                placeholder="Rechercher..."
+                                className="w-full h-full bg-gray-50 border border-gray-100 rounded-full py-0 pl-4 pr-12 text-[13px] focus:ring-2 focus:ring-[#D32F2F]/10 focus:outline-none placeholder-gray-400"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <button type="submit" className="absolute right-1 top-1 bottom-1 w-[46px] flex items-center justify-center rounded-sm transition-colors" style={{ backgroundColor: '#214829', color: 'white' }}>
-                                <Search className="w-5 h-5" />
+                            <button type="submit" className="absolute right-1 top-1 bottom-1 w-[38px] flex items-center justify-center rounded-full transition-colors shadow-sm" style={{ backgroundColor: '#D32F2F', color: 'white' }}>
+                                <Search className="w-4 h-4" />
                             </button>
                         </form>
 
                         {/* Shopping Cart Icon (Mobile) */}
-                        <button className="text-gray-800 p-1 shrink-0 flex items-center justify-center h-[42px]">
-                            <ShoppingCart className="w-[26px] h-[26px]" strokeWidth={1.5} />
+                        <button className="text-gray-500 p-1 shrink-0 flex items-center justify-center h-[42px] relative">
+                            <ShoppingCart className="w-[24px] h-[24px]" strokeWidth={2} />
+                            <span className="absolute top-1 right-0 bg-[#D32F2F] text-white text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">0</span>
                         </button>
                     </div>
                 )}
