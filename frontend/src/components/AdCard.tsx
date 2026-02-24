@@ -78,12 +78,6 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                         </div>
                     </div>
                 )}
-                {isFlash && (
-                    <div className="absolute top-8 left-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] border border-red-400 flex items-center gap-1 animate-pulse">
-                        <Sparkles size={10} className="fill-white" />
-                        PROMO
-                    </div>
-                )}
                 {ad.promoted && !isFlash && (
                     <div className="absolute top-2 right-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-[var(--color-accent-pink)] text-white shadow-sm">
                         Deal Spécial
