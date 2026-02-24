@@ -22,7 +22,7 @@ const Home = () => {
             description: "Les meilleures offres sélectionnées pour vous. Électronique, Mode, Maison — tout à portée de clic.",
             ctaText: "Découvrir les offres",
             ctaLink: "/results",
-            image: "/banners/eid-shopping-trolley-laptop-right-side.jpg",
+            image: "/banners/banner 1.jpg",
             bgColor: "bg-[#1a1a2e]",
             dark: true
         },
@@ -32,7 +32,7 @@ const Home = () => {
             description: "Rejoignez des milliers de Kinois qui achètent et vendent sur la plus grande marketplace de RDC.",
             ctaText: "Rejoindre SOKONEX",
             ctaLink: "/register",
-            image: "/banners/group-friends-dancing-outside-city.jpg",
+            image: "/banners/banner 2.jpg",
             bgColor: "bg-[#D32F2F]",
             dark: true,
             reverse: true
@@ -43,7 +43,7 @@ const Home = () => {
             description: "Vêtements, accessoires et bien plus. Exprimez votre style avec les meilleures boutiques de Kinshasa.",
             ctaText: "Explorer la mode",
             ctaLink: "/results?category=mode-beaute",
-            image: "/banners/portrait-beautiful-young-black-women-with-shopping-bags.jpg",
+            image: "/banners/banner 3.jpg",
             bgColor: "bg-[#1a1a2e]",
             dark: true
         }
