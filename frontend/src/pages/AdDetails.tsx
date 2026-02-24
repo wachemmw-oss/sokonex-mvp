@@ -87,7 +87,7 @@ const AdDetails = () => {
     const eurPrice = hasPrice && ad.price ? (ad.price * RATES.EUR).toFixed(0) : null;
 
     return (
-        <div className="bg-[#FAFAF8] min-h-screen pb-32 font-sans">
+        <div className="bg-[#FAFAF8] min-h-screen pb-8 font-sans">
 
             {/* Mobile Top Nav */}
             <div className="md:hidden fixed top-0 w-full z-50 flex justify-between items-center p-4 pointer-events-none">
@@ -107,62 +107,74 @@ const AdDetails = () => {
             <div className="max-w-5xl mx-auto md:pt-8 md:px-4 md:grid md:grid-cols-[1fr_380px] md:gap-8">
 
                 {/* ── Image Gallery ── */}
-                <div
-                    ref={galleryRef}
-                    className="relative aspect-[4/3] md:aspect-auto md:h-[560px] bg-gray-200 md:rounded-2xl overflow-hidden"
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={(e) => handleTouchEnd(e, images.length)}
-                >
+                <div className="md:rounded-2xl overflow-hidden">
+                    {/* Main image */}
                     <div
-                        className="flex h-full transition-transform duration-500 ease-out"
-                        style={{ transform: `translateX(-${currentImage * 100}%)` }}
+                        ref={galleryRef}
+                        className="relative aspect-[4/5] md:h-[560px] md:aspect-auto bg-gray-100 overflow-hidden"
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={(e) => handleTouchEnd(e, images.length)}
                     >
-                        {images.map((img: any, idx: number) => (
-                            <div key={idx} className="w-full h-full flex-shrink-0">
-                                <img
-                                    src={img.url}
-                                    alt={`Image ${idx + 1}`}
-                                    loading={idx === 0 ? "eager" : "lazy"}
-                                    className="w-full h-full object-cover"
-                                />
+                        <div
+                            className="flex h-full transition-transform duration-500 ease-out"
+                            style={{ transform: `translateX(-${currentImage * 100}%)` }}
+                        >
+                            {images.map((img: any, idx: number) => (
+                                <div key={idx} className="w-full h-full flex-shrink-0">
+                                    <img
+                                        src={img.url}
+                                        alt={`Image ${idx + 1}`}
+                                        loading={idx === 0 ? "eager" : "lazy"}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Image counter pill */}
+                        {images.length > 1 && (
+                            <div className="absolute top-4 right-4 bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                                {currentImage + 1} / {images.length}
                             </div>
-                        ))}
+                        )}
+
+                        {/* Desktop arrow buttons */}
+                        {images.length > 1 && (
+                            <>
+                                <button
+                                    onClick={() => setCurrentImage(prev => Math.max(0, prev - 1))}
+                                    className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur rounded-full items-center justify-center hover:bg-white shadow-sm"
+                                    disabled={currentImage === 0}
+                                >
+                                    <ChevronLeft className="w-6 h-6 text-black" />
+                                </button>
+                                <button
+                                    onClick={() => setCurrentImage(prev => Math.min(images.length - 1, prev + 1))}
+                                    className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur rounded-full items-center justify-center hover:bg-white shadow-sm"
+                                    disabled={currentImage === images.length - 1}
+                                >
+                                    <ChevronRight className="w-6 h-6 text-black" />
+                                </button>
+                            </>
+                        )}
                     </div>
 
-                    {/* Image counter pill */}
+                    {/* Thumbnail strip — mobile only */}
                     {images.length > 1 && (
-                        <div className="absolute top-4 right-4 bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
-                            {currentImage + 1} / {images.length}
+                        <div className="md:hidden flex gap-2 px-4 py-3 overflow-x-auto bg-white scrollbar-hide">
+                            {images.map((img: any, idx: number) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setCurrentImage(idx)}
+                                    className={`shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${idx === currentImage
+                                            ? 'border-[#f7711c] scale-105 shadow-sm'
+                                            : 'border-transparent opacity-60'
+                                        }`}
+                                >
+                                    <img src={img.url} alt={`thumb ${idx}`} className="w-full h-full object-cover" />
+                                </button>
+                            ))}
                         </div>
-                    )}
-
-                    {/* Dot indicators */}
-                    {images.length > 1 && (
-                        <>
-                            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
-                                {images.map((_: any, idx: number) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentImage(idx)}
-                                        className={`h-1.5 rounded-full transition-all ${idx === currentImage ? 'w-6 bg-white' : 'w-1.5 bg-white/50'}`}
-                                    />
-                                ))}
-                            </div>
-                            <button
-                                onClick={() => setCurrentImage(prev => Math.max(0, prev - 1))}
-                                className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur rounded-full items-center justify-center hover:bg-white shadow-sm"
-                                disabled={currentImage === 0}
-                            >
-                                <ChevronLeft className="w-6 h-6 text-black" />
-                            </button>
-                            <button
-                                onClick={() => setCurrentImage(prev => Math.min(images.length - 1, prev + 1))}
-                                className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur rounded-full items-center justify-center hover:bg-white shadow-sm"
-                                disabled={currentImage === images.length - 1}
-                            >
-                                <ChevronRight className="w-6 h-6 text-black" />
-                            </button>
-                        </>
                     )}
                 </div>
 
@@ -248,8 +260,8 @@ const AdDetails = () => {
                         <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#D32F2F] shrink-0 transition-colors" />
                     </Link>
 
-                    {/* ── Contact Buttons ── */}
-                    <div className="hidden md:flex gap-3">
+                    {/* ── Contact Buttons (maintenant visible sur mobile ET desktop) ── */}
+                    <div className="flex gap-3">
                         {ad.sellerId?.showPhone && (
                             <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] hover:bg-[#B71C1C] text-white transition-colors shadow-sm">
                                 <Phone className="w-4 h-4" /> Appeler
@@ -259,6 +271,11 @@ const AdDetails = () => {
                             <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#22bf5b] text-white transition-colors shadow-sm">
                                 <MessageCircle className="w-4 h-4" /> WhatsApp
                             </a>
+                        )}
+                        {!ad.sellerId?.showPhone && !ad.sellerId?.whatsapp && (
+                            <button className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] text-white">
+                                <Phone className="w-4 h-4" /> Contacter le vendeur
+                            </button>
                         )}
                     </div>
 
@@ -318,30 +335,6 @@ const AdDetails = () => {
                 </div>
             )}
 
-            {/* ── Mobile Sticky Bottom Bar ── */}
-            <div className="md:hidden fixed bottom-20 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-3 z-50 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
-                <div className="flex-1 flex flex-col justify-center">
-                    <span className="text-xs text-gray-400">Prix</span>
-                    <span className="text-xl font-extrabold" style={{ color: '#f7711c' }}>{priceLabel}</span>
-                    {cdfPrice && <span className="text-[10px] text-gray-400">{cdfPrice} FC</span>}
-                </div>
-                <div className="flex gap-2">
-                    {ad.sellerId?.showPhone && (
-                        <a href={`tel:${ad.sellerId.phone}`} className="h-full px-4 py-3 text-sm font-bold flex items-center gap-2 rounded-xl bg-[#D32F2F] text-white">
-                            <Phone className="w-4 h-4" />
-                        </a>
-                    )}
-                    {ad.sellerId?.whatsapp ? (
-                        <a href={`https://wa.me/${ad.sellerId.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center px-5 py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#25D366] text-white">
-                            <MessageCircle className="w-4 h-4" /> WhatsApp
-                        </a>
-                    ) : (
-                        <button className="flex-1 text-center px-5 py-3 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] text-white">
-                            <Phone className="w-4 h-4" /> Contacter
-                        </button>
-                    )}
-                </div>
-            </div>
 
             {/* ── Report Modal ── */}
             {showReportModal && (
