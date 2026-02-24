@@ -183,30 +183,35 @@ const Home = () => {
                         seeMorePath="/offres-flash"
                         items={flashData?.data?.items || []}
                         loading={flashLoading}
+                        variant="flash"
                     />
                     <SectionBlock
                         title="💎 Sélection Exclusive"
                         seeMorePath="/selection-exclusive"
                         items={exclusiveData?.data?.items || []}
                         loading={exclusiveLoading}
+                        variant="exclusive"
                     />
                     <SectionBlock
                         title="🔥 Ça cartonne à Lushi"
                         seeMorePath="/tendance-lushi"
                         items={trendingData?.data?.items || []}
                         loading={trendingLoading}
+                        variant="trending"
                     />
                     <SectionBlock
                         title="👗 Univers Mode"
                         seeMorePath="/univers/mode"
                         items={modeData?.data?.items || []}
                         loading={modeLoading}
+                        variant="mode"
                     />
                     <SectionBlock
                         title="💄 Univers Beauté"
                         seeMorePath="/univers/beaute"
                         items={beauteData?.data?.items || []}
                         loading={beauteLoading}
+                        variant="beaute"
                     />
                 </div>
             </div>

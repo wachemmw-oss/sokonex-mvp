@@ -8,7 +8,19 @@ interface SectionBlockProps {
     seeMorePath: string;
     items: any[];
     loading: boolean;
+    variant?: 'flash' | 'exclusive' | 'trending' | 'mode' | 'beaute' | 'default';
 }
+
+const getVariantStyles = (variant?: string) => {
+    switch (variant) {
+        case 'flash': return 'bg-[var(--bg-section-flash)]';
+        case 'exclusive': return 'bg-[var(--bg-section-exclusive)]';
+        case 'trending': return 'bg-[var(--bg-section-trending)]';
+        case 'mode': return 'bg-[var(--bg-section-mode)]';
+        case 'beaute': return 'bg-[var(--bg-section-beaute)]';
+        default: return 'bg-transparent';
+    }
+};
 
 const SectionSkeleton = () => (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 animate-pulse">
@@ -22,36 +34,44 @@ const SectionSkeleton = () => (
     </div>
 );
 
-const SectionBlock: React.FC<SectionBlockProps> = ({ title, seeMorePath, items, loading }) => {
-    return (
-        <section className="py-10 border-t border-gray-50 first:border-t-0">
-            <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl md:text-3xl font-black tracking-tighter uppercase italic text-[#1A3620] leading-none flex items-center gap-3">
-                    <span className="w-1.5 h-8 bg-[#FFBA34] rounded-full inline-block"></span>
-                    {title}
-                </h2>
-                <Link
-                    to={seeMorePath}
-                    className="group inline-flex items-center gap-2 px-5 py-2.5 bg-[#F8FBF8] text-[#1A3620] rounded-full text-xs font-black uppercase tracking-widest border border-[#1A3620]/5 hover:bg-[#FFBA34] hover:border-[#FFBA34] transition-all duration-300"
-                >
-                    Voir plus
-                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" strokeWidth={3} />
-                </Link>
-            </div>
+const SectionBlock: React.FC<SectionBlockProps> = ({ title, seeMorePath, items, loading, variant }) => {
+    const bgClass = getVariantStyles(variant);
 
-            {loading ? (
-                <SectionSkeleton />
-            ) : items.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    {items.map((ad) => (
-                        <AdCard key={ad._id} ad={ad} />
-                    ))}
+    return (
+        <section className={`py-12 md:py-20 ${bgClass} transition-colors duration-500`}>
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-6">
+                    <div className="space-y-2">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter uppercase italic text-[#1A3620] leading-none flex items-center gap-4">
+                            <span className="w-2 h-10 md:h-14 bg-[#FFBA34] rounded-full inline-block shadow-[0_0_15px_rgba(255,186,52,0.3)]"></span>
+                            {title}
+                        </h2>
+                        <div className="h-1 w-24 bg-[#FFBA34]/20 rounded-full ml-6"></div>
+                    </div>
+
+                    <Link
+                        to={seeMorePath}
+                        className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-[#1A3620] rounded-full text-xs font-black uppercase tracking-[0.2em] border border-[#1A3620]/10 hover:bg-[#1A3620] hover:text-white hover:border-[#1A3620] transition-all duration-500 shadow-sm hover:shadow-xl"
+                    >
+                        Explorer la sélection
+                        <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+                    </Link>
                 </div>
-            ) : (
-                <div className="py-16 text-center bg-gray-50 rounded-3xl border border-dashed border-gray-200">
-                    <p className="text-gray-400 font-bold text-sm uppercase tracking-widest">Aucune annonce pour le moment</p>
-                </div>
-            )}
+
+                {loading ? (
+                    <SectionSkeleton />
+                ) : items.length > 0 ? (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                        {items.map((ad) => (
+                            <AdCard key={ad._id} ad={ad} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="py-24 text-center bg-white/40 backdrop-blur-sm rounded-[40px] border border-dashed border-gray-200">
+                        <p className="text-gray-400 font-black text-sm uppercase tracking-widest italic">Aucune annonce pour le moment</p>
+                    </div>
+                )}
+            </div>
         </section>
     );
 };

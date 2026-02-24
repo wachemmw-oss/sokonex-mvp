@@ -54,7 +54,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
     return (
         <Link
             to={`/ad/${ad._id}`}
-            className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-3 gap-3' : 'flex-col h-full pb-2'}`}
+            className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-4 gap-4' : 'flex-col h-full p-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#FFBA34]/30 transition-all duration-300'}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
@@ -86,45 +86,48 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
             </div>
 
             <div className={`flex flex-col flex-1 ${isList ? 'py-1 justify-start' : 'pt-2 px-1'}`}>
-                {/* 1. Price */}
-                <div className="flex items-center justify-between mb-1.5">
-                    <p className="font-extrabold text-base md:text-lg leading-none text-black">
-                        {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
-                            ? `$${ad.price?.toLocaleString()}`
-                            : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
-                    </p>
-                    {ad.sellerId?.badge && ad.sellerId.badge !== 'none' && (
-                        <div className="flex items-center">
-                            {ad.sellerId.badge === 'founder' ? (
-                                <div className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-1.5 py-0.5 rounded-md shadow-sm">
-                                    <Star size={10} className="fill-white" />
-                                    <span className="text-[8px] font-black tracking-tight uppercase">FONDATEUR</span>
-                                </div>
-                            ) : (
-                                <div className="flex items-center gap-1 bg-emerald-500 text-white px-1.5 py-0.5 rounded-md shadow-sm">
-                                    <Briefcase size={10} className="fill-white" />
-                                    <span className="text-[8px] font-black tracking-tight uppercase">PRO</span>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                {/* 1. Price & Badge */}
+                <div className="flex flex-col gap-2 mb-2">
+                    <div className="flex items-center justify-between">
+                        <p className="font-black text-xl md:text-2xl tracking-tighter text-[#1A3620] leading-none">
+                            {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
+                                ? `$${ad.price?.toLocaleString()}`
+                                : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
+                        </p>
+
+                        {ad.sellerId?.badge && ad.sellerId.badge !== 'none' && (
+                            <div className="flex items-center translate-y-[-2px]">
+                                {ad.sellerId.badge === 'founder' ? (
+                                    <div className="flex items-center gap-1.5 bg-gradient-to-br from-[#FFD700] via-[#FFBA34] to-[#E8A520] text-white px-2.5 py-1 rounded-full shadow-[0_2px_8px_rgba(255,186,52,0.4)] border border-white/20">
+                                        <Star size={12} className="fill-white" />
+                                        <span className="text-[10px] font-black tracking-widest uppercase">FONDATEUR</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-1.5 bg-gradient-to-br from-[#10B981] to-[#047857] text-white px-2.5 py-1 rounded-full shadow-[0_2px_8px_rgba(16,185,129,0.3)] border border-white/20">
+                                        <Briefcase size={12} className="fill-white" />
+                                        <span className="text-[10px] font-black tracking-widest uppercase">PRO</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* 2. Title (Max 2 lines) */}
-                <h3 className="text-[12px] md:text-[13px] text-gray-800 font-medium line-clamp-2 leading-tight group-hover:underline mb-1">
+                <h3 className="text-sm md:text-base text-gray-900 font-bold line-clamp-2 leading-snug group-hover:text-[#214829] transition-colors mb-2 min-h-[2.5rem]">
                     {ad.title}
                 </h3>
 
                 {/* 3 & 4. City and Condition */}
-                <div className="mt-auto pt-1 flex items-center justify-between gap-1.5 overflow-hidden">
+                <div className="mt-auto pt-3 border-t border-gray-50 flex items-center justify-between gap-1.5">
                     <div className="flex items-center gap-1.5 overflow-hidden">
                         {ad.city && (
-                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tight truncate">
+                            <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                                 {ad.city}
                             </span>
                         )}
-                        <span className="w-1 h-1 bg-gray-300 rounded-full shrink-0"></span>
-                        <span className="text-[10px] text-gray-400 font-bold truncate">
+                        <span className="w-1 h-1 bg-gray-200 rounded-full shrink-0"></span>
+                        <span className="text-[11px] text-gray-400 font-bold">
                             {formatRelativeDate(ad.createdAt)}
                         </span>
                     </div>

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 
   /* ─── SOKONEX Color System ─── */
   --color-primary: #FFBA34;
@@ -22,6 +22,18 @@
   /* Fond page */
   --color-border: #E8EDE5;
   /* Séparateurs */
+
+  /* ─── Section Backgrounds (Subtle/Premium) ─── */
+  --bg-section-flash: #FFF9ED;
+  /* Ambre très doux */
+  --bg-section-exclusive: #F1F4FF;
+  /* Bleu premium doux */
+  --bg-section-trending: #FFF5F5;
+  /* Rouge/Corail doux */
+  --bg-section-mode: #F0F9F4;
+  /* Vert menthe doux */
+  --bg-section-beaute: #FAF5FF;
+  /* Lavande doux */
 }
 
 body {
