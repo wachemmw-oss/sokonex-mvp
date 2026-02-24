@@ -101,7 +101,7 @@ const Home = () => {
                 <div className="space-y-16">
                     {/* 1. Flash Deals Section */}
                     <SectionBlock
-                        title="Offres Flash (argent direct)"
+                        title="Offres Flash"
                         Icon={Zap}
                         seeMorePath="/results?sort=flash"
                         items={flashData?.data?.items || []}
