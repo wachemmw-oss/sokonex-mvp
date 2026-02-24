@@ -206,8 +206,18 @@ const AdDetails = () => {
                         <div>
                             <div className="flex items-center gap-1.5">
                                 <p className="font-bold group-hover:text-[#FFBA34] transition-colors" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
-                                {ad.sellerId?.badge === 'founder' && <Star size={14} className="fill-[#FFBA34] text-[#FFBA34]" />}
-                                {ad.sellerId?.badge === 'pro' && <Briefcase size={14} className="text-[#214829]" />}
+                                {ad.sellerId?.badge === 'founder' && (
+                                    <div className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-2 py-0.5 rounded-md shadow-sm ml-1">
+                                        <Star size={10} className="fill-white" />
+                                        <span className="text-[9px] font-black tracking-tight uppercase">FONDATEUR</span>
+                                    </div>
+                                )}
+                                {ad.sellerId?.badge === 'pro' && (
+                                    <div className="flex items-center gap-1 bg-emerald-500 text-white px-2 py-0.5 rounded-md shadow-sm ml-1">
+                                        <Briefcase size={10} className="fill-white" />
+                                        <span className="text-[9px] font-black tracking-tight uppercase">PRO</span>
+                                    </div>
+                                )}
                             </div>
                             <p className="text-xs text-gray-500">Membre vérifié</p>
                         </div>
@@ -262,8 +272,18 @@ const AdDetails = () => {
                     <div>
                         <div className="flex items-center gap-1.5">
                             <p className="font-bold text-sm" style={{ color: '#1A3620' }}>{ad.sellerId?.name || 'Vendeur'}</p>
-                            {ad.sellerId?.badge === 'founder' && <Star size={12} className="fill-[#FFBA34] text-[#FFBA34]" />}
-                            {ad.sellerId?.badge === 'pro' && <Briefcase size={12} className="text-[#214829]" />}
+                            {ad.sellerId?.badge === 'founder' && (
+                                <div className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-1.5 py-0.5 rounded-md shadow-sm">
+                                    <Star size={8} className="fill-white" />
+                                    <span className="text-[7px] font-black tracking-tight uppercase">FONDATEUR</span>
+                                </div>
+                            )}
+                            {ad.sellerId?.badge === 'pro' && (
+                                <div className="flex items-center gap-1 bg-emerald-500 text-white px-1.5 py-0.5 rounded-md shadow-sm">
+                                    <Briefcase size={8} className="fill-white" />
+                                    <span className="text-[7px] font-black tracking-tight uppercase">PRO</span>
+                                </div>
+                            )}
                         </div>
                         <p className="text-xs text-gray-500">Membre vérifié</p>
                     </div>

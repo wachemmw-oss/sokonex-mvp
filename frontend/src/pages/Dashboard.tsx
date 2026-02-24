@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getMyAds, deleteAd } from '../services/ads';
-import { CheckCircle2, Info } from 'lucide-react';
+import { CheckCircle2, Info, Star, Briefcase, Award } from 'lucide-react';
 import {
     UserCircleIcon,
     DocumentTextIcon,
@@ -109,6 +109,58 @@ const MyAds = () => {
         </div>
     );
 };
+
+const BecomePro = () => (
+    <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-sm">
+        <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                <Briefcase className="w-7 h-7 text-emerald-600" />
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-black uppercase tracking-tight">Devenir Vendeur Pro</h2>
+        </div>
+
+        <div className="space-y-6">
+            <p className="text-sm text-gray-600 leading-relaxed">
+                Le statut **Vendeur Pro** est destiné aux commerçants et boutiques établies souhaitant maximiser leur visibilité et leur crédibilité sur SOKONEX.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                    <h3 className="font-bold text-[#1A3620] uppercase tracking-wider text-xs">Vos Avantages Pro :</h3>
+                    <ul className="space-y-3">
+                        <li className="flex items-start gap-2 text-xs text-gray-700">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                            <span>**Badge Pro Certifié** sur toutes vos annonces.</span>
+                        </li>
+                        <li className="flex items-start gap-2 text-xs text-gray-700">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                            <span>**Annonces Illimitées** sans aucune restriction de nombre.</span>
+                        </li>
+                        <li className="flex items-start gap-2 text-xs text-gray-700">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                            <span>**Visibilité Prioritaire** dans les résultats de recherche.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="bg-slate-50 p-6 rounded-sm border border-slate-100">
+                    <h3 className="font-bold text-[#1A3620] uppercase tracking-wider text-xs mb-4 text-center">Prêt à passer au niveau Pro ?</h3>
+                    <p className="text-[10px] text-gray-500 text-center mb-6">
+                        Contactez notre service commercial pour valider votre identité et activer vos avantages professionnels.
+                    </p>
+                    <a
+                        href="https://wa.me/243825555555"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-500 text-white font-black text-xs uppercase tracking-widest rounded-sm hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-500/20"
+                    >
+                        Contactez-nous sur WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+);
 
 const EarnMoney = () => (
     <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-sm">
@@ -231,6 +283,24 @@ const Dashboard = () => {
                             </div>
                             <h2 className="font-bold text-lg text-white truncate">{user?.name}</h2>
                             <p className="text-xs text-white/60 mb-2 truncate">{user?.email}</p>
+
+                            {/* Badge Display in Dashboard Sidebar */}
+                            {user?.badge && user.badge !== 'none' && (
+                                <div className="mb-3 flex justify-center">
+                                    {user.badge === 'founder' ? (
+                                        <div className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-3 py-1 rounded-full shadow-lg border border-white/20">
+                                            <Star size={12} className="fill-white" />
+                                            <span className="text-[9px] font-black tracking-[0.1em] uppercase">FONDATEUR</span>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center gap-1.5 bg-emerald-500 text-white px-3 py-1 rounded-full shadow-lg border border-white/20">
+                                            <Briefcase size={12} className="fill-white" />
+                                            <span className="text-[9px] font-black tracking-[0.1em] uppercase">VENDEUR PRO</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {user?.whatsapp && (
                                 <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-sm text-xs font-bold font-mono" style={{ backgroundColor: '#FFBA34', color: '#1A3620' }}>
                                     WA: {user.whatsapp}
@@ -242,6 +312,9 @@ const Dashboard = () => {
                         <div className="py-2 flex flex-col">
                             <SidebarLink to={`/store/${user?._id}`} icon={BuildingStorefrontIcon} text="Ma Boutique" active={false} />
                             <SidebarLink to="/account/my-ads" icon={DocumentTextIcon} text="Mes Annonces" active={isActive('/account/my-ads') || isActive('/account')} />
+                            {user?.badge !== 'pro' && (
+                                <SidebarLink to="/account/become-pro" icon={Award} text="Devenir Pro" active={isActive('/account/become-pro')} />
+                            )}
                             <SidebarLink to="/account/earn" icon={CurrencyDollarIcon} text="Comment faire de l'argent" active={isActive('/account/earn')} />
                             <SidebarLink to="/account/settings" icon={Cog8ToothIcon} text="Paramètres" active={isActive('/account/settings')} />
                             <SidebarLink to="/account/faq" icon={QuestionMarkCircleIcon} text="Foire aux questions" active={isActive('/account/faq')} />
@@ -263,6 +336,7 @@ const Dashboard = () => {
                     <Routes>
                         <Route path="/" element={<MyAds />} />
                         <Route path="/my-ads" element={<MyAds />} />
+                        <Route path="/become-pro" element={<BecomePro />} />
                         <Route path="/earn" element={<EarnMoney />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/faq" element={<FAQ />} />

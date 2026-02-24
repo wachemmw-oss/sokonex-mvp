@@ -139,7 +139,7 @@ export const getAds = async (req: Request, res: Response) => {
                 .skip(skip)
                 .limit(limitNum)
                 .select('title price priceType images city province subCategory condition promoted createdAt sellerId')
-            // No populate — seller not displayed in list view
+                .populate('sellerId', 'name avatar badge')
         ]);
 
         // Facets (Aggregation for counts)
@@ -203,7 +203,7 @@ export const getAdById = async (req: Request, res: Response) => {
 
         // FIX: added 'name' and 'avatar' which were missing — that's why seller name/photo didn't show
         const ad = await Ad.findById(req.params.id)
-            .populate('sellerId', 'name avatar email phone whatsapp showPhone isPhoneVerified role createdAt');
+            .populate('sellerId', 'name avatar badge email phone whatsapp showPhone isPhoneVerified role createdAt');
         if (!ad) return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Ad not found' } });
 
         const adObj = ad.toObject();

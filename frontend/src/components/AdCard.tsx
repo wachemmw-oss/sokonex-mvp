@@ -82,11 +82,17 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                             : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                     </p>
                     {ad.sellerId?.badge && ad.sellerId.badge !== 'none' && (
-                        <div className="flex items-center" title={ad.sellerId.badge === 'founder' ? 'Vendeur Fondateur' : 'Vendeur Pro'}>
+                        <div className="flex items-center">
                             {ad.sellerId.badge === 'founder' ? (
-                                <Star size={14} className="fill-[#FFBA34] text-[#FFBA34]" />
+                                <div className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-1.5 py-0.5 rounded-md shadow-sm">
+                                    <Star size={10} className="fill-white" />
+                                    <span className="text-[8px] font-black tracking-tight uppercase">FONDATEUR</span>
+                                </div>
                             ) : (
-                                <Briefcase size={14} className="text-[#214829]" />
+                                <div className="flex items-center gap-1 bg-emerald-500 text-white px-1.5 py-0.5 rounded-md shadow-sm">
+                                    <Briefcase size={10} className="fill-white" />
+                                    <span className="text-[8px] font-black tracking-tight uppercase">PRO</span>
+                                </div>
                             )}
                         </div>
                     )}
