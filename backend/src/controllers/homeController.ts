@@ -26,8 +26,8 @@ const getAdsByCriteria = async (req: Request, res: Response, criteria: any, limi
     }
 };
 
-// Home Endpoints (limit=8)
-export const getHomeFlash = (req: Request, res: Response) => getAdsByCriteria(req, res, {}, 8); // Fallback to all for MVP
+// Home Endpoints
+export const getHomeFlash = (req: Request, res: Response) => getAdsByCriteria(req, res, {}, 20); // 20 ads for flash as requested
 export const getHomeExclusive = (req: Request, res: Response) => getAdsByCriteria(req, res, { promoted: true }, 8);
 export const getHomeTrending = (req: Request, res: Response) => getAdsByCriteria(req, res, {}, 8);
 export const getHomeMode = (req: Request, res: Response) => getAdsByCriteria(req, res, { category: 'mode' }, 8);
