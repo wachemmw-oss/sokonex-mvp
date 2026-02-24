@@ -8,13 +8,11 @@ import {
 import AdCard from '../components/AdCard';
 import BannerCard from '../components/BannerCard';
 import { useQuery } from '@tanstack/react-query';
-import { getAds } from '../services/ads';
-import { getCategories } from '../services/category';
-
+import { getHomeSection } from '../services/ads';
+import SectionBlock from '../components/SectionBlock';
 
 const Home = () => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState<'recommande' | 'nouveau' | 'tendance'>('recommande');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [currentBanner, setCurrentBanner] = useState(0);
     const carouselRef = useRef<HTMLDivElement>(null);
@@ -98,31 +96,30 @@ const Home = () => {
         }
     }, [currentBanner]);
 
-    // Fetch Categories
-    const { data: categoriesData, isLoading: isLoadingCats } = useQuery({
-        queryKey: ['categories'],
-        queryFn: getCategories,
-        staleTime: 1000 * 60 * 10,
+    // Fetch 5 sections in parallel
+    const { data: flashData, isLoading: flashLoading } = useQuery({
+        queryKey: ['home', 'flash'],
+        queryFn: () => getHomeSection('flash'),
     });
 
-    const CATEGORIES_FROM_DB = categoriesData?.data || [];
-
-    // Fetch Promoted Ads (Used as Flash Deals)
-    const { data: promotedAds } = useQuery({
-        queryKey: ['ads', 'promoted'],
-        queryFn: () => getAds({ promoted: true, limit: 4 }),
-        staleTime: 1000 * 60 * 2,
+    const { data: exclusiveData, isLoading: exclusiveLoading } = useQuery({
+        queryKey: ['home', 'exclusive'],
+        queryFn: () => getHomeSection('exclusive'),
     });
 
-    // Fetch feed Ads based on active tab — max 10
-    const { data: feedAds, isLoading: feedLoading } = useQuery({
-        queryKey: ['ads', 'feed', activeTab],
-        queryFn: () => {
-            if (activeTab === 'tendance') return getAds({ promoted: true, limit: 10 });
-            if (activeTab === 'nouveau') return getAds({ sort: 'newest', limit: 10 });
-            return getAds({ limit: 10 }); // recommande
-        },
-        staleTime: 1000 * 60 * 2,
+    const { data: trendingData, isLoading: trendingLoading } = useQuery({
+        queryKey: ['home', 'trending'],
+        queryFn: () => getHomeSection('trending'),
+    });
+
+    const { data: modeData, isLoading: modeLoading } = useQuery({
+        queryKey: ['home', 'mode'],
+        queryFn: () => getHomeSection('mode'),
+    });
+
+    const { data: beauteData, isLoading: beauteLoading } = useQuery({
+        queryKey: ['home', 'beaute'],
+        queryFn: () => getHomeSection('beaute'),
     });
 
     return (
@@ -179,145 +176,38 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* ─── Categories Section (Text Pills style) ─── */}
-                <div className="mb-6 -mt-2">
-                    {isLoadingCats ? (
-                        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide py-2">
-                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                                <div key={i} className="min-w-[100px] h-8 bg-gray-100 rounded-full animate-pulse" />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="flex gap-4 overflow-x-auto py-4 scrollbar-hide border-b border-gray-100 px-1">
-                            <Link
-                                to="/results"
-                                className="whitespace-nowrap text-xs md:text-sm font-bold text-gray-800 hover:text-[#214829] transition-colors"
-                            >
-                                Tous les produits
-                            </Link>
-                            {CATEGORIES_FROM_DB.slice(0, 5).map((cat: any) => (
-                                <Link
-                                    key={cat.slug}
-                                    to={`/results?category=${cat.slug}`}
-                                    className="whitespace-nowrap text-xs md:text-sm font-bold text-gray-500 hover:text-black transition-colors"
-                                >
-                                    {cat.name}
-                                </Link>
-                            ))}
-                            <Link
-                                to="/results"
-                                className="whitespace-nowrap text-xs md:text-sm font-bold px-3 py-1 bg-gray-100 rounded-full text-[#214829] hover:bg-[#FFBA34]/20 transition-all flex items-center gap-1"
-                            >
-                                Voir plus
-                                <ChevronRight size={14} strokeWidth={3} />
-                            </Link>
-                        </div>
-                    )}
-                </div>
-
-                {/* Flash Deals (Promoted Ads) */}
-                {promotedAds?.data?.items?.length > 0 && (
-                    <div className="mt-2 md:mt-6 bg-white p-4 md:rounded-lg">
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex items-center gap-2">
-                                <h2 className="text-lg font-bold tracking-tight uppercase" style={{ color: '#FFBA34' }}>Ventes Flash</h2>
-                                <div className="flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: '#214829', color: '#FFBA34' }}>
-                                    <Clock className="w-3 h-3" />
-                                    <span>23:59:59</span>
-                                </div>
-                            </div>
-                            <Link to="/results?promoted=true" className="text-sm text-gray-500 font-medium flex items-center">
-                                Tout voir <ChevronRight className="w-4 h-4" />
-                            </Link>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            {promotedAds.data.items.slice(0, 4).map((ad: any) => (
-                                <AdCard key={ad._id} ad={ad} />
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Main Feed */}
-                <div className="mt-2 md:mt-6">
-                    <div className="bg-white py-4 px-4 mb-2 sticky top-[62px] md:top-[80px] z-30 md:rounded-t-lg shadow-sm">
-                        <div className="flex items-center justify-between gap-3">
-                            <div className="flex gap-4 overflow-x-auto scrollbar-hide flex-1">
-                                <button
-                                    onClick={() => setActiveTab('recommande')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'recommande' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-                                >
-                                    Recommandé pour vous
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('nouveau')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'nouveau' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-                                >
-                                    Nouveau
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('tendance')}
-                                    className={`text-[12px] md:text-[13px] font-extrabold tracking-wide uppercase whitespace-nowrap pb-1 border-b-2 transition-colors ${activeTab === 'tendance' ? 'border-[#FFBA34] text-[#214829]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-                                >
-                                    Tendance
-                                </button>
-                            </div>
-
-                            <div className="flex gap-1 shrink-0 bg-gray-100 p-0.5 rounded-sm">
-                                <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-sm transition-all shadow-none ${viewMode === 'grid' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-black' : 'text-gray-400 hover:text-gray-600'}`}>
-                                    <LayoutGrid className="w-4 h-4" />
-                                </button>
-                                <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-sm transition-all shadow-none ${viewMode === 'list' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-black' : 'text-gray-400 hover:text-gray-600'}`}>
-                                    <List className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* 3 états : chargement / résultats / vide */}
-                    {feedLoading ? (
-                        /* Skeleton — s'affiche pendant la requête */
-                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0">
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => (
-                                <div key={i} className="rounded-sm overflow-hidden bg-white">
-                                    <div className="aspect-square bg-gray-200 animate-pulse" />
-                                    <div className="p-2 space-y-1.5">
-                                        <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
-                                        <div className="h-3 bg-gray-200 rounded animate-pulse w-1/2" />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : feedAds?.data?.items?.length > 0 ? (
-                        <>
-                            {/* Grid/List d'annonces */}
-                            <div className={viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 px-2 md:px-0" : "flex flex-col gap-0 md:gap-2"}>
-                                {feedAds.data.items.map((ad: any) => (
-                                    <AdCard key={ad._id} ad={ad} viewMode={viewMode} />
-                                ))}
-                            </div>
-
-                            {/* Bouton Voir plus */}
-                            <div className="flex justify-center mt-6 mb-2 px-2">
-                                <Link
-                                    to="/results"
-                                    className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-3 font-bold text-sm rounded-sm border-2 transition hover:opacity-80 active:scale-95"
-                                    style={{ borderColor: '#214829', color: '#214829' }}
-                                >
-                                    Voir plus d'annonces
-                                    <ChevronRight className="w-4 h-4" />
-                                </Link>
-                            </div>
-                        </>
-                    ) : (
-                        /* Vide — seulement quand la requête est terminée et il n'y a rien */
-                        <div className="text-center py-12 bg-white rounded-lg mt-2">
-                            <p className="text-gray-500">Aucun article trouvé.</p>
-                            <Link to="/post" className="border border-black text-black font-bold mt-4 px-6 py-2 rounded-sm inline-block hover:bg-black hover:text-white transition">
-                                Vendre un article
-                            </Link>
-                        </div>
-                    )}
+                {/* ─── Product Sections ─── */}
+                <div className="space-y-4">
+                    <SectionBlock
+                        title="⚡ Offres Flash du Jour"
+                        seeMorePath="/offres-flash"
+                        items={flashData?.data?.items || []}
+                        loading={flashLoading}
+                    />
+                    <SectionBlock
+                        title="💎 Sélection Exclusive"
+                        seeMorePath="/selection-exclusive"
+                        items={exclusiveData?.data?.items || []}
+                        loading={exclusiveLoading}
+                    />
+                    <SectionBlock
+                        title="🔥 Ça cartonne à Lushi"
+                        seeMorePath="/tendance-lushi"
+                        items={trendingData?.data?.items || []}
+                        loading={trendingLoading}
+                    />
+                    <SectionBlock
+                        title="👗 Univers Mode"
+                        seeMorePath="/univers/mode"
+                        items={modeData?.data?.items || []}
+                        loading={modeLoading}
+                    />
+                    <SectionBlock
+                        title="💄 Univers Beauté"
+                        seeMorePath="/univers/beaute"
+                        items={beauteData?.data?.items || []}
+                        loading={beauteLoading}
+                    />
                 </div>
             </div>
         </div>

@@ -39,3 +39,14 @@ export const reportAd = async (data: { adId: string; reason: string; note?: stri
     const response = await client.post('/reports', data);
     return response.data;
 };
+
+// Home & Specific Lists
+export const getHomeSection = async (section: string) => {
+    const response = await client.get(`/home/${section}`);
+    return response.data;
+};
+
+export const getListSection = async (section: string, page: number = 1) => {
+    const response = await client.get(`/list/${section}`, { params: { page, limit: 24 } });
+    return response.data;
+};

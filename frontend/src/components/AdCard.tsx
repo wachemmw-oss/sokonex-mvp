@@ -22,6 +22,18 @@ const getConditionDetails = (condition: string) => {
     }
 };
 
+const formatRelativeDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (diffInSeconds < 60) return "À l'instant";
+    if (diffInSeconds < 3600) return `Il y a ${Math.floor(diffInSeconds / 60)} min`;
+    if (diffInSeconds < 86400) return `Il y a ${Math.floor(diffInSeconds / 3600)}h`;
+    if (diffInSeconds < 172800) return "Hier";
+    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+};
+
 const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
     const isList = viewMode === 'list';
     const queryClient = useQueryClient();
@@ -104,17 +116,18 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid' }: AdCardProps) => {
                 </h3>
 
                 {/* 3 & 4. City and Condition */}
-                <div className="mt-auto pt-1 flex flex-wrap items-center gap-1.5">
-                    {ad.city && (
-                        <span className="text-[10px] md:text-xs text-gray-500 font-medium whitespace-nowrap">
-                            {ad.city}
+                <div className="mt-auto pt-1 flex items-center justify-between gap-1.5 overflow-hidden">
+                    <div className="flex items-center gap-1.5 overflow-hidden">
+                        {ad.city && (
+                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tight truncate">
+                                {ad.city}
+                            </span>
+                        )}
+                        <span className="w-1 h-1 bg-gray-300 rounded-full shrink-0"></span>
+                        <span className="text-[10px] text-gray-400 font-bold truncate">
+                            {formatRelativeDate(ad.createdAt)}
                         </span>
-                    )}
-                    {ad.condition && (
-                        <span className={`text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap ${getConditionDetails(ad.condition).bg} ${getConditionDetails(ad.condition).text}`}>
-                            {getConditionDetails(ad.condition).label}
-                        </span>
-                    )}
+                    </div>
                 </div>
             </div>
         </Link>

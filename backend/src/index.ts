@@ -52,6 +52,8 @@ import adRoutes from './routes/adRoutes';
 import adminRoutes from './routes/adminRoutes';
 import reportRoutes from './routes/reportRoutes';
 import categoryRoutes from './routes/categoryRoutes';
+import homeRoutes from './routes/homeRoutes';
+import listRoutes from './routes/listRoutes';
 
 app.get('/', (req, res) => {
     res.send('API is running...');
@@ -64,6 +66,8 @@ app.use('/api/uploads', uploadRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/home', homeRoutes);
+app.use('/api/list', listRoutes);
 
 
 app.listen(PORT, () => {

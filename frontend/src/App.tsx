@@ -23,6 +23,7 @@ const AdminSettings = lazy(() => import('./pages/AdminSettings'));
 const Aide = lazy(() => import('./pages/Aide'));
 const Legal = lazy(() => import('./pages/Legal'));
 const Store = lazy(() => import('./pages/Store'));
+const GenericListView = lazy(() => import('./pages/GenericListView'));
 
 
 // Global query client — stale cache: data considered fresh for 2 min
@@ -82,6 +83,13 @@ function AppContent() {
             <Route path="/register" element={<Register />} />
             <Route path="/account/*" element={<Dashboard />} />
             <Route path="/store/:id" element={<Store />} />
+
+            {/* Home Specific Lists */}
+            <Route path="/offres-flash" element={<GenericListView title="Offres Flash du Jour" section="flash" />} />
+            <Route path="/selection-exclusive" element={<GenericListView title="Sélection Exclusive" section="exclusive" />} />
+            <Route path="/tendance-lushi" element={<GenericListView title="Ça cartonne à Lushi" section="trending" />} />
+            <Route path="/univers/mode" element={<GenericListView title="Univers Mode" section="mode" />} />
+            <Route path="/univers/beaute" element={<GenericListView title="Univers Beauté" section="beaute" />} />
 
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
