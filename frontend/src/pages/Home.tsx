@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ChevronRight, Sparkles, Plane, TrendingUp, Shirt, Sparkle, ShieldCheck, Zap
+    ChevronRight, Sparkles, Plane, TrendingUp, Shirt, Sparkle, ShieldCheck, Zap,
+    ShoppingBag, Users, Gem
 } from 'lucide-react';
 import BannerCard from '../components/BannerCard';
 import { useQuery } from '@tanstack/react-query';
@@ -18,32 +19,35 @@ const Home = () => {
     const banners = [
         {
             title: "Shopping Malin, Style Garanti",
-            subtitle: "✨ Nouveautés du Moment",
+            subtitle: "Nouveautés du Moment",
+            subtitleIcon: ShoppingBag,
             description: "Les meilleures offres sélectionnées pour vous. Électronique, Mode, Maison — tout à portée de clic.",
             ctaText: "Découvrir les offres",
             ctaLink: "/results",
-            image: "/banners/banner 1.jpg",
+            image: "/banners/banner1.jpg",
             bgColor: "bg-[#1a1a2e]",
             dark: true
         },
         {
             title: "La Vie est Belle à Lushi",
-            subtitle: "🎉 SOKONEX Community",
+            subtitle: "SOKONEX Community",
+            subtitleIcon: Users,
             description: "Rejoignez des milliers de Kinois qui achètent et vendent sur la plus grande marketplace de RDC.",
             ctaText: "Rejoindre SOKONEX",
             ctaLink: "/register",
-            image: "/banners/banner 2.jpg",
+            image: "/banners/banner2.jpg",
             bgColor: "bg-[#D32F2F]",
             dark: true,
             reverse: true
         },
         {
-            title: "Mode & Style African Chic",
-            subtitle: "👗 Univers Mode",
+            title: "Mode et Style African Chic",
+            subtitle: "Univers Mode",
+            subtitleIcon: Gem,
             description: "Vêtements, accessoires et bien plus. Exprimez votre style avec les meilleures boutiques de Kinshasa.",
             ctaText: "Explorer la mode",
             ctaLink: "/results?category=mode-beaute",
-            image: "/banners/banner 3.jpg",
+            image: "/banners/banner3.jpg",
             bgColor: "bg-[#1a1a2e]",
             dark: true
         }
