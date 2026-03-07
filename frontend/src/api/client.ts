@@ -17,4 +17,21 @@ client.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+// Response Interceptor
+client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        // Handle 401 Unauthorized globally
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+        }
+
+        // Standardize error message
+        const message = error.response?.data?.error?.message || error.message || "Une erreur est survenue";
+        console.error(`[API Error] ${error.config?.url || 'Unknown URL'}:`, message);
+        
+        return Promise.reject({ ...error, message });
+    }
+);
+
 export default client;

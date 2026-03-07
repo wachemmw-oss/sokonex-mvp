@@ -159,7 +159,7 @@ const Settings = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors bg-gray-50 focus:bg-white"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none transition-colors bg-gray-50 focus:bg-white"
                     />
                 </div>
 
@@ -170,7 +170,7 @@ const Settings = () => {
                         name="bio"
                         value={formData.bio}
                         onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors resize-none h-24 bg-gray-50 focus:bg-white"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none transition-colors resize-none h-24 bg-gray-50 focus:bg-white"
                         placeholder="Dites-en plus sur votre activité..."
                     />
                 </div>
@@ -184,7 +184,7 @@ const Settings = () => {
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors bg-gray-50 focus:bg-white"
+                            className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none transition-colors bg-gray-50 focus:bg-white"
                             placeholder="Ex: +243 000 000 000"
                         />
                     </div>
@@ -196,7 +196,7 @@ const Settings = () => {
                                 type="button"
                                 onClick={handleVerifyPhone}
                                 disabled={verifying}
-                                className="text-xs font-bold uppercase tracking-wide bg-[#D32F2F] text-white px-3 py-1.5 rounded-xl hover:bg-[#B71C1C] transition-colors disabled:opacity-50"
+                                className="text-xs font-bold uppercase tracking-wide bg-[var(--color-primary)] text-white px-3 py-1.5 rounded-xl hover:bg-[var(--color-primary-dark)] transition-colors disabled:opacity-50"
                             >
                                 {verifying ? 'Vérification...' : 'Vérifier maintenant'}
                             </button>
@@ -215,7 +215,7 @@ const Settings = () => {
                         name="whatsapp"
                         value={formData.whatsapp}
                         onChange={handleChange}
-                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-colors bg-gray-50 focus:bg-white"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none transition-colors bg-gray-50 focus:bg-white"
                         placeholder="Ex: +243 000 000 000"
                     />
                 </div>
@@ -239,7 +239,7 @@ const Settings = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white py-3 px-4 rounded-xl font-bold tracking-wide focus:outline-none transition-colors active:scale-95 disabled:opacity-50 shadow-md shadow-red-200"
+                        className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white py-3 px-4 rounded-xl font-bold tracking-wide focus:outline-none transition-colors active:scale-95 disabled:opacity-50 shadow-md shadow-red-200"
                     >
                         {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
                     </button>

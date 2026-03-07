@@ -185,14 +185,14 @@ const PostAd = () => {
                 {/* Title */}
                 <div>
                     <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Titre de l'annonce</label>
-                    <input name="title" required value={formData.title} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none transition-all bg-gray-50 focus:bg-white" placeholder="Ex: iPhone 13 Pro Max 256GB" />
+                    <input name="title" required value={formData.title} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none transition-all bg-gray-50 focus:bg-white" placeholder="Ex: iPhone 13 Pro Max 256GB" />
                 </div>
 
                 {/* Category & Subcategory */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Catégorie</label>
-                        <select name="category" value={formData.category} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none bg-gray-50">
+                        <select name="category" value={formData.category} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none bg-gray-50">
                             {CATEGORIES_FROM_DB.map((cat: any) => (
                                 <option key={cat.slug} value={cat.slug}>{cat.name}</option>
                             ))}
@@ -200,7 +200,7 @@ const PostAd = () => {
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Sous-catégorie</label>
-                        <select name="subCategory" value={formData.subCategory} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none bg-gray-50">
+                        <select name="subCategory" value={formData.subCategory} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none bg-gray-50">
                             {currentSubCategories.map((sub: any) => (
                                 <option key={sub.slug} value={sub.slug}>{sub.name}</option>
                             ))}
@@ -212,7 +212,7 @@ const PostAd = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Province</label>
-                        <select name="province" value={formData.province} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none bg-gray-50">
+                        <select name="province" value={formData.province} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none bg-gray-50">
                             {LOCATIONS.map((p: any) => (
                                 <option key={p.province} value={p.province}>{p.province}</option>
                             ))}
@@ -220,7 +220,7 @@ const PostAd = () => {
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Ville / Commune</label>
-                        <select name="city" value={formData.city} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] outline-none bg-gray-50">
+                        <select name="city" value={formData.city} onChange={handleChange} className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] outline-none bg-gray-50">
                             {LOCATIONS.find((l: any) => l.province === formData.province)?.cities.map((c: any) => (
                                 <option key={c} value={c}>{c}</option>
                             ))}
@@ -346,7 +346,7 @@ const PostAd = () => {
                     <button
                         disabled={uploading || mutation.isPending}
                         type="submit"
-                        className="w-full py-4 rounded-xl font-bold tracking-wide transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-md shadow-red-200"
+                        className="w-full py-4 rounded-xl font-bold tracking-wide transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white shadow-md shadow-red-200"
                     >
                         {uploading ? 'Upload des images...' : mutation.isPending ? 'Enregistrement en cours...' : (isEditMode ? 'Enregistrer les modifications' : 'Publier mon annonce')}
                     </button>

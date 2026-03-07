@@ -38,8 +38,8 @@
   /* ─── Accent Colors ─── */
   --color-accent-whatsapp: #25D366;
   /* WhatsApp vert */
-  --color-price: #f7711c;
-  /* Prix orange vif */
+  --color-gold: #FFBA34;
+  /* Or doré SOKONEX */
 }
 
 body {
@@ -50,11 +50,11 @@ body {
 /* ─── Custom Utilities ─── */
 @layer utilities {
   .shadow-card {
-    box-shadow: 0 1px 3px rgba(33, 72, 41, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   .shadow-card-hover {
-    box-shadow: 0 4px 12px rgba(33, 72, 41, 0.14);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
   }
 
   /* Primary button: Rouge Premium #D32F2F */

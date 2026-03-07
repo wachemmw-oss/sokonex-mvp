@@ -126,17 +126,17 @@ const FilterSidebar = () => {
                                     setFilters(newF);
                                     updateParams(newF);
                                 }}
-                                className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${!filters.category ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
+                                className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${!filters.category ? 'bg-[var(--color-primary-light)] text-[var(--color-primary)] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
                             >
                                 <span>Toutes les catégories</span>
-                                {!filters.category && <div className="w-1.5 h-1.5 rounded-full bg-[#FFBA34]" />}
+                                {!filters.category && <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)]" />}
                             </button>
                             {CATEGORIES_FROM_DB.map((c: any) => (
                                 <button
                                     key={c.slug}
                                     type="button"
                                     onClick={() => setDrilldownCategory(c.slug)}
-                                    className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${filters.category === c.slug ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
+                                    className={`w-full flex items-center justify-between p-3 rounded-sm text-sm transition ${filters.category === c.slug ? 'bg-[var(--color-primary-light)] text-[var(--color-primary)] font-bold' : 'hover:bg-gray-50 text-gray-700'}`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <span className="text-lg opacity-70 group-hover:opacity-100 transition-opacity">
@@ -154,7 +154,7 @@ const FilterSidebar = () => {
                             <button
                                 type="button"
                                 onClick={() => setDrilldownCategory(null)}
-                                className="flex items-center gap-2 text-xs font-bold text-[#214829] mb-2 hover:underline"
+                                className="flex items-center gap-2 text-xs font-bold text-[var(--color-primary)] mb-2 hover:underline"
                             >
                                 <ChevronLeft className="w-3.5 h-3.5" />
                                 Retour aux catégories
@@ -173,7 +173,7 @@ const FilterSidebar = () => {
                                         setFilters(newF);
                                         updateParams(newF);
                                     }}
-                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${!filters.subCategory ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${!filters.subCategory ? 'text-[var(--color-primary)] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
                                 >
                                     Toutes les sous-catégories
                                 </button>
@@ -186,7 +186,7 @@ const FilterSidebar = () => {
                                             setFilters(newF);
                                             updateParams(newF);
                                         }}
-                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.subCategory === sub.slug ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.subCategory === sub.slug ? 'text-[var(--color-primary)] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
                                     >
                                         {sub.name}
                                     </button>
@@ -218,7 +218,7 @@ const FilterSidebar = () => {
                             <button
                                 type="button"
                                 onClick={() => setDrilldownProvince(null)}
-                                className="flex items-center gap-2 text-xs font-bold text-[#214829] mb-2 hover:underline"
+                                className="flex items-center gap-2 text-xs font-bold text-[var(--color-primary)] mb-2 hover:underline"
                             >
                                 <ChevronLeft className="w-3.5 h-3.5" />
                                 Retour aux filtres
@@ -232,7 +232,7 @@ const FilterSidebar = () => {
                                         updateParams(newF);
                                         setDrilldownProvince(null);
                                     }}
-                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${!filters.province ? 'bg-[#FFBA34]/10 text-[#1A3620] font-bold' : 'hover:bg-gray-50'}`}
+                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${!filters.province ? 'bg-[var(--color-primary-light)] text-[var(--color-primary)] font-bold' : 'hover:bg-gray-50'}`}
                                 >
                                     Toute la RDC
                                 </button>
@@ -241,7 +241,7 @@ const FilterSidebar = () => {
                                         key={p.province}
                                         type="button"
                                         onClick={() => setDrilldownProvince(p.province)}
-                                        className={`w-full flex items-center justify-between p-2.5 rounded-sm text-sm transition ${filters.province === p.province ? 'text-[#1A3620] font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                                        className={`w-full flex items-center justify-between p-2.5 rounded-sm text-sm transition ${filters.province === p.province ? 'text-[var(--color-primary)] font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
                                     >
                                         <span>{p.province}</span>
                                         <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -254,7 +254,7 @@ const FilterSidebar = () => {
                             <button
                                 type="button"
                                 onClick={() => setDrilldownProvince('DRC_ROOT')}
-                                className="flex items-center gap-2 text-xs font-bold text-[#214829] mb-2 hover:underline"
+                                className="flex items-center gap-2 text-xs font-bold text-[var(--color-primary)] mb-2 hover:underline"
                             >
                                 <ChevronLeft className="w-3.5 h-3.5" />
                                 Retour aux provinces
@@ -272,7 +272,7 @@ const FilterSidebar = () => {
                                         updateParams(newF);
                                         setDrilldownProvince(null);
                                     }}
-                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.province === drilldownProvince && !filters.city ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                    className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.province === drilldownProvince && !filters.city ? 'text-[var(--color-primary)] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
                                 >
                                     Toute la province
                                 </button>
@@ -286,7 +286,7 @@ const FilterSidebar = () => {
                                             updateParams(newF);
                                             setDrilldownProvince(null);
                                         }}
-                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.city === c ? 'text-[#1A3620] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                                        className={`w-full text-left p-2.5 rounded-sm text-sm transition ${filters.city === c ? 'text-[var(--color-primary)] font-bold' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
                                     >
                                         {c}
                                     </button>

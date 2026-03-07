@@ -13,11 +13,11 @@ interface AdCardProps {
 const getConditionDetails = (condition: string) => {
     switch (condition?.toLowerCase()) {
         case 'new':
-            return { label: 'Neuf', bg: 'bg-[#EBF5EE]', text: 'text-[#214829]' };
+            return { label: 'Neuf', bg: 'bg-[var(--bg-section-exclusive)]', text: 'text-blue-700' };
         case 'used':
             return { label: 'Occasion', bg: 'bg-orange-100', text: 'text-orange-700' };
         case 'refurbished':
-            return { label: 'Reconditionné', bg: 'bg-blue-100', text: 'text-blue-700' };
+            return { label: 'Reconditionné', bg: 'bg-purple-100', text: 'text-purple-700' };
         default:
             return { label: condition, bg: 'bg-gray-100', text: 'text-gray-700' };
     }
@@ -56,7 +56,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
     return (
         <Link
             to={`/ad/${ad._id}`}
-            className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-4 gap-4' : 'flex-col h-full p-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#FFBA34]/30 transition-all duration-300'}`}
+            className={`group bg-white flex ${isList ? 'flex-row border-b border-gray-100 p-4 gap-4' : 'flex-col h-full p-3 rounded-2xl border border-gray-100 shadow-card hover:shadow-card-hover hover:border-[var(--color-primary)]/30 transition-all duration-300'}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
@@ -79,12 +79,12 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                     </div>
                 )}
                 {ad.promoted && !isFlash && (
-                    <div className="absolute top-2 right-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-[var(--color-accent-pink)] text-white shadow-sm">
-                        Deal Spécial
+                    <div className="absolute top-2 right-2 text-[10px] font-black px-2 py-1 rounded-sm uppercase tracking-wider z-10 bg-[var(--color-primary)] text-white shadow-sm">
+                        Offre Spéciale
                     </div>
                 )}
                 <button
-                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur rounded-full p-1.5 text-gray-400 hover:text-[#FFBA34] transition-colors z-10 shadow-sm"
+                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur rounded-full p-1.5 text-gray-400 hover:text-[var(--color-primary)] transition-colors z-10 shadow-sm"
                     onClick={(e) => {
                         e.preventDefault();
                         // Wishlist logic here later
@@ -106,7 +106,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                 {/* 1. Price & Badge */}
                 <div className="flex flex-col gap-1 mb-1">
                     <div className="flex items-center justify-between">
-                        <p className="font-black text-lg md:text-xl tracking-tighter leading-none" style={{ color: '#f7711c' }}>
+                        <p className="font-black text-lg md:text-xl tracking-tighter leading-none" style={{ color: 'var(--color-price)' }}>
                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable'
                                 ? `$ ${ad.price?.toLocaleString()}`
                                 : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
@@ -131,7 +131,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                 {/* 2. Title & Specific Badges */}
                 <div className="flex items-center gap-1.5 mb-1.5 scale-90 origin-left">
                     {ad.condition === 'new' && (
-                        <div className="bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase">NEW</div>
+                        <div className="bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase">NEUF</div>
                     )}
                     {ad.discount && (
                         <div className="bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase">-{ad.discount}%</div>
@@ -170,7 +170,7 @@ const AdCard = ({ ad, promoted = false, viewMode = 'grid', variant = 'default' }
                         </div>
                     </div>
                     <button
-                        className="bg-gray-50 hover:bg-blue-600 hover:text-white p-2 rounded-lg border border-gray-100 transition-all shadow-sm"
+                        className="bg-gray-50 hover:bg-[var(--color-primary)] hover:text-white p-2 rounded-lg border border-gray-100 transition-all shadow-sm"
                         onClick={(e) => {
                             e.preventDefault();
                             // Cart logic

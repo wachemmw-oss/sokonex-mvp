@@ -51,7 +51,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
                     <div
                         className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6"
                     >
-                        {SubtitleIcon && <SubtitleIcon className="w-4 h-4 text-[#D32F2F]" strokeWidth={2.5} />}
+                        {SubtitleIcon && <SubtitleIcon className="w-4 h-4 text-[var(--color-primary)]" strokeWidth={2.5} />}
                         <span className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-white">
                             {subtitle}
                         </span>
@@ -62,7 +62,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
                         style={{ fontFamily: 'Outfit, sans-serif' }}
                     >
                         {title.split(' ').map((word, i) => (
-                            <span key={i} className={i % 3 === 2 ? 'text-[#f7711c]' : ''}>
+                            <span key={i} className={i % 3 === 2 ? 'text-[var(--color-gold)]' : ''}>
                                 {word}{' '}
                             </span>
                         ))}
@@ -77,7 +77,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
                     <div className="mt-2">
                         <Link
                             to={ctaLink}
-                            className="group/btn relative inline-flex items-center gap-3 py-4 px-10 rounded-full font-extrabold text-sm md:text-base transition-all active:scale-95 bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-[0_10px_30px_rgba(211,47,47,0.4)] hover:shadow-[0_15px_40px_rgba(211,47,47,0.6)] hover:scale-105"
+                            className="group/btn relative inline-flex items-center gap-3 py-4 px-10 rounded-full font-extrabold text-sm md:text-base transition-all active:scale-95 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white shadow-md shadow-[var(--color-primary)]/20 hover:shadow-lg hover:scale-105"
                             style={{ fontFamily: 'Outfit, sans-serif' }}
                         >
                             {ctaText}
@@ -88,7 +88,7 @@ const BannerCard: React.FC<BannerCardProps> = ({
             </div>
 
             {/* Subtle red light leak */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-[#D32F2F]/5 to-transparent pointer-events-none z-15"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-[var(--color-primary)]/5 to-transparent pointer-events-none z-15"></div>
         </div>
     );
 };

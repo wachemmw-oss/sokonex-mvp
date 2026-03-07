@@ -92,7 +92,7 @@ const Results = () => {
                         onClick={() => setIsFilterOpen(true)}
                         className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full border text-sm font-medium transition"
                         style={Object.keys(params).some(k => ['category', 'city', 'condition', 'sort'].includes(k))
-                            ? { backgroundColor: '#D32F2F', color: 'white', borderColor: '#D32F2F' }
+                            ? { backgroundColor: 'var(--color-primary)', color: 'white', borderColor: 'var(--color-primary)' }
                             : { backgroundColor: 'white', color: '#333', borderColor: '#ccc' }}
                     >
                         <Filter className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('sort'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
+                            style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
                         >
                             {params.sort === 'price_asc' ? 'Prix ↑' : 'Prix ↓'}
                             <X className="w-3 h-3" />
@@ -114,7 +114,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('category'); p.delete('subCategory'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
+                            style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
                         >
                             {CATEGORIES_FROM_DB.find((c: any) => c.slug === params.category)?.name || params.category}
                             <X className="w-3 h-3" />
@@ -124,7 +124,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('city'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
+                            style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
                         >
                             {params.city}
                             <X className="w-3 h-3" />
@@ -134,7 +134,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('condition'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
+                            style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
                         >
                             {params.condition === 'new' ? 'Neuf' : params.condition === 'used' ? 'Occasion' : 'Reconditionné'}
                             <X className="w-3 h-3" />
@@ -144,7 +144,7 @@ const Results = () => {
                         <button
                             onClick={() => { const p = new URLSearchParams(searchParams); p.delete('delivery'); setSearchParams(p); }}
                             className="flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-full text-sm font-medium border"
-                            style={{ backgroundColor: '#FEE2E2', color: '#D32F2F', borderColor: '#D32F2F' }}
+                            style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
                         >
                             Livraison <X className="w-3 h-3" />
                         </button>
@@ -191,7 +191,7 @@ const Results = () => {
                                     if (form) form.requestSubmit();
                                     setIsFilterOpen(false);
                                 }}
-                                className="w-full font-bold py-3 rounded-xl active:scale-95 transition bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm"
+                                className="w-full font-bold py-3 rounded-xl active:scale-95 transition bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white shadow-sm"
                             >
                                 Afficher les résultats
                             </button>
@@ -219,7 +219,7 @@ const Results = () => {
                 </div>
                 <div className="flex flex-1 justify-end">
                     <select
-                        className="border border-gray-200 rounded-sm py-2 px-3 text-sm focus:outline-none focus:border-[#214829] focus:ring-1 focus:ring-[#214829]"
+                        className="border border-gray-200 rounded-sm py-2 px-3 text-sm focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]"
                         value={params.sort || ''}
                         onChange={(e) => {
                             const p = new URLSearchParams(searchParams);
@@ -239,7 +239,7 @@ const Results = () => {
             {/* Sort & View Toggles — Mobile */}
             <div className="flex lg:hidden justify-end mb-4 gap-2">
                 <select
-                    className="flex-1 border border-gray-200 rounded-sm py-2 px-3 text-sm focus:outline-none focus:border-[#214829] bg-white"
+                    className="flex-1 border border-gray-200 rounded-sm py-2 px-3 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
                     value={params.sort || ''}
                     onChange={(e) => {
                         const p = new URLSearchParams(searchParams);
@@ -305,7 +305,7 @@ const Results = () => {
                                                 </div>
                                                 <div className="flex justify-between items-end">
                                                     <div>
-                                                        <p className="font-bold" style={{ color: '#f7711c' }}>
+                                                        <p className="font-bold" style={{ color: 'var(--color-price)' }}>
                                                             {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                                         </p>
                                                         <p className="text-xs text-gray-400 mt-1">{ad.city} • {new Date(ad.createdAt).toLocaleDateString()}</p>
@@ -321,7 +321,7 @@ const Results = () => {
                             <div ref={loaderRef} className="flex justify-center py-8">
                                 {isFetchingNextPage && (
                                     <div className="flex items-center gap-2 text-gray-400 text-sm">
-                                        <Loader2 className="w-5 h-5 animate-spin text-[#D32F2F]" />
+                                        <Loader2 className="w-5 h-5 animate-spin text-[var(--color-primary)]" />
                                         <span>Chargement...</span>
                                     </div>
                                 )}
@@ -337,7 +337,7 @@ const Results = () => {
                             </div>
                             <p className="text-black text-lg font-medium">Aucune annonce trouvée.</p>
                             <p className="text-gray-500 text-sm mt-1">Essayez de modifier vos filtres ou effectuez une nouvelle recherche.</p>
-                            <button onClick={() => window.location.href = '/results'} className="mt-4 text-[#D32F2F] font-bold hover:underline transition">
+                            <button onClick={() => window.location.href = '/results'} className="mt-4 text-[var(--color-primary)] font-bold hover:underline transition">
                                 Voir toutes les annonces
                             </button>
                         </div>

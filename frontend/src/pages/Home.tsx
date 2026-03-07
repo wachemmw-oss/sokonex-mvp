@@ -36,7 +36,7 @@ const Home = () => {
             ctaText: "Rejoindre SOKONEX",
             ctaLink: "/register",
             image: "/banners/banner2.jpg",
-            bgColor: "bg-[#D32F2F]",
+            bgColor: "bg-[var(--color-primary)]",
             dark: true,
             reverse: true
         },
@@ -94,7 +94,7 @@ const Home = () => {
 
     return (
         <div className="font-sans min-h-screen pb-20 bg-white Outfit select-none">
-            <div className="hidden md:block h-6 bg-[#FAFAFA]"></div>
+            <div className="hidden md:block h-6 bg-[var(--color-bg)]"></div>
 
             <div className="max-w-7xl mx-auto px-4 md:px-0">
                 {/* ─── Hero Banner ─── */}

@@ -68,8 +68,8 @@ const AdDetails = () => {
     };
 
     if (isLoading) return (
-        <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
-            <div className="w-10 h-10 border-4 border-gray-200 border-t-[#D32F2F] rounded-full animate-spin" />
+        <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center">
+            <div className="w-10 h-10 border-4 border-gray-200 border-t-[var(--color-primary)] rounded-full animate-spin" />
         </div>
     );
     if (error || !data?.success) return (
@@ -87,7 +87,7 @@ const AdDetails = () => {
     const eurPrice = hasPrice && ad.price ? (ad.price * RATES.EUR).toFixed(0) : null;
 
     return (
-        <div className="bg-[#FAFAF8] min-h-screen pb-8 font-sans">
+        <div className="bg-[var(--color-bg)] min-h-screen pb-8 font-sans">
 
             {/* Mobile Top Nav */}
             <div className="md:hidden fixed top-0 w-full z-50 flex justify-between items-center p-4 pointer-events-none">
@@ -167,7 +167,7 @@ const AdDetails = () => {
                                     key={idx}
                                     onClick={() => setCurrentImage(idx)}
                                     className={`shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${idx === currentImage
-                                            ? 'border-[#f7711c] scale-105 shadow-sm'
+                                            ? 'border-[var(--color-price)] scale-105 shadow-sm'
                                             : 'border-transparent opacity-60'
                                         }`}
                                 >
@@ -186,7 +186,7 @@ const AdDetails = () => {
                         <div className="p-5">
                             {/* Main price */}
                             <div className="flex items-baseline gap-3 mb-2">
-                                <span className="text-4xl font-extrabold tracking-tight" style={{ color: '#f7711c' }}>
+                                <span className="text-4xl font-extrabold tracking-tight" style={{ color: 'var(--color-price)' }}>
                                     {priceLabel}
                                 </span>
                                 {hasPrice && ad.priceType === 'negotiable' && (
@@ -199,11 +199,11 @@ const AdDetails = () => {
                             {/* Currency equivalence */}
                             {hasPrice && cdfPrice && (
                                 <div className="flex flex-wrap gap-2 mt-3">
-                                    <div className="flex items-center gap-1.5 bg-[#FAFAF8] border border-gray-100 rounded-lg px-3 py-1.5">
+                                    <div className="flex items-center gap-1.5 bg-[var(--color-bg)] border border-gray-100 rounded-lg px-3 py-1.5">
                                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">CDF</span>
                                         <span className="text-sm font-bold text-gray-700">{cdfPrice} FC</span>
                                     </div>
-                                    <div className="flex items-center gap-1.5 bg-[#FAFAF8] border border-gray-100 rounded-lg px-3 py-1.5">
+                                    <div className="flex items-center gap-1.5 bg-[var(--color-bg)] border border-gray-100 rounded-lg px-3 py-1.5">
                                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">EUR</span>
                                         <span className="text-sm font-bold text-gray-700">€{eurPrice}</span>
                                     </div>
@@ -233,37 +233,37 @@ const AdDetails = () => {
                     </div>
 
                     {/* ── Seller Card ── */}
-                    <Link to={`/store/${ad.sellerId?._id}`} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4 hover:border-[#D32F2F]/20 transition-all group">
-                        <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-[#D32F2F] flex items-center justify-center text-white font-black text-xl shadow-sm">
+                    <Link to={`/store/${ad.sellerId?._id}`} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4 hover:border-[var(--color-primary)]/20 transition-all group">
+                        <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-[var(--color-primary)] flex items-center justify-center text-white font-black text-xl shadow-sm">
                             {ad.sellerId?.avatar
                                 ? <img src={ad.sellerId.avatar} className="w-full h-full object-cover" alt="" />
                                 : ad.sellerId?.name?.charAt(0)?.toUpperCase() || 'V'}
                         </div>
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                                <p className="font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors">{ad.sellerId?.name || 'Vendeur'}</p>
+                                <p className="font-bold text-gray-900 group-hover:text-[var(--color-primary)] transition-colors">{ad.sellerId?.name || 'Vendeur'}</p>
                                 {ad.sellerId?.badge === 'founder' && (
                                     <span className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-2 py-0.5 rounded-full text-[9px] font-black">
                                         <Star size={8} className="fill-white" /> FONDATEUR
                                     </span>
                                 )}
                                 {ad.sellerId?.badge === 'pro' && (
-                                    <span className="flex items-center gap-1 bg-[#D32F2F] text-white px-2 py-0.5 rounded-full text-[9px] font-black">
+                                    <span className="flex items-center gap-1 bg-[var(--color-primary)] text-white px-2 py-0.5 rounded-full text-[9px] font-black">
                                         <Briefcase size={8} /> PRO
                                     </span>
                                 )}
                             </div>
                             <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-                                <ShieldCheck className="w-3 h-3 text-[#D32F2F]" /> Membre vérifié
+                                <ShieldCheck className="w-3 h-3 text-[var(--color-primary)]" /> Membre vérifié
                             </p>
                         </div>
-                        <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#D32F2F] shrink-0 transition-colors" />
+                        <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[var(--color-primary)] shrink-0 transition-colors" />
                     </Link>
 
                     {/* ── Contact Buttons (maintenant visible sur mobile ET desktop) ── */}
                     <div className="flex gap-3">
                         {ad.sellerId?.showPhone && (
-                            <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] hover:bg-[#B71C1C] text-white transition-colors shadow-sm">
+                            <a href={`tel:${ad.sellerId.phone}`} className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white transition-colors shadow-sm">
                                 <Phone className="w-4 h-4" /> Appeler
                             </a>
                         )}
@@ -273,7 +273,7 @@ const AdDetails = () => {
                             </a>
                         )}
                         {!ad.sellerId?.showPhone && !ad.sellerId?.whatsapp && (
-                            <button className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[#D32F2F] text-white">
+                            <button className="flex-1 text-center py-3.5 text-sm font-bold flex justify-center items-center gap-2 rounded-xl bg-[var(--color-primary)] text-white">
                                 <Phone className="w-4 h-4" /> Contacter le vendeur
                             </button>
                         )}
@@ -316,7 +316,7 @@ const AdDetails = () => {
                     {/* ── Report ── */}
                     <button
                         onClick={() => setShowReportModal(true)}
-                        className="flex items-center gap-2 text-xs text-gray-400 hover:text-red-500 transition"
+                        className="flex items-center gap-2 text-xs text-gray-400 hover:text-[var(--color-primary)] transition"
                     >
                         <Flag className="w-3.5 h-3.5" /> Signaler cette annonce
                     </button>
@@ -343,11 +343,11 @@ const AdDetails = () => {
                         {reportSent ? (
                             <div className="text-center py-6">
                                 <div className="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <ShieldCheck className="w-8 h-8 text-[#D32F2F]" />
+                                    <ShieldCheck className="w-8 h-8 text-[var(--color-primary)]" />
                                 </div>
                                 <h3 className="font-bold text-lg mb-2">Signalement envoyé</h3>
                                 <p className="text-sm text-gray-500 mb-4">Merci. Notre équipe va examiner cette annonce.</p>
-                                <button onClick={() => { setShowReportModal(false); setReportSent(false); setReportReason(''); setReportNote(''); }} className="bg-[#D32F2F] text-white px-6 py-2 rounded-xl text-sm font-bold">Fermer</button>
+                                <button onClick={() => { setShowReportModal(false); setReportSent(false); setReportReason(''); setReportNote(''); }} className="bg-[var(--color-primary)] text-white px-6 py-2 rounded-xl text-sm font-bold">Fermer</button>
                             </div>
                         ) : (
                             <>
@@ -355,8 +355,8 @@ const AdDetails = () => {
                                 <p className="text-xs text-gray-500 mb-4">Choisissez la raison qui correspond le mieux.</p>
                                 <div className="space-y-2 mb-4">
                                     {REPORT_REASONS.map(r => (
-                                        <label key={r.value} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${reportReason === r.value ? 'border-[#D32F2F] bg-red-50' : 'border-gray-200 hover:border-gray-300'}`}>
-                                            <input type="radio" name="reason" value={r.value} checked={reportReason === r.value} onChange={e => setReportReason(e.target.value)} className="accent-[#D32F2F]" />
+                                        <label key={r.value} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${reportReason === r.value ? 'border-[var(--color-primary)] bg-red-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                                            <input type="radio" name="reason" value={r.value} checked={reportReason === r.value} onChange={e => setReportReason(e.target.value)} className="accent-[var(--color-primary)]" />
                                             <span className="text-sm font-medium">{r.label}</span>
                                         </label>
                                     ))}
@@ -365,7 +365,7 @@ const AdDetails = () => {
                                     placeholder="Détails supplémentaires (optionnel)..."
                                     value={reportNote}
                                     onChange={e => setReportNote(e.target.value)}
-                                    className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-[#D32F2F] resize-none mb-4"
+                                    className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-[var(--color-primary)] resize-none mb-4"
                                     rows={2}
                                 />
                                 <div className="flex gap-3">
@@ -373,7 +373,7 @@ const AdDetails = () => {
                                     <button
                                         onClick={handleReport}
                                         disabled={!reportReason || reportMutation.isPending}
-                                        className="flex-1 bg-[#D32F2F] text-white py-3 rounded-xl text-sm font-bold hover:bg-[#B71C1C] transition disabled:opacity-50"
+                                        className="flex-1 bg-[var(--color-primary)] text-white py-3 rounded-xl text-sm font-bold hover:bg-[var(--color-primary-dark)] transition disabled:opacity-50"
                                     >
                                         {reportMutation.isPending ? 'Envoi...' : 'Signaler'}
                                     </button>

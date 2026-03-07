@@ -12,7 +12,7 @@ const Aide = () => {
             {/* Comment gagner de l'argent section */}
             <section className="mb-16">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-[#D32F2F] rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
                         <DollarSign className="w-6 h-6 text-white" />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-800">Comment gagner de l'argent sur SOKONEX ?</h2>
@@ -37,8 +37,8 @@ const Aide = () => {
                     </div>
                 </div>
 
-                <div className="mt-8 bg-[#EBF5EE] p-6 rounded-lg border border-[#214829]/10">
-                    <h3 className="font-bold text-[#1A3620] mb-4 uppercase tracking-wider text-sm">Le processus étape par étape :</h3>
+                <div className="mt-8 bg-[var(--color-primary-light)] p-6 rounded-lg border border-[var(--color-primary)]/10">
+                    <h3 className="font-bold text-[var(--color-secondary)] mb-4 uppercase tracking-wider text-sm">Le processus étape par étape :</h3>
                     <div className="space-y-4">
                         {[
                             { step: 1, title: 'Créez votre compte', desc: 'Inscrivez-vous gratuitement avec votre numéro de téléphone ou votre email.' },
@@ -48,7 +48,7 @@ const Aide = () => {
                             { step: 5, title: 'Concluez la vente', desc: 'Rencontrez l\'acheteur, faites vérifier l\'article et recevez votre paiement.' },
                         ].map((item) => (
                             <div key={item.step} className="flex gap-4">
-                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#214829] text-white flex items-center justify-center font-bold text-sm">
+                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--color-secondary)] text-white flex items-center justify-center font-bold text-sm">
                                     {item.step}
                                 </span>
                                 <div>
@@ -90,7 +90,7 @@ const Aide = () => {
                         {
                             q: "Comment contacter un vendeur ?",
                             a: "Sur chaque page d'annonce, vous trouverez deux boutons : 'Appeler' et 'WhatsApp'. Cliquez simplement dessus pour entrer en contact direct avec la personne.",
-                            icon: <MessageCircle className="w-5 h-5 text-[#214829]" />
+                            icon: <MessageCircle className="w-5 h-5 text-[var(--color-primary)]" />
                         }
                     ].map((item, i) => (
                         <div key={i} className="border border-gray-100 rounded-lg p-5 hover:bg-gray-50 transition">

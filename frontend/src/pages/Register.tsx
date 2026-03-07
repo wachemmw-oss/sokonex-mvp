@@ -21,7 +21,7 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FAFAF8] flex flex-col items-center justify-center px-4 font-sans">
+        <div className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center px-4 font-sans">
             {/* Logo */}
             <Link to="/" className="mb-8">
                 <img src={logo} alt="SOKONEX" className="h-12 w-auto" />
@@ -44,7 +44,7 @@ const Register = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full border border-gray-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] transition-all bg-gray-50 focus:bg-white"
+                            className="w-full border border-gray-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all bg-gray-50 focus:bg-white"
                             placeholder="votre@email.com"
                             required
                         />
@@ -55,14 +55,14 @@ const Register = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full border border-gray-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D32F2F]/20 focus:border-[#D32F2F] transition-all bg-gray-50 focus:bg-white"
+                            className="w-full border border-gray-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all bg-gray-50 focus:bg-white"
                             placeholder="••••••••"
                             required
                         />
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-bold py-3.5 rounded-xl transition-all active:scale-95 shadow-md shadow-red-200 mt-2"
+                        className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-bold py-3.5 rounded-xl transition-all active:scale-95 shadow-md shadow-red-200 mt-2"
                     >
                         S'inscrire
                     </button>
@@ -70,7 +70,7 @@ const Register = () => {
 
                 <p className="mt-6 text-center text-sm text-gray-500">
                     Déjà un compte ?{' '}
-                    <Link to="/login" className="font-bold text-[#D32F2F] hover:underline">
+                    <Link to="/login" className="font-bold text-[var(--color-primary)] hover:underline">
                         Se connecter
                     </Link>
                 </p>

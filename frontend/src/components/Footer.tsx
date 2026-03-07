@@ -7,7 +7,7 @@ const Footer = () => {
         <footer className="bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] text-white pt-16 pb-8 font-sans">
             {/* Decorative orbs */}
             <div className="relative overflow-hidden">
-                <div className="absolute -top-20 right-0 w-80 h-80 bg-[#D32F2F]/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div className="absolute -top-20 right-0 w-80 h-80 bg-[var(--color-primary)]/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/3 rounded-full blur-3xl pointer-events-none"></div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -22,17 +22,17 @@ const Footer = () => {
                             </p>
                             {/* Verified badge */}
                             <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
-                                <ShieldCheck className="w-4 h-4 text-[#D32F2F]" />
+                                <ShieldCheck className="w-4 h-4 text-[var(--color-primary)]" />
                                 <span className="text-xs font-bold text-white/70">Marketplace Sécurisée</span>
                             </div>
                             <div className="flex gap-3">
-                                <a href="#" className="p-2 bg-white/5 rounded-full hover:bg-[#D32F2F]/20 hover:text-[#D32F2F] transition-all">
+                                <a href="#" className="p-2 bg-white/5 rounded-full hover:bg-[var(--color-primary)]/20 hover:text-[var(--color-primary)] transition-all">
                                     <Facebook className="w-5 h-5" />
                                 </a>
-                                <a href="#" className="p-2 bg-white/5 rounded-full hover:bg-[#D32F2F]/20 hover:text-[#D32F2F] transition-all">
+                                <a href="#" className="p-2 bg-white/5 rounded-full hover:bg-[var(--color-primary)]/20 hover:text-[var(--color-primary)] transition-all">
                                     <Instagram className="w-5 h-5" />
                                 </a>
-                                <a href="#" className="p-2 bg-white/5 rounded-full hover:bg-[#D32F2F]/20 hover:text-[#D32F2F] transition-all">
+                                <a href="#" className="p-2 bg-white/5 rounded-full hover:bg-[var(--color-primary)]/20 hover:text-[var(--color-primary)] transition-all">
                                     <Twitter className="w-5 h-5" />
                                 </a>
                             </div>
@@ -43,16 +43,16 @@ const Footer = () => {
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-6 text-white/40">Aide & Info</h3>
                             <ul className="space-y-4">
                                 <li>
-                                    <Link to="/aide" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Informations Pratiques</Link>
+                                    <Link to="/aide" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Informations Pratiques</Link>
                                 </li>
                                 <li>
-                                    <Link to="/aide" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Foire aux questions (FAQ)</Link>
+                                    <Link to="/aide" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Foire aux questions (FAQ)</Link>
                                 </li>
                                 <li>
-                                    <Link to="/aide" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Comment gagner de l'argent ?</Link>
+                                    <Link to="/aide" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Comment gagner de l'argent ?</Link>
                                 </li>
                                 <li>
-                                    <Link to="/post" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Publier une annonce</Link>
+                                    <Link to="/post" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Publier une annonce</Link>
                                 </li>
                             </ul>
                         </div>
@@ -62,13 +62,13 @@ const Footer = () => {
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-6 text-white/40">Légal</h3>
                             <ul className="space-y-4">
                                 <li>
-                                    <Link to="/legal" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Conditions d'Utilisation (CGU)</Link>
+                                    <Link to="/legal" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Conditions d'Utilisation (CGU)</Link>
                                 </li>
                                 <li>
-                                    <Link to="/legal" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Politique de Confidentialité</Link>
+                                    <Link to="/legal" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Politique de Confidentialité</Link>
                                 </li>
                                 <li>
-                                    <Link to="/legal" className="text-sm text-white/60 hover:text-[#D32F2F] transition-colors font-medium">Mentions Légales</Link>
+                                    <Link to="/legal" className="text-sm text-white/60 hover:text-[var(--color-primary)] transition-colors font-medium">Mentions Légales</Link>
                                 </li>
                             </ul>
                         </div>
@@ -78,15 +78,15 @@ const Footer = () => {
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-6 text-white/40">Contact</h3>
                             <ul className="space-y-4">
                                 <li className="flex items-center gap-3 text-sm text-white/60">
-                                    <Phone className="w-4 h-4 text-[#D32F2F] shrink-0" />
+                                    <Phone className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                                     <span>+243 (0) 00 000 000</span>
                                 </li>
                                 <li className="flex items-center gap-3 text-sm text-white/60">
-                                    <Mail className="w-4 h-4 text-[#D32F2F] shrink-0" />
+                                    <Mail className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                                     <span>contact@sokonex.com</span>
                                 </li>
                                 <li className="flex items-center gap-3 text-sm text-white/60">
-                                    <MapPin className="w-4 h-4 text-[#D32F2F] shrink-0" />
+                                    <MapPin className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                                     <span>Kinshasa, RD Congo</span>
                                 </li>
                             </ul>

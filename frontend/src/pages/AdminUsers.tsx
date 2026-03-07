@@ -49,12 +49,12 @@ const AdminUsers: React.FC = () => {
 
                 <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Search className="text-slate-400 group-focus-within:text-[#FFBA34] transition-colors" size={20} />
+                        <Search className="text-slate-400 group-focus-within:text-[var(--color-primary)] transition-colors" size={20} />
                     </div>
                     <input
                         type="text"
                         placeholder="Rechercher un membre..."
-                        className="pl-12 pr-6 py-4 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-[#FFBA34]/10 focus:border-[#FFBA34] outline-none w-full md:w-80 text-sm font-semibold transition-all"
+                        className="pl-12 pr-6 py-4 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] outline-none w-full md:w-80 text-sm font-semibold transition-all"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -79,7 +79,7 @@ const AdminUsers: React.FC = () => {
                                 <tr key={user._id} className="hover:bg-slate-50/40 transition-colors group/row">
                                     <td className="px-8 py-6 whitespace-nowrap">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1A3620] to-[#2d5a35] flex items-center justify-center text-[#FFBA34] font-black text-lg shadow-md overflow-hidden relative group-hover/row:scale-105 transition-transform">
+                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] flex items-center justify-center text-[var(--color-gold)] font-black text-lg shadow-md overflow-hidden relative group-hover/row:scale-105 transition-transform">
                                                 {user.avatar ? <img src={user.avatar} alt="" className="w-full h-full object-cover" /> : user.name.charAt(0)}
                                             </div>
                                             <div className="flex flex-col">
@@ -106,7 +106,7 @@ const AdminUsers: React.FC = () => {
                                         <select
                                             value={user.badge || 'none'}
                                             onChange={(e) => badgeMutation.mutate({ id: user._id, badge: e.target.value })}
-                                            className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-widest rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-[#FFBA34] outline-none transition-all cursor-pointer"
+                                            className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-widest rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition-all cursor-pointer"
                                         >
                                             <option value="none">Aucun Badge</option>
                                             <option value="founder">⭐ Fondateur</option>

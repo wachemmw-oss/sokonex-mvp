@@ -51,7 +51,7 @@ const MyAds = () => {
         <div className="bg-white shadow-sm border border-gray-100 rounded-sm overflow-hidden font-sans">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                 <h2 className="text-xl font-black tracking-tight text-gray-900">Mes Annonces ({ads.length})</h2>
-                <Link to="/post" className="text-sm font-bold px-4 py-2 rounded-xl bg-[#D32F2F] text-white hover:bg-[#B71C1C] transition-colors shadow-sm">
+                <Link to="/post" className="text-sm font-bold px-4 py-2 rounded-xl bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] transition-colors shadow-sm">
                     + Nouvelle
                 </Link>
             </div>
@@ -83,7 +83,7 @@ const MyAds = () => {
                                     <span className="text-xs text-gray-500">{new Date(ad.createdAt).toLocaleDateString('fr-FR')}</span>
                                 </div>
                                 <h3 className="font-bold text-black text-base truncate mb-1">{ad.title}</h3>
-                                <p className="text-base font-bold mb-1" style={{ color: '#f7711c' }}>
+                                <p className="text-base font-bold mb-1" style={{ color: 'var(--color-price)' }}>
                                     {ad.priceType === 'fixed' || ad.priceType === 'negotiable' ? `$${ad.price?.toLocaleString()}` : ad.priceType === 'free' ? 'Gratuit' : 'Sur demande'}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate">{ad.category} • {ad.city}</p>
@@ -126,7 +126,7 @@ const BecomePro = () => (
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                    <h3 className="font-bold text-[#1A3620] uppercase tracking-wider text-xs">Vos Avantages Pro :</h3>
+                    <h3 className="font-bold text-[var(--color-secondary)] uppercase tracking-wider text-xs">Vos Avantages Pro :</h3>
                     <ul className="space-y-3">
                         <li className="flex items-start gap-2 text-xs text-gray-700">
                             <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -144,7 +144,7 @@ const BecomePro = () => (
                 </div>
 
                 <div className="bg-slate-50 p-6 rounded-sm border border-slate-100">
-                    <h3 className="font-bold text-[#1A3620] uppercase tracking-wider text-xs mb-4 text-center">Prêt à passer au niveau Pro ?</h3>
+                    <h3 className="font-bold text-[var(--color-secondary)] uppercase tracking-wider text-xs mb-4 text-center">Prêt à passer au niveau Pro ?</h3>
                     <p className="text-[10px] text-gray-500 text-center mb-6">
                         Contactez notre service commercial pour valider votre identité et activer vos avantages professionnels.
                     </p>
@@ -165,8 +165,8 @@ const BecomePro = () => (
 const EarnMoney = () => (
     <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-sm">
         <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-[#D32F2F]/10 rounded-full flex items-center justify-center">
-                <CurrencyDollarIcon className="w-7 h-7 text-[#D32F2F]" />
+            <div className="w-12 h-12 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
+                <CurrencyDollarIcon className="w-7 h-7 text-[var(--color-primary)]" />
             </div>
             <h2 className="text-xl md:text-2xl font-bold text-black uppercase tracking-tight">Comment faire de l'argent ?</h2>
         </div>
@@ -188,7 +188,7 @@ const EarnMoney = () => (
             </div>
 
             <div className="p-5 bg-red-50 border-l-4 border-red-400 rounded-r-xl">
-                <h3 className="font-bold text-sm mb-3 text-[#D32F2F]">Conseils de pro :</h3>
+                <h3 className="font-bold text-sm mb-3 text-[var(--color-primary)]">Conseils de pro :</h3>
                 <ul className="text-xs space-y-2 text-red-800">
                     <li className="flex items-center gap-2">• Soyez réactif sur WhatsApp ou par appel.</li>
                     <li className="flex items-center gap-2">• Partagez vos annonces sur vos réseaux sociaux.</li>
@@ -196,7 +196,7 @@ const EarnMoney = () => (
                 </ul>
             </div>
 
-            <Link to="/post" className="inline-block w-full text-center py-3 font-bold rounded-xl transition-opacity hover:opacity-90 bg-[#D32F2F] text-white shadow-md shadow-red-200">
+            <Link to="/post" className="inline-block w-full text-center py-3 font-bold rounded-xl transition-opacity hover:opacity-90 bg-[var(--color-primary)] text-white shadow-md shadow-red-200">
                 Publier une nouvelle annonce
             </Link>
         </div>
@@ -237,7 +237,7 @@ const SidebarLink = ({ to, icon: Icon, text, active }: { to: string, icon: any, 
     <Link
         to={to}
         className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all rounded-lg mx-2 my-0.5 ${active
-            ? 'bg-[#D32F2F] text-white font-bold shadow-sm'
+            ? 'bg-[var(--color-primary)] text-white font-bold shadow-sm'
             : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
     >
@@ -270,11 +270,11 @@ const Dashboard = () => {
 
                 {/* Sidebar */}
                 <div className="w-full md:w-72 shrink-0">
-                    <div className="shadow-xl rounded-2xl overflow-hidden sticky top-24" style={{ backgroundColor: '#1F1F2E' }}>
+                    <div className="shadow-xl rounded-2xl overflow-hidden sticky top-24" style={{ backgroundColor: 'var(--color-secondary)' }}>
 
                         {/* Vendor Profile Summary Block */}
                         <div className="p-6 text-center border-b border-white/10">
-                            <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-white/30" style={{ backgroundColor: 'rgba(211,47,47,0.15)' }}>
+                            <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center border-2 border-dashed border-white/30" style={{ backgroundColor: 'var(--color-primary-light)' }}>
                                 {user?.avatar ? (
                                     <img src={user.avatar} alt="Profil" loading="lazy" className="w-full h-full rounded-full object-cover" />
                                 ) : (
@@ -302,7 +302,7 @@ const Dashboard = () => {
                             )}
 
                             {user?.whatsapp && (
-                                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold font-mono bg-[#D32F2F]/20 text-red-300">
+                                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold font-mono bg-[var(--color-primary)]/20 text-red-300">
                                     WA: {user.whatsapp}
                                 </div>
                             )}

@@ -11,7 +11,7 @@ const BottomTab = () => {
     const isHome = isActive('/') || location.pathname === '';
 
     const tabClass = (active: boolean) =>
-        `flex flex-col items-center justify-center flex-1 h-full transition-all duration-300 ${active ? 'text-[#D32F2F]' : 'text-gray-400 hover:text-gray-600'}`;
+        `flex flex-col items-center justify-center flex-1 h-full transition-all duration-300 ${active ? 'text-[var(--color-primary)]' : 'text-gray-400 hover:text-gray-600'}`;
 
     return (
         <div

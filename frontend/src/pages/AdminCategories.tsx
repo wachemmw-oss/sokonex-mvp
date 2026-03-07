@@ -49,7 +49,7 @@ const AdminCategories: React.FC = () => {
 
     if (isLoading) return (
         <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-400 gap-4">
-            <Loader2 className="w-10 h-10 animate-spin text-[#FFBA34]" />
+            <Loader2 className="w-10 h-10 animate-spin text-[var(--color-primary)]" />
             <p className="font-bold uppercase tracking-widest text-xs">Chargement de la structure...</p>
         </div>
     );
@@ -60,13 +60,13 @@ const AdminCategories: React.FC = () => {
         <div className="space-y-8 animate-in fade-in duration-500 pb-20">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight underline decoration-[#FFBA34] decoration-4 underline-offset-4 uppercase">CATÉGORIES</h2>
+                    <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight underline decoration-[var(--color-gold)] decoration-4 underline-offset-4 uppercase">CATÉGORIES</h2>
                     <p className="text-sm text-gray-500 mt-1">Structurez votre marketplace dynamiquement.</p>
                 </div>
                 {!isAddFormOpen && (
                     <button
                         onClick={() => setIsAddFormOpen(true)}
-                        className="flex items-center gap-2 bg-[#1A3620] text-white px-6 py-2.5 rounded-sm font-bold text-xs uppercase tracking-widest hover:bg-black transition-all shadow-lg hover:shadow-[#1A3620]/20"
+                        className="flex items-center gap-2 bg-[var(--color-secondary)] text-white px-6 py-2.5 rounded-sm font-bold text-xs uppercase tracking-widest hover:bg-black transition-all shadow-lg hover:shadow-[var(--color-secondary)]/20"
                     >
                         <Plus size={16} /> Nouvelle Catégorie
                     </button>
@@ -77,7 +77,7 @@ const AdminCategories: React.FC = () => {
             {isAddFormOpen && (
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-in slide-in-from-top-4 duration-300">
                     <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-sm font-bold uppercase text-[#1A3620] flex items-center gap-2">
+                        <h3 className="text-sm font-bold uppercase text-[var(--color-secondary)] flex items-center gap-2">
                             <Grid size={16} /> Créer une catégorie principale
                         </h3>
                         <button onClick={() => setIsAddFormOpen(false)} className="text-gray-400 hover:text-black">
@@ -90,7 +90,7 @@ const AdminCategories: React.FC = () => {
                             <input
                                 type="text"
                                 placeholder="ex: Immobilier"
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-[#FFBA34] focus:bg-white outline-none transition-all"
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:bg-white outline-none transition-all"
                                 value={newCat.name}
                                 onChange={e => setNewCat({ ...newCat, name: e.target.value })}
                             />
@@ -100,7 +100,7 @@ const AdminCategories: React.FC = () => {
                             <input
                                 type="text"
                                 placeholder="ex: immobilier"
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-[#FFBA34] focus:bg-white outline-none transition-all font-mono"
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:bg-white outline-none transition-all font-mono"
                                 value={newCat.slug}
                                 onChange={e => setNewCat({ ...newCat, slug: e.target.value })}
                             />
@@ -110,7 +110,7 @@ const AdminCategories: React.FC = () => {
                             <input
                                 type="text"
                                 placeholder="ex: Home, Car, Smartphone..."
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-[#FFBA34] focus:bg-white outline-none transition-all"
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:bg-white outline-none transition-all"
                                 value={newCat.icon}
                                 onChange={e => setNewCat({ ...newCat, icon: e.target.value })}
                             />
@@ -125,7 +125,7 @@ const AdminCategories: React.FC = () => {
                         </button>
                         <button
                             onClick={() => createMutation.mutate(newCat)}
-                            className="bg-[#FFBA34] text-[#1A3620] font-black px-8 py-3 rounded-sm hover:brightness-110 transition-all uppercase text-[10px] tracking-widest flex items-center gap-2 shadow-lg"
+                            className="bg-[var(--color-primary)] text-white font-black px-8 py-3 rounded-sm hover:brightness-110 transition-all uppercase text-[10px] tracking-widest flex items-center gap-2 shadow-lg"
                             disabled={!newCat.name || !newCat.slug || createMutation.isPending}
                         >
                             {createMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
@@ -180,15 +180,15 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
     };
 
     return (
-        <div className={`bg-white rounded-2xl shadow-sm border overflow-hidden transition-all duration-300 ${isExpanded ? 'border-[#FFBA34] shadow-lg ring-1 ring-[#FFBA34]/10' : 'border-gray-100'}`}>
+        <div className={`bg-white rounded-2xl shadow-sm border overflow-hidden transition-all duration-300 ${isExpanded ? 'border-[var(--color-gold)] shadow-lg ring-1 ring-[var(--color-gold)]/10' : 'border-gray-100'}`}>
             <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
                 <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-xl transition-all duration-500 ${isExpanded ? 'bg-[#FFBA34] text-[#1A3620] rotate-12' : 'bg-gray-50 text-gray-400 group-hover:bg-gray-100'}`}>
+                    <div className={`p-3 rounded-xl transition-all duration-500 ${isExpanded ? 'bg-[var(--color-gold)] text-[var(--color-secondary)] rotate-12' : 'bg-gray-50 text-gray-400 group-hover:bg-gray-100'}`}>
                         <IconComponent size={24} strokeWidth={2.5} />
                     </div>
                     <div>
                         <div className="flex items-center gap-2">
-                            <h4 className="font-extrabold text-[#1A3620] uppercase tracking-tight text-base">{category.name}</h4>
+                            <h4 className="font-extrabold text-[var(--color-secondary)] uppercase tracking-tight text-base">{category.name}</h4>
                             <span className="text-[10px] font-mono bg-gray-50 text-gray-400 px-1.5 py-0.5 rounded border border-gray-100">{category.slug}</span>
                         </div>
                         <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
@@ -208,13 +208,13 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
 
             {isExpanded && (
                 <div className="px-6 pb-6 pt-2 border-t border-gray-50 space-y-8 animate-in slide-in-from-top-2 duration-300">
-                    <div className="h-px bg-gradient-to-r from-transparent via-[#FFBA34]/20 to-transparent mb-6" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-[var(--color-gold)]/20 to-transparent mb-6" />
 
                     {/* Subcategories */}
                     <section>
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-[10px] font-black uppercase text-[#1A3620] tracking-[0.2em]">STRUCTURE (SOUS-CATÉGORIES)</h5>
-                            <button onClick={addSub} className="bg-gray-50 text-[#1A3620] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-gray-200 flex items-center gap-1.5 hover:bg-[#FFBA34] hover:border-transparent transition-all">
+                            <h5 className="text-[10px] font-black uppercase text-[var(--color-secondary)] tracking-[0.2em]">STRUCTURE (SOUS-CATÉGORIES)</h5>
+                            <button onClick={addSub} className="bg-gray-50 text-[var(--color-secondary)] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-gray-200 flex items-center gap-1.5 hover:bg-[var(--color-gold)] hover:border-transparent transition-all">
                                 <Plus size={10} /> Ajouter
                             </button>
                         </div>
@@ -258,8 +258,8 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
                     {/* Attributes */}
                     <section>
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-[10px] font-black uppercase text-[#1A3620] tracking-[0.2em]">FILTRES (ATTRIBUTS SPÉCIFIQUES)</h5>
-                            <button onClick={addAttr} className="bg-gray-50 text-[#1A3620] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-gray-200 flex items-center gap-1.5 hover:bg-[#FFBA34] hover:border-transparent transition-all">
+                            <h5 className="text-[10px] font-black uppercase text-[var(--color-secondary)] tracking-[0.2em]">FILTRES (ATTRIBUTS SPÉCIFIQUES)</h5>
+                            <button onClick={addAttr} className="bg-gray-50 text-[var(--color-secondary)] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-gray-200 flex items-center gap-1.5 hover:bg-[var(--color-gold)] hover:border-transparent transition-all">
                                 <Plus size={10} /> Ajouter un filtre
                             </button>
                         </div>
@@ -271,7 +271,7 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
                                         <input
                                             type="text"
                                             placeholder="Kilométrage, Marque, etc."
-                                            className="w-full bg-gray-50 border-none rounded-lg px-3 py-2 text-xs font-bold text-gray-900 focus:ring-1 focus:ring-[#FFBA34]"
+                                            className="w-full bg-gray-50 border-none rounded-lg px-3 py-2 text-xs font-bold text-gray-900 focus:ring-1 focus:ring-[var(--color-primary)]"
                                             value={attr.label}
                                             onChange={e => {
                                                 const attrs = [...catData.attributes];
@@ -298,7 +298,7 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
                                     <div className="flex-1 space-y-1">
                                         <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest pl-1">Type d'entrée</label>
                                         <select
-                                            className="w-full bg-gray-50 border-none rounded-lg px-3 py-2 text-xs font-bold text-[#1A3620] outline-none"
+                                            className="w-full bg-gray-50 border-none rounded-lg px-3 py-2 text-xs font-bold text-[var(--color-secondary)] outline-none"
                                             value={attr.type}
                                             onChange={e => {
                                                 const attrs = [...catData.attributes];
@@ -314,11 +314,11 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
                                     </div>
                                     {attr.type === 'select' && (
                                         <div className="flex-[2] space-y-1 animate-in zoom-in-95 duration-200">
-                                            <label className="text-[9px] font-black text-[#FFBA34] uppercase tracking-widest pl-1">Options (virgules)</label>
+                                            <label className="text-[9px] font-black text-[var(--color-gold)] uppercase tracking-widest pl-1">Options (virgules)</label>
                                             <input
                                                 type="text"
                                                 placeholder="Essence, Diesel, Hybride, Electrique"
-                                                className="w-full bg-[#FFF9EB] border border-[#FFBA34]/20 rounded-lg px-3 py-2 text-[11px] text-[#1A3620]"
+                                                className="w-full bg-[var(--color-bg)] border border-[var(--color-gold)]/20 rounded-lg px-3 py-2 text-[11px] text-[var(--color-secondary)]"
                                                 value={attr.options?.join(', ') || ''}
                                                 onChange={e => {
                                                     const attrs = [...catData.attributes];
@@ -350,7 +350,7 @@ const CategoryItem = ({ category, onUpdate, onDelete, isUpdating }: any) => {
                             </button>
                             <button
                                 onClick={() => onUpdate(catData)}
-                                className="px-10 py-2.5 rounded-sm bg-[#1A3620] text-white text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:bg-black transition-all flex items-center gap-2"
+                                className="px-10 py-2.5 rounded-sm bg-[var(--color-secondary)] text-white text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:bg-black transition-all flex items-center gap-2"
                                 disabled={isUpdating}
                             >
                                 {isUpdating ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}

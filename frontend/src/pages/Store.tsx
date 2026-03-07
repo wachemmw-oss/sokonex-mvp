@@ -25,7 +25,7 @@ const Store: React.FC = () => {
         return (
             <div className="min-h-screen bg-slate-50 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-slate-200 border-t-[#D32F2F] rounded-full animate-spin"></div>
+                    <div className="w-12 h-12 border-4 border-slate-200 border-t-[var(--color-primary)] rounded-full animate-spin"></div>
                     <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Chargement de la boutique...</p>
                 </div>
             </div>
@@ -36,21 +36,21 @@ const Store: React.FC = () => {
     const ads = adsData?.data?.items || [];
 
     return (
-        <div className="min-h-screen bg-[#FAFAF8] font-sans">
+        <div className="min-h-screen bg-[var(--color-bg)] font-sans">
             {/* Store Header / Hero Section */}
             <div className="bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] text-white pt-12 pb-24 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-[#D32F2F]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#D32F2F]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--color-primary)]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
                 <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
                     <div className="flex flex-col md:flex-row items-center md:items-end gap-8">
                         {/* Avatar */}
-                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] bg-gradient-to-br from-[#FFBA34] to-[#f97316] p-1.5 shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-                            <div className="w-full h-full rounded-[2.2rem] bg-[#1A3620] overflow-hidden flex items-center justify-center border-4 border-[#1A3620]">
+                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] bg-gradient-to-br from-[var(--color-gold)] to-[#f97316] p-1.5 shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <div className="w-full h-full rounded-[2.2rem] bg-[var(--color-secondary)] overflow-hidden flex items-center justify-center border-4 border-[var(--color-secondary)]">
                                 {seller?.avatar ? (
                                     <img src={seller.avatar} alt={seller.name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <span className="text-5xl font-black text-[#FFBA34]">{seller?.name?.charAt(0)}</span>
+                                    <span className="text-5xl font-black text-[var(--color-gold)]">{seller?.name?.charAt(0)}</span>
                                 )}
                             </div>
                         </div>
@@ -73,18 +73,18 @@ const Store: React.FC = () => {
                                         </div>
                                     )}
                                 </div>
-                                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#D32F2F] text-white rounded-full text-[10px] font-black uppercase tracking-widest self-center md:self-auto shadow-lg">
+                                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-primary)] text-white rounded-full text-[10px] font-black uppercase tracking-widest self-center md:self-auto shadow-lg">
                                     <ShieldCheck size={14} strokeWidth={3} />
                                     Vendeur Vérifié
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm font-bold text-white/60 uppercase tracking-widest">
                                 <div className="flex items-center gap-2">
-                                    <Calendar size={16} className="text-[#FFBA34]" />
+                                    <Calendar size={16} className="text-[var(--color-gold)]" />
                                     Membre depuis {new Date(seller?.createdAt).getFullYear()}
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Package size={16} className="text-[#FFBA34]" />
+                                    <Package size={16} className="text-[var(--color-gold)]" />
                                     {adsData?.data?.total || ads.length} Annonces en ligne
                                 </div>
                             </div>
@@ -114,7 +114,7 @@ const Store: React.FC = () => {
                                 {seller?.phone && (
                                     <a
                                         href={`tel:${seller.phone}`}
-                                        className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-[#1A3620] text-white font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#1A3620]/20"
+                                        className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-[var(--color-secondary)] text-white font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[var(--color-secondary)]/20"
                                     >
                                         <Phone size={16} strokeWidth={3} />
                                         Appeler
@@ -125,7 +125,7 @@ const Store: React.FC = () => {
                                         href={`https://wa.me/${seller.whatsapp.replace(/\D/g, '')}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-[#FFBA34] text-black font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#FFBA34]/20"
+                                        className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-[var(--color-gold)] text-black font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[var(--color-gold)]/20"
                                     >
                                         <MessageCircle size={16} strokeWidth={3} />
                                         WhatsApp
@@ -134,20 +134,20 @@ const Store: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="bg-[#1A3620] rounded-[2.5rem] p-8 text-white relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-[#FFBA34]/10 rounded-full blur-2xl"></div>
+                        <div className="bg-[var(--color-secondary)] rounded-[2.5rem] p-8 text-white relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-gold)]/10 rounded-full blur-2xl"></div>
                             <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-4">Garantie SOKONEX</h3>
                             <p className="text-white/80 text-xs leading-relaxed font-bold">
                                 Effectuez vos transactions en toute sécurité en suivant nos conseils de prudence.
                             </p>
-                            <Link to="/aide" className="mt-4 inline-block text-[10px] font-black text-[#FFBA34] uppercase tracking-widest hover:underline">Voir les conseils</Link>
+                            <Link to="/aide" className="mt-4 inline-block text-[10px] font-black text-[var(--color-gold)] uppercase tracking-widest hover:underline">Voir les conseils</Link>
                         </div>
                     </div>
 
                     {/* Main Products Grid */}
                     <div className="lg:col-span-3 space-y-8">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-2xl font-black text-slate-800 tracking-tighter uppercase italic">Les Annonces <span className="text-[#FFBA34] not-italic">({adsData?.data?.total || ads.length})</span></h2>
+                            <h2 className="text-2xl font-black text-slate-800 tracking-tighter uppercase italic">Les Annonces <span className="text-[var(--color-gold)] not-italic">({adsData?.data?.total || ads.length})</span></h2>
                         </div>
 
                         {ads.length > 0 ? (

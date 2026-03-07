@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
+import { validateEnv } from './utils/env';
 import Navbar from './components/Navbar';
 import BottomTab from './components/BottomTab';
 import Footer from './components/Footer';
@@ -30,10 +31,12 @@ const GenericListView = lazy(() => import('./pages/GenericListView'));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 2,        // 2 min: no refetch if data is fresh
-      gcTime: 1000 * 60 * 10,           // 10 min: keep in memory
+      staleTime: 1000 * 60 * 5,        // 5 min: considered fresh longer
+      gcTime: 1000 * 60 * 30,           // 30 min: keep in cache longer
       refetchOnWindowFocus: false,       // no refetch when switching tabs
+      refetchOnReconnect: 'always',      // refetch when internet returns
       retry: 1,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), 
     },
   },
 });
@@ -42,11 +45,14 @@ const queryClient = new QueryClient({
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
     <div className="flex flex-col items-center gap-3">
-      <div className="w-10 h-10 border-4 border-gray-200 border-t-[#D32F2F] rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-gray-200 border-t-[var(--color-primary)] rounded-full animate-spin" />
       <span className="text-sm text-gray-400 font-medium">Chargement...</span>
     </div>
   </div>
 );
+
+// Validate env on startup
+validateEnv();
 
 function App() {
   return (
