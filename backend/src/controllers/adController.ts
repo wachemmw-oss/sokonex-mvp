@@ -46,8 +46,10 @@ export const createAd = async (req: Request, res: Response) => {
             status: 'active'
         });
 
-        // Invalidate all ads cache so new ad appears immediately
+        // Invalidate all related caches so changes appear immediately
         cache.invalidatePrefix('ads:');
+        cache.invalidatePrefix('home:');
+        cache.invalidatePrefix('list:');
 
         res.status(201).json({ success: true, data: ad });
     } catch (error: any) {
@@ -297,6 +299,13 @@ export const deleteAd = async (req: Request, res: Response) => {
         }
 
         await ad.deleteOne();
+        
+        // Invalidate caches
+        cache.invalidatePrefix('ads:');
+        cache.invalidatePrefix('home:');
+        cache.invalidatePrefix('list:');
+        cache.delete(`ad:${req.params.id}`);
+
         res.json({ success: true, data: {} });
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
@@ -334,6 +343,13 @@ export const updateAd = async (req: Request, res: Response) => {
         ad.images = images || ad.images;
 
         const updatedAd = await ad.save();
+
+        // Invalidate caches
+        cache.invalidatePrefix('ads:');
+        cache.invalidatePrefix('home:');
+        cache.invalidatePrefix('list:');
+        cache.delete(`ad:${req.params.id}`);
+
         res.json({ success: true, data: updatedAd });
     } catch (error: any) {
         res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
