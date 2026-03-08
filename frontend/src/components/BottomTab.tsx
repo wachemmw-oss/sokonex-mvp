@@ -15,26 +15,20 @@ const BottomTab = () => {
 
     return (
         <div
-            className="md:hidden font-sans"
+            className="md:hidden font-sans fixed bottom-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-1px_10px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom)]"
             style={{
-                position: 'fixed',
-                bottom: '16px',
-                left: '16px',
-                right: '16px',
-                zIndex: 100,
                 transform: 'translateZ(0)',
                 WebkitTransform: 'translateZ(0)',
-                willChange: 'transform',
             }}
         >
-            <div className="bg-white/95 backdrop-blur-md border border-gray-100 h-16 rounded-full shadow-2xl flex items-center justify-around px-4">
+            <div className="h-16 flex items-center justify-around px-2">
                 <Link to="/" className={tabClass(isHome)}>
-                    <Home className="w-[24px] h-[24px]" strokeWidth={isHome ? 2.5 : 2} />
+                    <Home className="w-[22px] h-[22px]" strokeWidth={isHome ? 2.5 : 2} />
                     <span className="text-[10px] font-bold mt-1">Accueil</span>
                 </Link>
 
                 <Link to="/results" className={tabClass(isActive('/results'))}>
-                    <Search className="w-[24px] h-[24px]" strokeWidth={isActive('/results') ? 2.5 : 2} />
+                    <Search className="w-[22px] h-[22px]" strokeWidth={isActive('/results') ? 2.5 : 2} />
                     <span className="text-[10px] font-bold mt-1">Explorer</span>
                 </Link>
 
@@ -48,7 +42,7 @@ const BottomTab = () => {
                         }
                     }}
                 >
-                    <PlusSquare className="w-[24px] h-[24px]" strokeWidth={isActive('/post') ? 2.5 : 2} />
+                    <PlusSquare className="w-[22px] h-[22px]" strokeWidth={isActive('/post') ? 2.5 : 2} />
                     <span className="text-[10px] font-bold mt-1">Vendre</span>
                 </Link>
 
@@ -62,7 +56,7 @@ const BottomTab = () => {
                         }
                     }}
                 >
-                    <User className="w-[24px] h-[24px]" strokeWidth={isActive('/account') ? 2.5 : 2} />
+                    <User className="w-[22px] h-[22px]" strokeWidth={isActive('/account') ? 2.5 : 2} />
                     <span className="text-[10px] font-bold mt-1">Profil</span>
                 </Link>
             </div>
