@@ -6,6 +6,7 @@ import { validateEnv } from './utils/env';
 import Navbar from './components/Navbar';
 import BottomTab from './components/BottomTab';
 import Footer from './components/Footer';
+import DomainUpdateLanding from './components/DomainUpdateLanding';
 
 // Lazy-loaded pages — each is only downloaded when visited
 const Home = lazy(() => import('./pages/Home'));
@@ -71,8 +72,15 @@ function App() {
 function AppContent() {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith('/admin');
-  // Note: For better reactive behavior, we should use useLocation() from react-router-dom, 
-  // but App is the top-level. I'll move the Router content to a sub-component.
+  
+  // Detection for legacy domains
+  const isLegacyDomain = 
+    window.location.hostname.endsWith('.vercel.app') && 
+    !window.location.hostname.includes('localhost');
+
+  if (isLegacyDomain) {
+    return <DomainUpdateLanding />;
+  }
 
   return (
     <>
