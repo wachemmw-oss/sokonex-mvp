@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import compression from 'compression';
 import { connectDB } from './config/db';
-
 import dns from 'node:dns';
 
 dotenv.config();
@@ -21,14 +20,23 @@ app.use(cors({
     origin: (origin, callback) => {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            process.env.FRONTEND_URL,
+            'https://sokonext.com',
+            'https://www.sokonext.com'
+        ];
+
         // Allow any localhost origin in development
         if (origin.startsWith('http://localhost')) {
             return callback(null, true);
         }
-        // Allow specific FRONTEND_URL
-        if (origin === process.env.FRONTEND_URL) {
+
+        // Allow specific allowedOrigins
+        if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
+
         // Allow Vercel deployments (previews and production)
         if (origin.endsWith('.vercel.app')) {
             return callback(null, true);
@@ -68,7 +76,6 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/home', homeRoutes);
 app.use('/api/list', listRoutes);
-
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
